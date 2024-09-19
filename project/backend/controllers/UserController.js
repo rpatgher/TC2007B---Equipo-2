@@ -1,12 +1,21 @@
 import User from '../models/User.js';
 
-
-const createUser = async (req, res) => {
-    return res.status(200).json({ msg: "To Create a User (Not implemented yet)." });
-}
-
 const getUsers = async (req, res) => {
-    return res.status(200).json({ msg: "To Get Users (Not implemented yet)." });
+    // TODO: Restrict the authorization to Admins only
+    let users = await User
+        .find()
+        .select('-password -__v')
+        .lean();
+    users = users.map(user => {
+        const { _id } = user;
+        delete user._id;
+        return {
+            id: _id.toString(),
+            ...user
+        }
+    });
+    return res.status(200).json(users);
+    // return res.status(200).json({ msg: "To Get Users (Not implemented yet)." });
 }
 
 const getUser = async (req, res) => {
@@ -23,7 +32,6 @@ const deleteUser = async (req, res) => {
 
 
 export {
-    createUser,
     updateUser,
     getUsers,
     getUser,

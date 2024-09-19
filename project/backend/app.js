@@ -9,6 +9,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // Routers Import
+import authRouter from './routes/AuthRoutes.js';
 import donationRouter from './routes/DonationRoutes.js';
 import userRouter from './routes/UserRoutes.js';
 import projectRouter from './routes/ProjectRoutes.js';
@@ -26,9 +27,21 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // Cors Middleware
-// TODO: Configure Cors
+const whitelist = [process.env.FRONTEND_URL_DEV];
+const corsOptions = {
+    origin: (origin, callback) => {
+        if(whitelist.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
+}
+app.use(cors(corsOptions))
+
 
 // Routing
+app.use('/api/auth', authRouter);
 app.use('/api/donations', donationRouter);
 app.use('/api/users', userRouter);
 app.use('/api/projects', projectRouter);

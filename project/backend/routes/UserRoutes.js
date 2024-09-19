@@ -2,7 +2,6 @@ import express from "express";
 
 // Importing the User Controller Functions
 import {
-    createUser,
     updateUser,
     getUsers,
     getUser,
@@ -16,8 +15,7 @@ const router = express.Router();
 
 // This route would be for explample /api/users
 router.route("/")
-    .get(getUsers) // Get all Users
-    .post(createUser); // Create a User
+    .get(getUsers); // Get all Users
 
 
 // This route would be for explample /api/users/1234492 (where 1234492 would be the id of the user)

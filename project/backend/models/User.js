@@ -7,10 +7,14 @@ const userSchema = mongoose.Schema({
         required: true,
         trim: true
     },
-    password: {
+    surname: {
         type: String,
         required: true,
         trim: true
+    },
+    password: {
+        type: String,
+        required: true,
     },
     email: {
         type: String,
@@ -18,6 +22,12 @@ const userSchema = mongoose.Schema({
         trim: true,
         unique: true
     },
+    role: {
+        type: String,
+        required: true,
+        default: 'donor',
+        enum: ['donor', 'admin']
+    }
 }, {
     timestamps: true
 });
