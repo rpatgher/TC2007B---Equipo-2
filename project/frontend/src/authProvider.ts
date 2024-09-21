@@ -1,15 +1,4 @@
-interface LoginParams {
-    username: string;
-    password: string;
-}
-
-interface AuthProvider {
-    login: (params: LoginParams) => Promise<void>;
-    logout: () => Promise<void>;
-    checkError: (error: { status: number }) => Promise<void | never>;
-    checkAuth: () => Promise<void | never>;
-    getPermissions: () => Promise<any>;
-}
+import { AuthProvider } from 'react-admin';
 
 const authProvider: AuthProvider = {
     login: async ({ username, password }) => {
@@ -24,12 +13,9 @@ const authProvider: AuthProvider = {
             throw new Error(response.statusText);
         }
 
-        const { token } = await response.json();
+        const { token, role } = await response.json();
         localStorage.setItem('token', token);
-    },
-    logout: () => {
-        localStorage.removeItem('token');
-        return Promise.resolve();
+        localStorage.setItem('role', role);
     },
     checkError: ({ status }) => {
         if (status === 401 || status === 403) {
@@ -43,7 +29,49 @@ const authProvider: AuthProvider = {
             ? Promise.resolve()
             : Promise.reject();
     },
-    getPermissions: () => Promise.resolve(),
+    logout: () => {
+        localStorage.removeItem('token');
+        return Promise.resolve();
+    },
+    getIdentity: () => {
+        try {
+            const { id, fullName } = JSON.parse(localStorage.getItem('identity') || '{}');
+            return Promise.resolve({ id, fullName });
+        } catch (error) {
+            return Promise.reject();
+        }
+    },
+    getPermissions: async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            return Promise.reject();
+        }
+        try {
+            const request = new Request(`${import.meta.env.VITE_API_URL}/api/auth/permissions`, {
+                method: 'GET',
+                headers: new Headers({
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }),
+            });
+
+            const response = await fetch(request);
+            if (response.status < 200 || response.status >= 300) {
+                throw new Error('Failed to fetch permissions');
+            }
+
+            const { role } = await response.json();
+            
+            if (role === 'admin') {
+                return Promise.resolve('admin');
+            } else if (role === 'donor') {
+                return Promise.resolve('donor');
+            }
+        } catch (error) {
+            return Promise.reject('No permissions found');
+        }
+        return Promise.reject();
+    },
 };
 
 export default authProvider;

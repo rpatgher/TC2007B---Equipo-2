@@ -1,7 +1,6 @@
 import User from '../models/User.js';
 
 const getUsers = async (req, res) => {
-    // TODO: Restrict the authorization to Admins only
     let users = await User
         .find()
         .select('-password -__v')

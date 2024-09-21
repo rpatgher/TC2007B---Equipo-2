@@ -6,7 +6,36 @@ const createDonation = async (req, res) => {
 }
 
 const getDonations = async (req, res) => {
-    return res.status(200).json({ msg: "To Get Donations (Not implemented yet)." });
+    const { id, role } = req.user;
+    if(role === 'admin'){
+        let donations = await Donation
+            .find()
+            .select('-__v')
+            .lean();
+        donations = donations.map(donation => {
+            const { _id } = donation;
+            delete donation._id;
+            return {
+                id: _id.toString(),
+                ...donation
+            }
+        });
+        return res.status(200).json(donations);
+    }else{
+        let donations = await Donation
+            .find({ donor: id })
+            .select('-__v')
+            .lean();
+        donations = donations.map(donation => {
+            const { _id } = donation;
+            delete donation._id;
+            return {
+                id: _id.toString(),
+                ...donation
+            }
+        });
+        return res.status(200).json(donations);
+    }
 }
 
 const getDonation = async (req, res) => {

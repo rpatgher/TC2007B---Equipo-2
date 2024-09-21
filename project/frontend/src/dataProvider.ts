@@ -1,7 +1,14 @@
 import { DataProvider, fetchUtils } from 'react-admin';
 
 const apiUrl = `${import.meta.env.VITE_API_URL}/api`;
-const httpClient = fetchUtils.fetchJson;
+const httpClient = (url, options = {}) => {
+    if (!options.headers) {
+        options.headers = new Headers({ Accept: 'application/json' });
+    }
+    const token = localStorage.getItem('token');
+    options.headers.set('Authorization', `Bearer ${token}`);
+    return fetchUtils.fetchJson(url, options);
+};
 
 const dataProvider: DataProvider = {
     getList: async (resource, params) => {

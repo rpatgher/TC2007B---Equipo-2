@@ -12,6 +12,9 @@ import {
 // Create a Router for Project endpoints
 const router = express.Router();
 
+// Importing the Check Auth Middleware
+import checkAuth from "../middleware/checkAuth.js";
+
 // **************************** Endpoints Routes for Project Model ****************************
 
 // This route would be for explample /api/projects

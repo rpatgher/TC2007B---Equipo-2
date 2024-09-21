@@ -36,8 +36,23 @@ const logoutUser = async (req, res) => {
     return res.status(200).json({ msg: "To Logout a User (Not implemented yet)." });
 }
 
+const permissions = async (req, res) => {
+    const { id } = req.user;
+    try {
+        const user = await User.findById(id);
+        if(!user){
+            const error = new Error("User not found.");
+            return res.status(404).json({ msg: error.message });
+        }
+        return res.status(200).json({ role: user.role });
+    } catch (error) {
+        return res.status(500).json({ msg: error.message });
+    }
+}
+
 export {
     createUser,
     loginUser,
-    logoutUser
+    logoutUser,
+    permissions
 }

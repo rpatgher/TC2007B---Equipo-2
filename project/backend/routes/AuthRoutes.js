@@ -4,11 +4,15 @@ import express from "express";
 import {
     createUser,
     loginUser,
-    logoutUser
+    logoutUser,
+    permissions
 } from "../controllers/AuthController.js";
 
 // Create a Router for Auth endpoints
 const router = express.Router();
+
+// Importing the Check Auth Middleware
+import checkAuth from "../middleware/checkAuth.js";
 
 // **************************** Endpoints Routes for Authentication ****************************
 
@@ -23,6 +27,10 @@ router.route("/login")
 // This route would be for example /api/auth/logout
 router.route("/logout")
     .get(logoutUser); // Logout a User
+
+// This route would be for example /api/auth/permisions
+router.route("/permissions")
+    .get(checkAuth, permissions); // Get User Role
 
 
 export default router;

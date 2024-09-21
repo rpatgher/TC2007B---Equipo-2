@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import fs from 'fs';
+import https from 'https';
 
 // Database Connection
 import connectDB from './config/db.js';
@@ -46,8 +48,20 @@ app.use('/api/donations', donationRouter);
 app.use('/api/users', userRouter);
 app.use('/api/projects', projectRouter);
 
-// App Listen
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+// Read Certificates
+const privateKey = fs.readFileSync('./certs/server.key', 'utf8');
+const certificate = fs.readFileSync('./certs/server.crt', 'utf8');
+const ca = fs.readFileSync('./certs/ca.crt', 'utf8');
+const credentials = { key: privateKey, cert: certificate, ca: ca };
+
+// Create HTTPS Server
+const httpsServer = https.createServer(credentials, app);
+httpsServer.listen(process.env.PORT, () => {
+    console.log(`Server is running on port ${process.env.PORT}`);
 });
+
+// App Listen
+// const PORT = process.env.PORT || 3000;
+// app.listen(PORT, () => {
+//     console.log(`Server is running on port ${PORT}`);
+// });

@@ -12,11 +12,14 @@ import {
 // Create a Router for Donation endpoints
 const router = express.Router();
 
+// Importing the Check Auth Middleware
+import checkAuth from "../middleware/checkAuth.js";
+
 // **************************** Endpoints Routes for Dontation Model ****************************
 
 // This route would be for explample /api/donations
 router.route("/")
-    .get(getDonations) // Get all Donations
+    .get(checkAuth, getDonations) // Get all Donations
     .post(createDonation); // Create a Donation
 
 // This route would be for explample /api/donations/1234492 (where 1234492 would be the id of the donation)
