@@ -1,5 +1,7 @@
 import { AuthProvider } from 'react-admin';
 
+
+
 const authProvider: AuthProvider = {
     login: async ({ username, password }) => {
         const request = new Request(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
@@ -31,6 +33,7 @@ const authProvider: AuthProvider = {
     },
     logout: () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('role');
         return Promise.resolve();
     },
     getIdentity: () => {

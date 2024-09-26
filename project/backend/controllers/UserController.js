@@ -3,9 +3,10 @@ import User from '../models/User.js';
 
 // This function gets all users
 const getUsers = async (req, res) => {
-    // Get all users from the database
+    // Get all donors from the database
     let users = await User
         .find()
+        .where('role').ne('admin')
         .select('-password -__v')
         .lean();
     // Map the users to add an id field and remove the _id field

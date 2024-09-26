@@ -1,9 +1,15 @@
 import { ReactNode } from "react";
-import { Layout as RALayout, CheckForApplicationUpdate } from "react-admin";
+import { AppBar } from "../components/AppBar/AppBar";
+import { MyMenu } from "../components/Menu/Menu";
+
+import styles from "./Layout.module.css";
 
 export const Layout = ({ children }: { children: ReactNode }) => (
-  <RALayout>
-    {children}
-    <CheckForApplicationUpdate />
-  </RALayout>
+    <div className={styles.body}>
+        <header className={styles.header}>
+            <AppBar />
+            <MyMenu />
+        </header>
+        <main className={styles.main}>{children}</main>
+    </div>
 );

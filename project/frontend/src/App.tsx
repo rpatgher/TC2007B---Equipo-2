@@ -5,11 +5,10 @@ import {
 } from "react-admin";
 import authProvider from "./authProvider";
 import dataProvider from "./dataProvider";
+import lightTheme from "./lightTheme";
 import { Dashboard } from "./pages/Dashboard";
 
-
-
-
+import { Layout } from "./Layout/Layout";
 
 function App() {
     return (
@@ -17,6 +16,9 @@ function App() {
             authProvider={authProvider}
             dataProvider={dataProvider}
             dashboard={Dashboard}
+            theme={lightTheme}
+            layout={Layout}
+            darkTheme={null}
         >
             {permissions => (
                 <>
