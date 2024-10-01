@@ -27,6 +27,7 @@ const loginUser = async (req, res) => {
         // If the password is valid, return the user data and a token
         return res.status(200).json({ 
             msg: "User Logged In.",
+            id: user._id,
             name: user.name,
             surname: user.surname,
             email: user.email,

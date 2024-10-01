@@ -13,18 +13,31 @@ const insertData = async () => {
     try {
         await connectDB();
         // await User.insertMany(users);
-        users.forEach(async (user) => {
-            const userDB = await User.create(user);
+        await Promise.all(users.map(async (user) => {
+            const userDB = new User({
+                name: user.name,
+                surname: user.surname,
+                email: user.email,
+                password: user.password,
+                role: user.role,
+                donations: []
+            });
+            await userDB.save();
             if(user.donations){
                 await Promise.all(user.donations.map(async (donation) => {
-                    await Donation.create({
-                        ...donation,
-                        donor: userDB._id
+                    const donationDB = new Donation({
+                        amount: donation.amount,
+                        donor: userDB._id,
+                        method: donation.method
                     });
+                    await donationDB.save();
+                    userDB.donations.push(donationDB);
                 }));
+                await userDB.save();
             }
-        });
+        }));
         console.log('Data Inserted');
+        exit(0);
     } catch (error) {
         console.log('Error: ' + error);
         exit(1);
@@ -35,6 +48,10 @@ const deleteData = async () => {
     try {
         await connectDB();
         console.log('Deleting Data...');
+        await User.deleteMany();
+        await Donation.deleteMany();
+        console.log('Data Deleted');
+        exit(0);
     } catch (error) {
         console.log(error);
         exit(1);

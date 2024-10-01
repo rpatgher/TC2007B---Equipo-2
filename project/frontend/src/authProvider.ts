@@ -15,9 +15,10 @@ const authProvider: AuthProvider = {
             throw new Error(response.statusText);
         }
 
-        const { token, role } = await response.json();
+        const { token, role, id, name, surname, email } = await response.json();
         localStorage.setItem('token', token);
         localStorage.setItem('role', role);
+        localStorage.setItem('identity', JSON.stringify({ id: id, email: email, fullName: name + ' ' + surname }));
     },
     checkError: ({ status }) => {
         if (status === 401 || status === 403) {
@@ -38,8 +39,8 @@ const authProvider: AuthProvider = {
     },
     getIdentity: () => {
         try {
-            const { id, fullName } = JSON.parse(localStorage.getItem('identity') || '{}');
-            return Promise.resolve({ id, fullName });
+            const { id, fullName, email } = JSON.parse(localStorage.getItem('identity') || '{}');
+            return Promise.resolve({ id, fullName, email });
         } catch (error) {
             return Promise.reject();
         }

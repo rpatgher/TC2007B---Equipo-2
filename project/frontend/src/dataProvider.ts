@@ -1,7 +1,7 @@
 import { DataProvider, fetchUtils } from 'react-admin';
 
 const apiUrl = `${import.meta.env.VITE_API_URL}/api`;
-const httpClient = (url, options = {}) => {
+const httpClient = (url: {url: String}, options = {}) => {
     if (!options.headers) {
         options.headers = new Headers({ Accept: 'application/json' });
     }
@@ -15,18 +15,19 @@ const dataProvider: DataProvider = {
         const { page, perPage } = params.pagination;
         const { field, order } = params.sort;
         const query = {
-            sort: JSON.stringify([field, order]),
+            sort: JSON.stringify([field || 'name', order || 'ASC']),
             range: JSON.stringify([(page - 1) * perPage, page * perPage - 1]),
             filter: JSON.stringify(params.filter),
         };
         const url = `${apiUrl}/${resource}?${fetchUtils.queryParameters(query)}`;
 
+        // const response = await httpClient(url);
         const { headers, json } = await httpClient(url);
+        // console.log(parseInt(headers.get('Content-Range')?.split('/').pop() || '0', 10));
+        // console.log(response.headers.get('Content-Range'));
         return {
             data: json,
-            // TODO: Fix total count for pagination in the API response headers
-            // total: parseInt(headers.get('content-range')?.split('/').pop() || '0', 10),
-            total: 10,
+            total: parseInt(headers.get('Content-Range')?.split('/').pop() || '0', 10),
         };
     },
 

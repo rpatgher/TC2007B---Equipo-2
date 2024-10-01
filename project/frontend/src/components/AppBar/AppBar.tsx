@@ -1,5 +1,6 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { usePermissions } from 'react-admin';
+import { usePermissions, useGetIdentity } from 'react-admin';
 
 
 import styles from './AppBar.module.css';
@@ -10,6 +11,20 @@ import LogoutIcon from '@mui/icons-material/Logout';
 export const AppBar = () => {
     const navigate = useNavigate();
     const { permissions } = usePermissions();
+    const { data } = useGetIdentity();
+
+    const [fullName, setFullName] = useState('');
+
+    useEffect(() => {
+        const setData = async () => {
+            if (data) {
+                setFullName(data.fullName || '');
+            }
+        }
+        setData();
+    } , [data]);
+
+
     return (
         <header className={styles.header}>
             <div className={styles.logo}>
@@ -23,12 +38,12 @@ export const AppBar = () => {
                     />
                 </div>
                 <div className={styles["profile-info"]}>
-                    <p className={styles["profile-name"]}>John Doe</p>
+                    <p className={styles["profile-name"]}>{fullName || ''}</p>
                     <p className={styles["profile-role"]}>{permissions === "admin" ? "Administrador" : "Donador"}</p>
                 </div>
                 <div className={styles["drop-down"]}>
                     <div onClick={() => {
-                        authProvider.logout().then(() => {
+                        authProvider.logout(null).then(() => {
                             navigate('/login');
                         });
                     }}>

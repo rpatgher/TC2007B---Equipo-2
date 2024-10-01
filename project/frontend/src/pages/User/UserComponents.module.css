@@ -1,0 +1,136 @@
+.heading{
+    margin: 30px 0 0 0;
+    font-size: 40px;
+}
+.actions{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.toolbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.row-per-page{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.row-per-page p{
+    margin: 0;
+}
+.row-per-page select{
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid var(--gray);
+    background-color: var(--white);
+    color: var(--black);
+}
+.range{
+    padding-left: 20px;
+}
+.pages{
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+.page-button{
+    background-color: transparent;
+    color: var(--blue);
+    border-radius: 50%;
+    margin: 0;
+    padding: 0;
+    width: 30px;
+    aspect-ratio: 1/1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.page-button:hover{
+    border: 1px solid var(--blue);
+}
+.page-button.active{
+    background-color: var(--blue);
+    color: var(--white);
+    cursor: pointer;
+}
+.next-page, .previous-page{
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.previous-page svg, .next-page svg{
+    fill: var(--blue);
+}
+.disabled{
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+.users{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background-color: transparent;   
+}
+.user{
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    padding: 30px 35px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+/* .left{
+    
+}
+.right{
+    
+} */
+.user p{
+    margin: 0;
+}
+.role{
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--dark-gray);
+}
+.name{
+    font-size: 32px;
+    font-weight: 600;
+
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    justify-content: flex-start;
+}
+.name span{
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--dark-gray);
+}
+.since{
+    font-size: 12px;
+    color: var(--dark-gray);
+}
+.since span{
+    font-weight: 600;
+    color: var(--black);
+}
+
+.graphs{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}

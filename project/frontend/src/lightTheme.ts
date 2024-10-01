@@ -26,7 +26,21 @@ const lightTheme = {
                     },
                 },
             },
-       },
+        },
+        RaList: {
+            styleOverrides: {
+                root: {
+                    '& .RaList-content': {
+                        backgroundColor: 'transparent',
+                        boxShadow: 'none',
+                    }
+                },
+            },
+        },
+    },
+    typography: {
+        // Use the system font instead of the default Roboto font.
+        fontFamily: ['Montserrat', 'Arial', 'sans-serif'].join(','),
     },
 };
 

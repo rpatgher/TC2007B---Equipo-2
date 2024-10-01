@@ -6,7 +6,15 @@ import {
 import authProvider from "./authProvider";
 import dataProvider from "./dataProvider";
 import lightTheme from "./lightTheme";
-import { Dashboard } from "./pages/Dashboard";
+import { Dashboard } from "./pages/Dashboard/Dashboard";
+
+import {
+    UserList
+} from "./pages/User/UserComponents";
+
+// import {
+//     DonationList
+// } from "./pages/Donation/DonationComponents";
 
 import { Layout } from "./Layout/Layout";
 
@@ -29,7 +37,7 @@ function App() {
                     {permissions === "admin" && (
                         <Resource 
                             name="users" 
-                            list={ListGuesser}
+                            list={UserList}
                         />
                     )}
                 </>

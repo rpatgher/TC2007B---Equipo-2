@@ -1,0 +1,35 @@
+.graph{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.graph-chart{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+}
+.graph-canvas{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--white);
+    width: 100%;
+    height: 100%;
+}
+.graph-heading{
+    font-size: 12px;
+    margin: 0 0 5px 0;
+    font-weight: 400;
+}
+.card-graph{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.amount{
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+}
