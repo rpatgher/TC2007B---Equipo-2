@@ -12,7 +12,7 @@ const getUsers = async (req, res) => {
     const order = sortOrder[1] === 'ASC' ? 1 : -1;
     // let filterBy = JSON.parse(filter).q;
     let filterBy = '';
-    console.log(filterBy);
+    // console.log(filterBy);
     // Get all donors from the database
     let users = await User
         .find(filterBy !== '' ? {

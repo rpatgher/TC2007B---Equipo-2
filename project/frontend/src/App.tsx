@@ -8,9 +8,8 @@ import dataProvider from "./dataProvider";
 import lightTheme from "./lightTheme";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
 
-import {
-    UserList
-} from "./pages/User/UserComponents";
+import { UserList } from "./pages/User/UserList";
+import { UserCreate } from "./pages/User/UserCreate";
 
 // import {
 //     DonationList
@@ -38,6 +37,7 @@ function App() {
                         <Resource 
                             name="users" 
                             list={UserList}
+                            create={UserCreate}
                         />
                     )}
                 </>

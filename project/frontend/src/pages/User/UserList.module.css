@@ -49,9 +49,9 @@
 .row-per-page select{
     font-size: 16px;
     border-radius: 5px;
-    border: 1px solid var(--gray);
+    border: 1px solid var(--blue);
     background-color: var(--white);
-    color: var(--black);
+    color: var(--blue);
 }
 .range{
     padding-left: 20px;
@@ -97,7 +97,18 @@
     opacity: 0.3;
     cursor: not-allowed;
 }
+.table{
+    width: 100%;
+}
+.content{
+    display: flex;
+    align-items: flex-start;
+}
+.sidebar{
+    min-width: 500px;
+}
 .users{
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -110,7 +121,7 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 100%;
-    padding: 30px 35px;
+    padding: 20px 35px;
 
     display: flex;
     justify-content: space-between;
@@ -126,12 +137,12 @@
     margin: 0;
 }
 .role{
-    font-size: 12px;
+    font-size: 10px;
     text-transform: uppercase;
     color: var(--dark-gray);
 }
 .name{
-    font-size: 32px;
+    font-size: 26px;
     font-weight: 600;
 
     display: flex;
@@ -141,11 +152,11 @@
 }
 .name span{
     font-weight: 400;
-    font-size: 16px;
+    font-size: 14px;
     color: var(--dark-gray);
 }
 .since{
-    font-size: 12px;
+    font-size: 10px;
     color: var(--dark-gray);
 }
 .since span{
