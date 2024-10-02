@@ -3,16 +3,27 @@ import User from '../models/User.js';
 
 // This function gets all users
 const getUsers = async (req, res) => {
-    const { range, sort } = req.query;
-    console.log(range, sort);
+    // TODO: Implement the filtering by name, email, phone, role
+    const { range, sort, filter } = req.query;
     // Get the range and sort values
     const [start, end] = JSON.parse(range);
     const sortOrder = JSON.parse(sort);
     const sortBy = sortOrder[0];
     const order = sortOrder[1] === 'ASC' ? 1 : -1;
+    // let filterBy = JSON.parse(filter).q;
+    let filterBy = '';
+    console.log(filterBy);
     // Get all donors from the database
     let users = await User
-        .find()
+        .find(filterBy !== '' ? {
+            $or: [
+                { surname: { $regex: filter, $options: 'i' } },
+                { name: { $regex: filter, $options: 'i' } },
+                { email: { $regex: filter, $options: 'i' } },
+                { phone: { $regex: filter, $options: 'i' } },
+                { role: { $regex: filter, $options: 'i' } }
+            ]
+        } : {})
         .where('role').ne('admin')
         .sort({ [sortBy]: order })
         .skip(start)
