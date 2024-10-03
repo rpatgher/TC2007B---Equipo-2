@@ -8,8 +8,13 @@ import dataProvider from "./dataProvider";
 import lightTheme from "./lightTheme";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
 
+// ************ User Components ************
 import { UserList } from "./pages/User/UserList";
 import { UserCreate } from "./pages/User/UserCreate";
+
+// ************ Project Components ************
+import { ProjectList } from "./pages/Project/ProjectList";
+import { ProjectCreate, ProjectUpdate } from "./pages/Project/ProjectCU";
 
 // import {
 //     DonationList
@@ -34,11 +39,19 @@ function App() {
                         list={ListGuesser}
                     />
                     {permissions === "admin" && (
-                        <Resource 
-                            name="users" 
-                            list={UserList}
-                            create={UserCreate}
-                        />
+                        <>
+                            <Resource 
+                                name="users" 
+                                list={UserList}
+                                create={UserCreate}
+                            />
+                            <Resource 
+                                name="projects" 
+                                list={ProjectList}
+                                create={ProjectCreate}
+                                edit={ProjectUpdate}
+                            />
+                        </>
                     )}
                 </>
             )}

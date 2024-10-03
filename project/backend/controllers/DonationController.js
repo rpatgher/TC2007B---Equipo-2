@@ -7,44 +7,45 @@ const createDonation = async (req, res) => {
 
 // This function gets all donations
 const getDonations = async (req, res) => {
+    // TODO: Implement the filtering by name, email, phone, role
+    const { range, sort, filter } = req.query;
+    // Get the range and sort values
+    const [start, end] = JSON.parse(range);
+    const sortOrder = JSON.parse(sort);
+    const sortBy = sortOrder[0];
+    const order = sortOrder[1] === 'ASC' ? 1 : -1;
+    let filterBy = '';
     // Get the user id and role from the request object (added by the checkAuth middleware)
     const { id, role } = req.user;
+    let options = {};
     // If the user is an admin, get all donations
     if(role === 'admin'){
-        // Get all donations from the database
-        let donations = await Donation
-            .find()
-            .select('-__v')
-            .lean();
-        // Map the donations to add an id field and remove the _id field
-        donations = donations.map(donation => {
-            const { _id } = donation;
-            delete donation._id;
-            return {
-                id: _id.toString(),
-                ...donation
-            }
-        });
-        // Return the donations
-        return res.status(200).json(donations);
+        options = {};
     }else{
         // If the user is not an admin, get only the donations of the user
-        let donations = await Donation
-            .find({ donor: id })
-            .select('-__v')
-            .lean();
-        // Map the donations to add an id field and remove the _id field
-        donations = donations.map(donation => {
-            const { _id } = donation;
-            delete donation._id;
-            return {
-                id: _id.toString(),
-                ...donation
-            }
-        });
-        // Return the donations
-        return res.status(200).json(donations);
+        options = { donor: id };
     }
+    // If the user is not an admin, get only the donations of the user
+    let donations = await Donation
+        .find(options)
+        .select('-__v')
+        .sort({ [sortBy]: order })
+        .skip(start)
+        .limit(end - start + 1)
+        .populate('project', 'name')
+        .populate('donor', 'name surname email')
+        .lean();
+    // Map the donations to add an id field and remove the _id field
+    donations = donations.map(donation => {
+        const { _id } = donation;
+        delete donation._id;
+        return {
+            id: _id.toString(),
+            ...donation
+        }
+    });
+    // Return the donations
+    return res.status(200).json(donations);
 }
 
 

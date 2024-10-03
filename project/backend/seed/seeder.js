@@ -3,6 +3,7 @@ import connectDB from "../config/db.js";
 import users from "./users.js";
 import User from "../models/User.js";
 import Donation from "../models/Donation.js";
+import Project from '../models/Project.js';
 
 // Import dotenv
 import dotenv from "dotenv";
@@ -32,6 +33,21 @@ const insertData = async () => {
                     });
                     await donationDB.save();
                     userDB.donations.push(donationDB);
+                }));
+                await userDB.save();
+            }
+            if(user.projects){
+                await Promise.all(user.projects.map(async (project) => {
+                    const projectDB = new Project({
+                        name: project.name,
+                        description: project.description,
+                        money_goal: project.money_goal,
+                        money_raised: project.money_raised,
+                        creator: userDB._id,
+                        type: project.type
+                    });
+                    await projectDB.save();
+                    userDB.projects.push(projectDB);
                 }));
                 await userDB.save();
             }

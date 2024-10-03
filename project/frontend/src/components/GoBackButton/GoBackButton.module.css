@@ -1,0 +1,12 @@
+.go-back{
+    all: unset;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    color: var(--blue);
+    margin: 0;
+}
+.go-back svg{
+    fill: var(--blue);
+}

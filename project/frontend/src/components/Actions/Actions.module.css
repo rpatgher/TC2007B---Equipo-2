@@ -1,0 +1,30 @@
+.actions{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px 0 20px 0;
+}
+.search{
+    position: relative;
+}
+.search input{
+    background-color: var(--white);
+    border: 1px solid var(--gray);
+    border-radius: 10px;
+    font-size: 16px;
+    min-width: 300px;
+    padding: 5px 5px 5px 30px;
+}
+.search svg{
+    position: absolute;
+    left: 7px;
+    top: 50%;
+    width: 20px;
+    transform: translateY(-50%);
+    fill: var(--gray);
+}
+.create-export{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}

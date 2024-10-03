@@ -14,19 +14,21 @@ const router = express.Router();
 
 // Importing the Check Auth Middleware
 import checkAuth from "../middleware/checkAuth.js";
+// Importing the Check Admin Middleware
+import checkAdmin from "../middleware/checkAdmin.js";
 
 // **************************** Endpoints Routes for Project Model ****************************
 
 // This route would be for explample /api/projects
 router.route("/")
-    .get(getProject) // Get all projects
-    .post(createProject); // Create a projects
+    .get(checkAuth, checkAdmin, getProjects) // Get all projects
+    .post(checkAuth, checkAdmin, createProject); // Create a projects
 
 // This route would be for explample /api/projects/1234492 (where 1234492 would be the id of the project)
 router.route("/:id")
-    .get(getProjects) // Get a project by Id
-    .put(updateProject) // Update a project by Id
-    .delete(deleteProject); // Delete a project by Id
+    .get(checkAuth, checkAdmin, getProject) // Get a project by Id
+    .put(checkAuth, checkAdmin, updateProject) // Update a project by Id
+    .delete(checkAuth, checkAdmin, deleteProject); // Delete a project by Id
 
 
 export default router;

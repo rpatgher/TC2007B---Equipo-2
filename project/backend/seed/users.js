@@ -2,18 +2,64 @@ import bcrypt from 'bcrypt';
 
 const users = [
     {
-        name: 'Admin User',
+        name: 'Señora 1',
         surname: 'Sanders',
         email: 'admin@sanders.com',
         password: 'Password123',
-        role: 'admin'
+        role: 'admin',
+        projects: [
+            {
+                name: 'Project 1',
+                description: 'Description 1',
+                money_goal: 10000,
+                money_raised: 1000,
+                type: 'sexuality'
+            },
+            {
+                name: 'Project 2',
+                description: 'Description 2',
+                money_goal: 20000,
+                money_raised: 1530,
+                type: 'water'
+            },
+            {
+                name: 'Project 3',
+                description: 'Description 3',
+                money_goal: 30000,
+                money_raised: 20000,
+                type: 'nutrition'
+            }
+        ]
     },
     {
-        name: 'Admin User 2',
+        name: 'Señora 2',
         surname: 'Sanders',
         email: 'admin2@sanders.com',
         password: 'Password123',
-        role: 'admin'
+        role: 'admin',
+        projects: [
+            {
+                name: 'Project 4',
+                description: 'Description 4',
+                money_goal: 40000,
+                money_raised: 2500,
+                type: 'nutrition'
+            },
+            {
+                name: 'Project 5',
+                description: 'Description 5',
+                money_goal: 50000,
+                money_raised: 4000,
+                type: 'water'
+            },
+            {
+                name: 'Project 6',
+                description: 'Description 6',
+                money_goal: 60000,
+                money_raised: 30000,
+                type: 'sexuality'
+            }
+        ]
     },
     {
         name: 'John',

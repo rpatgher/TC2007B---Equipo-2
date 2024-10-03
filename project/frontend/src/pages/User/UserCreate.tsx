@@ -1,5 +1,7 @@
-import { useNavigate } from "react-router-dom";
 import styles from "./UserCreate.module.css";
+
+// *************** Components ***************
+import GoBackButton from "../../components/GoBackButton/GoBackButton";
 
 // type User = {
 //     id: string;
@@ -11,7 +13,6 @@ import styles from "./UserCreate.module.css";
 // };
 
 export const UserCreateForm = () => {
-
     return (
         <form
             className={styles.form}
@@ -52,17 +53,9 @@ export const UserCreateForm = () => {
 }
 
 export const UserCreate = () => {
-    const navigate = useNavigate();
-
     return (
         <>
-            <button 
-                onClick={() => navigate(-1)}
-                className={styles["go-back"]}
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M400-240 160-480l240-240 56 58-142 142h486v80H314l142 142-56 58Z"/></svg>
-                Regresar
-            </button>
+            <GoBackButton />
             <h1 className={styles.heading}>Crear Nuevo Donador</h1>
             <div className={styles.content}>
                 <UserCreateForm />

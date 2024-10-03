@@ -32,6 +32,11 @@ const userSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Donation',
         required: false
+    }],
+    projects: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project',
+        required: false
     }]
 }, {
     timestamps: true

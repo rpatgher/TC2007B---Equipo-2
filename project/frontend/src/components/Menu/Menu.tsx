@@ -6,6 +6,7 @@ import {
 import HomeIcon from '@mui/icons-material/Home';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import Diversity1Icon from '@mui/icons-material/Diversity1';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
 
 import styles from './Menu.module.css';
 
@@ -33,6 +34,13 @@ export const MyMenu = () => {
                 primaryText="Donaciones"
                 leftIcon={<VolunteerActivismIcon />}
             />
+            {permissions === "admin" &&
+                <Menu.Item
+                    to="/projects"
+                    primaryText="Proyectos"
+                    leftIcon={<AccountTreeIcon />}
+                />
+            }
         </nav>
     )
 }

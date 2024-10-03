@@ -1,4 +1,14 @@
-import { DataProvider, fetchUtils } from 'react-admin';
+import { fetchUtils } from 'react-admin';
+
+interface DataProvider {
+    getList: (resource: string, params: any) => Promise<any>;
+    getOne: (resource: string, params: any) => Promise<any>;
+    update: (resource: string, params: any) => Promise<any>;
+    updateMany: (resource: string, params: any) => Promise<any>;
+    create: (resource: string, params: any) => Promise<any>;
+    delete: (resource: string, params: any) => Promise<any>;
+    deleteMany: (resource: string, params: any) => Promise<any>;
+}
 
 const apiUrl = `${import.meta.env.VITE_API_URL}/api`;
 const httpClient = (url: {url: String}, options = {}) => {
@@ -35,36 +45,6 @@ const dataProvider: DataProvider = {
         const { json } = await httpClient(`${apiUrl}/${resource}/${params.id}`);
         return {
             data: json,
-        };
-    },
-
-    getMany: async (resource, params) => {
-        const query = {
-            filter: JSON.stringify({ id: params.ids }),
-        };
-        const url = `${apiUrl}/${resource}?${fetchUtils.queryParameters(query)}`;
-        const { json } = await httpClient(url);
-        return {
-            data: json,
-        };
-    },
-
-    getManyReference: async (resource, params) => {
-        const { page, perPage } = params.pagination;
-        const { field, order } = params.sort;
-        const query = {
-            sort: JSON.stringify([field, order]),
-            range: JSON.stringify([(page - 1) * perPage, page * perPage - 1]),
-            filter: JSON.stringify({
-                ...params.filter,
-                [params.target]: params.id,
-            }),
-        };
-        const url = `${apiUrl}/${resource}?${fetchUtils.queryParameters(query)}`;
-        const { headers, json } = await httpClient(url);
-        return {
-            data: json,
-            total: parseInt(headers.get('content-range')?.split('/').pop() || '0', 10),
         };
     },
 

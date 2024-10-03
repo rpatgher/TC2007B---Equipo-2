@@ -1,0 +1,65 @@
+.toolbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.row-per-page{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.row-per-page p{
+    margin: 0;
+}
+.row-per-page select{
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid var(--blue);
+    background-color: var(--white);
+    color: var(--blue);
+}
+.range{
+    padding-left: 20px;
+}
+.pages{
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+.page-button{
+    background-color: transparent;
+    color: var(--blue);
+    border-radius: 50%;
+    margin: 0;
+    padding: 0;
+    width: 30px;
+    aspect-ratio: 1/1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.page-button:hover{
+    border: 1px solid var(--blue);
+}
+.page-button.active{
+    background-color: var(--blue);
+    color: var(--white);
+    cursor: pointer;
+}
+.next-page, .previous-page{
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.previous-page svg, .next-page svg{
+    fill: var(--blue);
+}
+.disabled{
+    opacity: 0.3;
+    cursor: not-allowed;
+}
