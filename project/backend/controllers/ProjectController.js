@@ -95,7 +95,18 @@ const updateProject = async (req, res) => {
 
 // This function deletes a project
 const deleteProject = async (req, res) => {
-    return res.status(200).json({ msg: "To Delete a Project (Not implemented yet)." });
+    const { id } = req.params;
+    const project = await Project.findById(id);
+    if (!project) {
+        return res.status(404).json({ msg: "Project not found." });
+    }
+    try {
+        await project.deleteOne();
+        return res.status(200).json({ msg: "Project deleted successfully." });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ msg: "Internal Server Error." });
+    }
 }
 
 

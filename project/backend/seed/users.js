@@ -1,5 +1,3 @@
-import bcrypt from 'bcrypt';
-
 const users = [
     {
         name: 'Señora 1',
@@ -69,11 +67,11 @@ const users = [
         donations: [
             {
                 amount: 1000,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 2000,
-                method: 'Stripe',
+                method: 'stripe',
             }
         ]
     },
@@ -85,11 +83,11 @@ const users = [
         donations: [
             {
                 amount: 500,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 1500,
-                method: 'Stripe',
+                method: 'stripe',
             }
         ]
     },
@@ -101,11 +99,11 @@ const users = [
         donations: [
             {
                 amount: 200,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 300,
-                method: 'Stripe',
+                method: 'stripe',
             }
         ]
     },
@@ -117,19 +115,19 @@ const users = [
         donations: [
             {
                 amount: 100,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 200,
-                method: 'Stripe',
+                method: 'stripe',
             },
             {
                 amount: 300,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 400,
-                method: 'Stripe',
+                method: 'stripe',
             }
         ]
     },
@@ -141,27 +139,27 @@ const users = [
         donations: [
             {
                 amount: 100,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 200,
-                method: 'Stripe',
+                method: 'stripe',
             },
             {
                 amount: 300,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 400,
-                method: 'Stripe',
+                method: 'stripe',
             },
             {
                 amount: 500,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 600,
-                method: 'Stripe',
+                method: 'stripe',
             }
         ]
     },
@@ -173,35 +171,35 @@ const users = [
         donations: [
             {
                 amount: 100,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 200,
-                method: 'Stripe',
+                method: 'stripe',
             },
             {
                 amount: 300,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 400,
-                method: 'Stripe',
+                method: 'stripe',
             },
             {
                 amount: 500,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 600,
-                method: 'Stripe',
+                method: 'stripe',
             },
             {
                 amount: 700,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 800,
-                method: 'Stripe',
+                method: 'stripe',
             }
         ]
     },
@@ -213,43 +211,43 @@ const users = [
         donations: [
             {
                 amount: 100,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 200,
-                method: 'Stripe',
+                method: 'stripe',
             },
             {
                 amount: 300,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 400,
-                method: 'Stripe',
+                method: 'stripe',
             },
             {
                 amount: 500,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 600,
-                method: 'Stripe',
+                method: 'stripe',
             },
             {
                 amount: 700,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 800,
-                method: 'Stripe',
+                method: 'stripe',
             },
             {
                 amount: 900,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 1000,
-                method: 'Stripe',
+                method: 'stripe',
             }
         ]
     },
@@ -261,51 +259,51 @@ const users = [
         donations: [
             {
                 amount: 100,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 200,
-                method: 'Stripe',
+                method: 'stripe',
             },
             {
                 amount: 300,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 400,
-                method: 'Stripe',
+                method: 'stripe',
             },
             {
                 amount: 500,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 600,
-                method: 'Stripe',
+                method: 'stripe',
             },
             {
                 amount: 700,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 800,
-                method: 'Stripe',
+                method: 'stripe',
             },
             {
                 amount: 900,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 1000,
-                method: 'Stripe',
+                method: 'stripe',
             },
             {
                 amount: 1100,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 1200,
-                method: 'Stripe',
+                method: 'stripe',
             }
         ]
     },
@@ -317,27 +315,27 @@ const users = [
         donations: [
             {
                 amount: 100,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 200,
-                method: 'Stripe',
+                method: 'stripe',
             },
             {
                 amount: 300,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 400,
-                method: 'Stripe',
+                method: 'stripe',
             },
             {
                 amount: 500,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 600,
-                method: 'Stripe',
+                method: 'stripe',
             }
         ],
     },
@@ -349,27 +347,27 @@ const users = [
         donations: [
             {
                 amount: 100,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 200,
-                method: 'Stripe',
+                method: 'stripe',
             },
             {
                 amount: 300,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 400,
-                method: 'Stripe',
+                method: 'stripe',
             },
             {
                 amount: 500,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 600,
-                method: 'Stripe',
+                method: 'stripe',
             }
         ],
     },
@@ -381,27 +379,27 @@ const users = [
         donations: [
             {
                 amount: 100,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 200,
-                method: 'Stripe',
+                method: 'stripe',
             },
             {
                 amount: 300,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 400,
-                method: 'Stripe',
+                method: 'stripe',
             },
             {
                 amount: 500,
-                method: 'PayPal',
+                method: 'paypal',
             },
             {
                 amount: 600,
-                method: 'Stripe',
+                method: 'stripe',
             }
         ],
     },

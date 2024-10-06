@@ -12,7 +12,7 @@
 .sidebar{
     width: 45%;
 }
-.projects{
+.donations{
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -21,24 +21,22 @@
     gap: 20px;
     background-color: transparent;   
 }
-.project{
+.donation{
     background-color: var(--white);
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 100%;
     padding: 20px 35px;
 
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     align-items: center;
+    justify-content: space-between;
+
+    position: relative;
 }
-.project p{
+.donation p{
     margin: 0;
-}
-.type{
-    font-size: 10px;
-    text-transform: uppercase;
-    color: var(--dark-gray);
 }
 .name{
     font-size: 26px;
@@ -58,17 +56,20 @@
     font-size: 10px;
     color: var(--dark-gray);
 }
+.project{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .since span{
     font-weight: 600;
     color: var(--black);
 }
-.right{
+.amount{
     display: flex;
-    gap: 20px;
-    align-items: flex-start;
-}
-.graphs{
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 30px;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--green);
 }

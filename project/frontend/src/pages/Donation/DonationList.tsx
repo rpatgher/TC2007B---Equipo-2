@@ -1,78 +1,73 @@
 import { useState } from "react";
 import { List, useGetList } from "react-admin";
-import { useNavigate } from "react-router-dom";
+
 
 // ***************** Helpers ***************** //
 import formatDate from "../../helpers/formatDate";
+import formatMoney from "../../helpers/formatMoney";
 
 // ***************** Styles ***************** //
-import styles from "./ProjectList.module.css";
+import styles from "./DonationList.module.css";
 
 // ***************** Componets ***************** //
 import Toolbar from "../../components/Toolbar/Toolbar";
 import Actions from "../../components/Actions/Actions";
-import CircleGraph from "../../components/CircleGraph/CircleGraph";
 
-type Project = {
+
+type Donation = {
     id: string;
-    name: string;
-    description: string;
-    money_goal: number;
-    money_raised: number;
+    amount: number;
     createdAt: string;
-    creator: { name: string; surname: string };
-    type: string;
+    donor: { name: string; surname: string };
+    project: { name: string; description: string };
 };
 
-const ProjectListView = ({ data }: { data: Array<Project> }) => {
-    const navigate = useNavigate();
+const DonationListView = ({ data }: { data: Array<Donation> }) => {
+    
     return (
-        <div className={styles.projects}>
+        <div className={styles.donations}>
             {data &&
                 data.map((record) => (
                     <div 
                         key={record.id} 
-                        className={styles.project}
-                        onClick={() => navigate(`/projects/${record.id}/show`)}
+                        className={styles.donation}
                     >
                         <div className={styles.left}>
-                            <p className={styles.type}>
-                                {record.type === "sexuality"
-                                    ? "Sexualidad"
-                                    : record.type === "nutrition" ? "Nutrición" : "Agua"}
-                            </p>
                             <p className={styles.name}>
-                                {record.name}
-                                <span>{record.description}</span>
+                                {record.donor.name} {record.donor.surname}
                             </p>
                             <p className={styles.since}>
-                                Creado el {" "}
+                                Donado el {" "}
                                 <span>{formatDate(record.createdAt)}</span>
-                                {" "} por {" "}
-                                <span>{record.creator.name} {record.creator.surname}</span>
                             </p>
                         </div>
+                        <div>
+                            {record.project ? (
+                                <p className={styles.project}>
+                                    {record.project.name}
+                                </p>
+                            ) : (
+                                <p className={styles.project}>
+                                    Sin proyecto asignado
+                                </p>
+                            )}
+                        </div>
                         <div className={styles.right}>
-                            <div className={styles.graphs}>
-                                <CircleGraph
-                                    heading="Recaudado"
-                                    amount={record.money_raised}
-                                    money
-                                    target={record.money_goal}
-                                />
-                            </div>
+                            <p className={styles.amount}>{formatMoney(record.amount)}</p>
                         </div>
                     </div>
-                ))}
+                ))
+            }
         </div>
-    );
-};
+    )
+}
 
-export const ProjectList = () => {
+
+export const DonationList = () => {
     const [filter, setFilter] = useState("");
     const [page, setPage] = useState(1);
-    const [perPage, setPerPage] = useState(5);
-    const { data, total, isPending } = useGetList<Project>("projects", {
+    const [perPage, setPerPage] = useState(10);
+    const { data, total, isPending } = useGetList<Donation>("donations", {
         filter: { q: filter },
         pagination: { page, perPage },
         sort: { field: "name", order: "ASC" },
@@ -82,9 +77,9 @@ export const ProjectList = () => {
         return <p>Loading...</p>;
     }
 
-    return (
+    return(
         <>
-            <h1 className={styles.heading}>Proyectos</h1>
+            <h1 className={styles.heading}>Donaciones</h1>
             <List emptyWhileLoading actions={false} pagination={false}>
                 <div className={styles.content}>
                     <div className={styles.table}>
@@ -93,7 +88,7 @@ export const ProjectList = () => {
                             setFilter={setFilter}
                             entity="proyecto"
                         />
-                        <ProjectListView data={data || []} />
+                        <DonationListView data={data || []} />
                         <Toolbar
                             perPage={perPage}
                             setPerPage={setPerPage}
@@ -106,5 +101,17 @@ export const ProjectList = () => {
                 </div>
             </List>
         </>
-    );
-};
+    )
+}
+
+export const DonationShow = () => {
+
+}
+
+export const DonationEdit = () => {
+
+}
+
+export const DonationCreate = () => {
+
+}

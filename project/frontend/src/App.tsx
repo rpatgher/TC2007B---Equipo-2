@@ -14,7 +14,13 @@ import { UserCreate } from "./pages/User/UserCreate";
 
 // ************ Project Components ************
 import { ProjectList } from "./pages/Project/ProjectList";
+import { ProjectShow } from "./pages/Project/ProjectShow";
 import { ProjectCreate, ProjectUpdate } from "./pages/Project/ProjectCU";
+
+// ************ Donation Components ************
+import { DonationList } from "./pages/Donation/DonationList";
+import { DonationCreate } from "./pages/Donation/DonationCU";
+
 
 // import {
 //     DonationList
@@ -36,7 +42,8 @@ function App() {
                 <>
                     <Resource 
                         name="donations" 
-                        list={ListGuesser}
+                        list={DonationList}
+                        create={DonationCreate}
                     />
                     {permissions === "admin" && (
                         <>
@@ -50,6 +57,7 @@ function App() {
                                 list={ProjectList}
                                 create={ProjectCreate}
                                 edit={ProjectUpdate}
+                                show={ProjectShow}
                             />
                         </>
                     )}

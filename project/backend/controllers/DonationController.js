@@ -32,7 +32,7 @@ const getDonations = async (req, res) => {
         .sort({ [sortBy]: order })
         .skip(start)
         .limit(end - start + 1)
-        .populate('project', 'name')
+        // .populate('project', 'name')
         .populate('donor', 'name surname email')
         .lean();
     // Map the donations to add an id field and remove the _id field
@@ -44,6 +44,11 @@ const getDonations = async (req, res) => {
             ...donation
         }
     });
+    // Get the total number of donations
+    const total = await Donation.countDocuments(options);
+    // Set the Content-Range and Access-Control-Expose-Headers headers
+    res.set('Content-Range', `donations ${start}-${end}/${total}`);
+    res.set('Access-Control-Expose-Headers', 'Content-Range');
     // Return the donations
     return res.status(200).json(donations);
 }

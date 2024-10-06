@@ -1,0 +1,125 @@
+.heading{
+    margin: 30px 0 0 0;
+    font-size: 40px;
+}
+.content{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    flex: 1;
+}
+.info{
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    padding: 20px 35px;
+    margin: 20px 0;
+}
+.type{
+    font-size: 10px;
+    text-transform: uppercase;
+    color: var(--dark-gray);
+}
+.since{
+    font-size: 10px;
+    color: var(--dark-gray);
+}
+.since span{
+    font-weight: 600;
+    color: var(--black);
+}
+.actions{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 10px;
+}
+.delete-button, .edit-button{
+    background-color: transparent;
+    border: none;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.delete-button{
+    color: var(--red);
+}
+.edit-button{
+    color: var(--blue);
+}
+.delete-button:hover{
+    background-color: var(--red);
+    color: var(--white);
+    transition: background-color 0.2s;
+}
+.edit-button:hover{
+    background-color: var(--blue);
+    color: var(--white);
+    transition: background-color 0.2s;
+}
+.delete-button svg{
+    fill: var(--red);
+    width: 17px;
+}
+.edit-button svg{
+    fill: var(--blue);   
+    width: 17px;
+}
+.edit-button:hover svg, .delete-button:hover svg{
+    fill: var(--white);
+}
+
+
+
+
+
+.modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-content{
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px 35px;
+    max-width: 400px;
+}
+.modal-buttons{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+.delete-button-modal, .cancel-button-modal{
+    border: none;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.delete-button-modal{
+    background-color: var(--red);
+    color: var(--white);
+}
+.cancel-button-modal{
+    background-color: var(--primary);
+    color: var(--white);
+}

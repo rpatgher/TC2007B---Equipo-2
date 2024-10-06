@@ -21,6 +21,7 @@
     align-items: center;
     gap: 10px;
     position: relative;
+    min-width: 145px;
 }
 .profile-image{
     width: 40px;

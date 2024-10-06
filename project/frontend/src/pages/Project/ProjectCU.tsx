@@ -19,8 +19,6 @@ type Project = {
     type: string;
 };
 
-
-
 const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, edit?: boolean }) => {
     const navigate = useNavigate();
     const notify = useNotify();
@@ -162,7 +160,7 @@ export const ProjectCreate = () => {
             <div className={styles.content}>
                 <ProjectCreateForm />
                 <aside className={styles.sidebar}>
-
+                    
                 </aside>
             </div>
         </>

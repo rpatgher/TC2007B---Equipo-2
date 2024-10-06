@@ -5,16 +5,18 @@ const DonationSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    // project: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Project'
-    // },
+    project: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project',
+        required: false
+    },
     donor: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
     method: {
         type: String,
+        enum: ['paypal', 'stripe'],
         required: true
     }
 },{
