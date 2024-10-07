@@ -1,5 +1,20 @@
-import User from '../models/User.js';
+import User, { PhysicalDonor } from '../models/User.js';
 
+
+const createUser = async (req, res) => {
+    const { name, surname } = req.body;
+    if (!name || !surname) {
+        return res.status(400).json({ msg: "Please enter all fields." });
+    }
+    const user = new PhysicalDonor({ name, surname });
+    try {
+        await user.save();
+        return res.status(201).json({ msg: "User created successfully." });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ msg: "Internal Server Error." });
+    }
+}
 
 // This function gets all users
 const getUsers = async (req, res) => {
@@ -52,23 +67,71 @@ const getUsers = async (req, res) => {
 
 // This function gets a user by id
 const getUser = async (req, res) => {
-    return res.status(200).json({ msg: "To Get a User (Not implemented yet)." });
+    const { id } = req.params;
+    const user = await User.findById(id).populate('donations', 'amount').lean();
+    if (!user) {
+        return res.status(404).json({ msg: "User not found." });
+    }
+    const { _id } = user;
+    delete user._id;
+    return res.status(200).json({
+        id: _id.toString(),
+        ...user
+    });
 }
 
 // This function updates a user
 const updateUser = async (req, res) => {
-    return res.status(200).json({ msg: "To Update a User (Not implemented yet)." });
+    const { id } = req.params;
+    const { name, surname } = req.body;
+    if (!name || !surname) {
+        return res.status(400).json({ msg: "Please enter all fields." });
+    }
+    const user = await User.findById(id);
+    if (!user) {
+        return res.status(404).json({ msg: "User not found." });
+    }
+    user.name = name;
+    user.surname = surname;
+    try {
+        await user.save();
+        return res.status(200).json({ msg: "User updated successfully." });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ msg: "Internal Server Error." });
+    }
 }
 
 // This function deletes a user
 const deleteUser = async (req, res) => {
-    return res.status(200).json({ msg: "To Delete a User (Not implemented yet)." });
+    const { id } = req.params;
+    const user = await User.findById(id);
+    if (!user) {
+        return res.status(404).json({ msg: "User not found." });
+    }
+    if (user.donations.length > 0) {
+        return res.status(400).json({ msg: "User has donations. Please delete the donations first." });
+    }
+    try {
+        await user.deleteOne();
+        return res.status(200).json({ msg: "User deleted successfully." });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ msg: "Internal Server Error." });
+    }
 }
 
+const getDonorsProjects = async (req, res) => {
+    console.log('hello');
+    
+    return res.status(200).json({ msg: 'hello' });
+}
 
 export {
+    createUser,
     updateUser,
     getUsers,
     getUser,
-    deleteUser
+    deleteUser,
+    getDonorsProjects
 }

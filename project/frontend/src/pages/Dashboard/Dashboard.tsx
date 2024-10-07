@@ -1,6 +1,6 @@
 // import { useEffect } from "react";
 // import { useNavigate, useLocation } from "react-router-dom";
-import { usePermissions } from "react-admin";
+import { usePermissions, useNotify } from "react-admin";
 
 import AdminDash from "./AdminDash";
 import DonorDash from "./DonorDash";
@@ -10,6 +10,7 @@ import authProvider from "../../authProvider";
 
 export const Dashboard = () => {
     const { permissions } = usePermissions();
+    const notify = useNotify();
 
     useEffect(() => {
         authProvider.getPermissions(null)
@@ -18,6 +19,7 @@ export const Dashboard = () => {
             })
             .catch((error) => {
                 console.log(error);
+                notify('Error al obtener los permisos. Refresca la página para volver a intentar', { type: 'error' });
             });
     }, []);
 

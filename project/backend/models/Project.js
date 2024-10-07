@@ -27,6 +27,30 @@ const ProjectSchema = new mongoose.Schema({
     creator: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    },
+    milestones: [{
+        description: {
+            type: String,
+            required: true
+        },
+        percentage: {
+            type: Number,
+            required: true
+        },
+    }],
+    impact: {
+        description: {
+            type: String,
+            required: true
+        },
+        amount: {
+            type: Number,
+            required: true
+        },
+        unit: {
+            type: String,
+            required: true
+        },
     }
 },{
     timestamps: true

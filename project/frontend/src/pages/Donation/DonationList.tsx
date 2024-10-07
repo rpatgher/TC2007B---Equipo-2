@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { List, useGetList } from "react-admin";
 
 
@@ -23,7 +24,7 @@ type Donation = {
 };
 
 const DonationListView = ({ data }: { data: Array<Donation> }) => {
-    
+    const navigate = useNavigate();
     return (
         <div className={styles.donations}>
             {data &&
@@ -31,6 +32,7 @@ const DonationListView = ({ data }: { data: Array<Donation> }) => {
                     <div 
                         key={record.id} 
                         className={styles.donation}
+                        onClick={() => navigate(`/donations/${record.id}/show`)}
                     >
                         <div className={styles.left}>
                             <p className={styles.name}>
@@ -86,7 +88,7 @@ export const DonationList = () => {
                         <Actions
                             filter={filter}
                             setFilter={setFilter}
-                            entity="proyecto"
+                            entity="donación"
                         />
                         <DonationListView data={data || []} />
                         <Toolbar

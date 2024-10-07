@@ -51,3 +51,6 @@
     border-radius: 5px;
     cursor: pointer;
 }
+.loading{
+    opacity: 0.5;
+}

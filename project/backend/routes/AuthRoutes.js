@@ -2,7 +2,7 @@ import express from "express";
 
 // Importing the Auth Controller Functions
 import {
-    createUser,
+    signUp,
     loginUser,
     logoutUser,
     permissions
@@ -18,7 +18,7 @@ import checkAuth from "../middleware/checkAuth.js";
 
 // This route would be for example /api/auth/register
 router.route("/register")
-    .post(createUser); // Register a User
+    .post(signUp); // Register a User
 
 // This route would be for example /api/auth/login
 router.route("/login")

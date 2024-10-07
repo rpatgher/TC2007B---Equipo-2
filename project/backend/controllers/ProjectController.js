@@ -15,7 +15,7 @@ const createProject = async (req, res) => {
         console.error(error);
         return res.status(500).json({ msg: "Internal Server Error." });
     }
-}
+}  
 
 // This function gets all projects
 const getProjects = async (req, res) => {

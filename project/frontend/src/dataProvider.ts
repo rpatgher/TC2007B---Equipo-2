@@ -8,6 +8,7 @@ interface DataProvider {
     create: (resource: string, params: any) => Promise<any>;
     delete: (resource: string, params: any) => Promise<any>;
     deleteMany: (resource: string, params: any) => Promise<any>;
+    getPhyDonorsAndProjects: (resource: string) => Promise<any>;
 }
 
 const apiUrl = `${import.meta.env.VITE_API_URL}/api`;

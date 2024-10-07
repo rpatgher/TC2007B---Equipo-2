@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNotify } from "react-admin";
 import { useNavigate, useParams } from "react-router-dom";
-import GoBackButton from "../../components/GoBackButton/GoBackButton";
 
 import dataProvider from "../../dataProvider";
+
+// *************** Components ***************
+import GoBackButton from "../../components/GoBackButton/GoBackButton";
+import ModalDelete from "../../components/ModalDelete/ModalDelete";
 
 // ***************** Helpers ***************** //
 import formatDate from "../../helpers/formatDate";
@@ -55,6 +58,7 @@ export const ProjectShow = () => {
             })
             .catch((error) => {
                 console.log(error);
+                notify('Error al obtener el proyecto. Refresca la página para intentar nuevamente.', { type: 'error' });
             });
         }
     }, [params]);
@@ -71,6 +75,7 @@ export const ProjectShow = () => {
             navigate('/projects');
         })
         .catch((error) => {
+            notify('Error al eliminar el proyecto. Inténtalo nuevamente.', { type: 'error' });
             console.log(error);
         });
     }
@@ -119,25 +124,11 @@ export const ProjectShow = () => {
                 </div>  
             </div>
             {modalDelete && (
-                <div className={styles.modal}>
-                    <div className={styles["modal-content"]}>
-                        <p>¿Estás seguro de que deseas borrar este proyecto?</p>
-                        <div className={styles["modal-buttons"]}>
-                            <button
-                                className={styles["cancel-button-modal"]}
-                                onClick={() => setModalDelete(false)}
-                            >
-                                Cancelar
-                            </button>
-                            <button
-                                className={styles["delete-button-modal"]}
-                                onClick={handleDeleteProject}
-                            >
-                                Borrar
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <ModalDelete
+                    entity='proyecto'
+                    setModalDelete={setModalDelete}
+                    handleDeleteElement={handleDeleteProject}
+                />
             )}
         </>
     )

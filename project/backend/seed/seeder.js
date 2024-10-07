@@ -1,7 +1,9 @@
 import { exit } from 'node:process';
 import connectDB from "../config/db.js";
-import users from "./users.js";
-import User from "../models/User.js";
+
+import data from "./data.js";
+
+import User, { Admin, Donor, PhysicalDonor } from "../models/User.js";
 import Donation from "../models/Donation.js";
 import Project from '../models/Project.js';
 
@@ -13,23 +15,39 @@ dotenv.config();
 const insertData = async () => {
     try {
         await connectDB();
-        // await User.insertMany(users);
-        await Promise.all(users.map(async (user) => {
-            const userDB = new User({
-                name: user.name,
-                surname: user.surname,
-                email: user.email,
-                password: user.password,
-                role: user.role,
-                donations: []
-            });
+        await Promise.all(data.map(async (user) => {
+            let userDB;
+            if(user.role === 'admin'){
+                userDB = new Admin({
+                    name: user.name,
+                    surname: user.surname,
+                    email: user.email,
+                    password: user.password,
+                    role: user.role,
+                });
+            }else if(user.role === 'donor'){
+                userDB = new Donor({
+                    name: user.name,
+                    surname: user.surname,
+                    email: user.email,
+                    password: user.password,
+                    role: user.role,
+                });
+            } else if(user.role === 'physical-donor'){
+                userDB = new PhysicalDonor({
+                    name: user.name,
+                    surname: user.surname,
+                    email: user.email,
+                    role: user.role,
+                });
+            }
             await userDB.save();
             if(user.donations){
                 await Promise.all(user.donations.map(async (donation) => {
                     const donationDB = new Donation({
                         amount: donation.amount,
-                        donor: userDB._id,
-                        method: donation.method
+                        method: donation.method,
+                        donor: userDB._id
                     });
                     await donationDB.save();
                     userDB.donations.push(donationDB);
@@ -43,8 +61,10 @@ const insertData = async () => {
                         description: project.description,
                         money_goal: project.money_goal,
                         money_raised: project.money_raised,
+                        type: project.type,
                         creator: userDB._id,
-                        type: project.type
+                        milestones: project.milestones,
+                        impact: project.impact
                     });
                     await projectDB.save();
                     userDB.projects.push(projectDB);
@@ -66,6 +86,7 @@ const deleteData = async () => {
         console.log('Deleting Data...');
         await User.deleteMany();
         await Donation.deleteMany();
+        await Project.deleteMany();
         console.log('Data Deleted');
         exit(0);
     } catch (error) {

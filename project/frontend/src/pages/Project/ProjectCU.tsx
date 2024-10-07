@@ -60,6 +60,7 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
                 })
                 .catch((error) => {
                     console.log(error);
+                    notify("Error al actualizar el proyecto. Intenta Nuevamente", { type: "error" });
                 })
                 .finally(() => {
                     setLoading(false);
@@ -74,6 +75,7 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
                 })
                 .catch((error) => {
                     console.log(error);
+                    notify("Error al crear el proyecto. Intenta Nuevamente", { type: "error" });
                 })
                 .finally(() => {
                     setLoading(false);
@@ -169,6 +171,7 @@ export const ProjectCreate = () => {
 
 export const ProjectUpdate = () => {
     const params = useParams();
+    const notify = useNotify();
     const [project, setProject] = useState({
         id: "",
         name: "",
@@ -192,6 +195,7 @@ export const ProjectUpdate = () => {
             })
             .catch((error) => {
                 console.log(error);
+                notify("Error al obtener el proyecto. Refresca la página para intentar nuevamente", { type: "error" });
             });
         }
     }, [params]);

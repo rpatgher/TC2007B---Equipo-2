@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { List, useGetList } from "react-admin";
+import { useNavigate } from "react-router-dom";
 
 // ***************** Helpers ***************** //
 import formatDate from "../../helpers/formatDate";
@@ -23,16 +24,21 @@ type User = {
 };
 
 const UserListView = ({ data }: {data: Array<User>}) => {
+    const navigate = useNavigate();
     return (
         <div className={styles.users}>
             {data &&
                 data.map((record) => (
-                    <div key={record.id} className={styles.user}>
+                    <div 
+                        key={record.id} 
+                        className={styles.user}
+                        onClick={() => navigate(`/users/${record.id}/show`)}
+                    >
                         <div className={styles.left}>
                             <p className={styles.role}>
                                 {record.role === "donor"
                                     ? "Donador"
-                                    : "Administrador"}
+                                    : record.role === "admin" ? "Administrador" : "Donador Físico"}
                             </p>
                             <p className={styles.name}>
                                 {record.name} {record.surname}

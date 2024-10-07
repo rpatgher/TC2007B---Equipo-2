@@ -12,36 +12,10 @@ const userSchema = mongoose.Schema({
         required: true,
         trim: true
     },
-    password: {
-        type: String,
-        required: true,
-    },
-    email: {
-        type: String,
-        required: true,
-        trim: true,
-        unique: true
-    },
-    role: {
-        type: String,
-        required: true,
-        default: 'donor',
-        enum: ['donor', 'admin']
-    },
-    donations: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Donation',
-        required: false
-    }],
-    projects: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Project',
-        required: false
-    }]
 }, {
-    timestamps: true
+    timestamps: true,
+    discriminatorKey: 'role'
 });
-
 userSchema.pre('save', async function(next){
     if(!this.isModified('password')){
         next();
@@ -53,6 +27,58 @@ userSchema.pre('save', async function(next){
 userSchema.methods.validPassword = async function(password){
     return await bcrypt.compare(password, this.password);
 }
+const User = mongoose.model('User', userSchema);
+const Admin = User.discriminator('admin', new mongoose.Schema({
+    password: {
+        type: String,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        trim: true,
+        unique: true
+    },
+    projects: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project',
+        required: false
+    }]
+}, {
+    timestamps: true
+}));
+const Donor = User.discriminator('donor', new mongoose.Schema({
+    password: {
+        type: String,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        trim: true,
+        unique: true
+    },
+    donations: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Donation',
+        required: false
+    }],
+}, {
+    timestamps: true
+}));
+const PhysicalDonor = User.discriminator('physical-donor', new mongoose.Schema({
+    donations: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Donation',
+        required: false
+    }],
+}, {
+    timestamps: true
+}));
 
-const User = mongoose.model("User", userSchema);
 export default User;
+export {
+    Admin,
+    Donor,
+    PhysicalDonor
+};

@@ -2,10 +2,12 @@ import express from "express";
 
 // Importing the User Controller Functions
 import {
+    createUser,
     updateUser,
     getUsers,
     getUser,
-    deleteUser    
+    deleteUser,
+    getDonorsProjects
 } from "../controllers/UserController.js";
 
 // Create a Router for User endpoints
@@ -20,6 +22,7 @@ import checkAdmin from "../middleware/checkAdmin.js";
 
 // This route would be for explample /api/users
 router.route("/")
+    .post(checkAuth, checkAdmin, createUser) // Create a new User
     .get(checkAuth, checkAdmin, getUsers); // Get all Users
 
 
@@ -28,6 +31,11 @@ router.route("/:id")
     .get(getUser) // Get a User by Id
     .put(updateUser) // Update a User by Id
     .delete(deleteUser); // Delete a User by Id
+
+// This route would be for explample /api/users/donors-projects 
+router.route("/donors-projects")
+    .get(checkAuth, checkAdmin, getDonorsProjects); // Get all Physical Donors and all Projects 
+
 
 
 export default router;

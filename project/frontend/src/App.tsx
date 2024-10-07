@@ -10,7 +10,8 @@ import { Dashboard } from "./pages/Dashboard/Dashboard";
 
 // ************ User Components ************
 import { UserList } from "./pages/User/UserList";
-import { UserCreate } from "./pages/User/UserCreate";
+import { UserShow } from "./pages/User/UserShow";
+import { UserCreate, UserUpdate } from "./pages/User/UserCU";
 
 // ************ Project Components ************
 import { ProjectList } from "./pages/Project/ProjectList";
@@ -19,12 +20,14 @@ import { ProjectCreate, ProjectUpdate } from "./pages/Project/ProjectCU";
 
 // ************ Donation Components ************
 import { DonationList } from "./pages/Donation/DonationList";
-import { DonationCreate } from "./pages/Donation/DonationCU";
+import { DonationShow } from "./pages/Donation/DonationShow";
+import { DonationCreateAdmin, DonationUpdateAdmin, DonationCreateDonor } from "./pages/Donation/DonationCU";
 
 
 // import {
 //     DonationList
 // } from "./pages/Donation/DonationComponents";
+
 
 import { Layout } from "./Layout/Layout";
 
@@ -43,7 +46,9 @@ function App() {
                     <Resource 
                         name="donations" 
                         list={DonationList}
-                        create={DonationCreate}
+                        create={permissions === 'admin' ? DonationCreateAdmin : DonationCreateDonor}
+                        show={DonationShow}
+                        edit={permissions === 'admin' ? DonationUpdateAdmin : null}
                     />
                     {permissions === "admin" && (
                         <>
@@ -51,6 +56,8 @@ function App() {
                                 name="users" 
                                 list={UserList}
                                 create={UserCreate}
+                                edit={UserUpdate}
+                                show={UserShow}
                             />
                             <Resource 
                                 name="projects" 

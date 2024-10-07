@@ -6,7 +6,7 @@ import generateJWT from '../helpers/generateJWT.js';
 
 
 // This function creates a new user
-const createUser = async (req, res) => {
+const signUp = async (req, res) => {
     return res.status(200).json({ msg: "To Create a User (Not implemented yet)." });
 }
 
@@ -17,6 +17,7 @@ const loginUser = async (req, res) => {
     const { username, password } = req.body;
     // Find the user by the email
     const user = await User.findOne({ email: username });
+    console.log(user);
     // If the user is not found, return an error
     if(!user){
         const error = new Error("User not found.");
@@ -67,7 +68,7 @@ const permissions = async (req, res) => {
 }
 
 export {
-    createUser,
+    signUp,
     loginUser,
     logoutUser,
     permissions

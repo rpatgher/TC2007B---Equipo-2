@@ -56,7 +56,17 @@ const getDonations = async (req, res) => {
 
 // This function gets a donation by id
 const getDonation = async (req, res) => {
-    return res.status(200).json({ msg: "To Get a Donation (Not implemented yet)." });
+    const { id } = req.params;
+    const donation = await Donation.findById(id).populate('donor', 'name surname email').lean();
+    if (!donation) {
+        return res.status(404).json({ msg: "Donation not found." });
+    }
+    const { _id } = donation;
+    delete donation._id;
+    return res.status(200).json({
+        id: _id.toString(),
+        ...donation
+    });
 }
 
 // This function updates a donation

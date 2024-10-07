@@ -35,6 +35,7 @@ const authProvider: AuthProvider = {
     logout: () => {
         localStorage.removeItem('token');
         localStorage.removeItem('role');
+        localStorage.removeItem('identity');
         return Promise.resolve();
     },
     getIdentity: () => {

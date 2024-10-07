@@ -16,19 +16,11 @@
     padding: 20px 35px;
     margin: 20px 0;
 }
-.type{
-    font-size: 10px;
-    text-transform: uppercase;
-    color: var(--dark-gray);
-}
-.since{
-    font-size: 10px;
-    color: var(--dark-gray);
-}
-.since span{
-    font-weight: 600;
-    color: var(--black);
-}
+
+
+
+
+
 .actions{
     display: flex;
     align-items: center;
