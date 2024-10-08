@@ -17,7 +17,7 @@ const loginUser = async (req, res) => {
     const { username, password } = req.body;
     // Find the user by the email
     const user = await User.findOne({ email: username });
-    console.log(user);
+    // console.log(user);
     // If the user is not found, return an error
     if(!user){
         const error = new Error("User not found.");

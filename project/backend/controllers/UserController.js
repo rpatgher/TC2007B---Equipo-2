@@ -1,5 +1,5 @@
 import User, { PhysicalDonor } from '../models/User.js';
-
+import Project from '../models/Project.js';
 
 const createUser = async (req, res) => {
     const { name, surname } = req.body;
@@ -121,10 +121,26 @@ const deleteUser = async (req, res) => {
     }
 }
 
-const getDonorsProjects = async (req, res) => {
-    console.log('hello');
-    
-    return res.status(200).json({ msg: 'hello' });
+const getDonorsAndProjects = async (req, res) => {
+    let donors = await User.find().where('role').nin(['admin', 'donor']).lean();
+    donors = donors.map(donor => {
+        const { _id } = donor;
+        delete donor._id;
+        return {
+            id: _id.toString(),
+            ...donor
+        }
+    });
+    let projects = await Project.find().lean();
+    projects = projects.map(project => {
+        const { _id } = project;
+        delete project._id;
+        return {
+            id: _id.toString(),
+            ...project
+        }
+    });
+    return res.status(200).json({ donors, projects });
 }
 
 export {
@@ -133,5 +149,5 @@ export {
     getUsers,
     getUser,
     deleteUser,
-    getDonorsProjects
+    getDonorsAndProjects
 }

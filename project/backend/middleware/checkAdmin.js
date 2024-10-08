@@ -3,7 +3,6 @@
 const checkAdmin = async (req, res, next) => {
     // Get the role from the user object (it was added in the auth middleware)
     const { role } = req.user;
-    console.log(role);
     // If the role is admin, continue with the request
     if(role === 'admin'){
         return next();

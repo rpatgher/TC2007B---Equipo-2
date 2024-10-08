@@ -51,7 +51,7 @@ export const UserCreateForm = ({ initialUser, edit }: { initialUser?: User, edit
         if(edit && initialUser){
             dataProvider.update('users', { id: initialUser.id, data: user })
                 .then((response) => {
-                    console.log(response);
+                    // console.log(response);
                     notify("Donador Físico actualizado exitosamente", { type: "success" });
                     navigate('/users');
                 })
@@ -66,7 +66,7 @@ export const UserCreateForm = ({ initialUser, edit }: { initialUser?: User, edit
         } else {
             dataProvider.create('users', { data: user })
                 .then((response) => {
-                    console.log(response);
+                    // console.log(response);
                     notify("Donador Físico creado exitosamente", { type: "success" });
                     navigate('/users');
                 })
@@ -153,7 +153,7 @@ export const UserUpdate = () => {
         if(params.id) {
             dataProvider.getOne('users', params)
                 .then((response) => {
-                    console.log(response);
+                    // console.log(response);
                     setUser(response.data);
                 })
                 .catch((error) => {

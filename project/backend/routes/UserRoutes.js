@@ -7,7 +7,7 @@ import {
     getUsers,
     getUser,
     deleteUser,
-    getDonorsProjects
+    getDonorsAndProjects
 } from "../controllers/UserController.js";
 
 // Create a Router for User endpoints
@@ -25,16 +25,15 @@ router.route("/")
     .post(checkAuth, checkAdmin, createUser) // Create a new User
     .get(checkAuth, checkAdmin, getUsers); // Get all Users
 
+// This route would be for explample /api/users/donors-projects 
+router.route("/donors-projects")
+    .get(checkAuth, checkAdmin, getDonorsAndProjects); // Get all Physical Donors and all Projects 
 
 // This route would be for explample /api/users/1234492 (where 1234492 would be the id of the user)
 router.route("/:id")
     .get(getUser) // Get a User by Id
     .put(updateUser) // Update a User by Id
     .delete(deleteUser); // Delete a User by Id
-
-// This route would be for explample /api/users/donors-projects 
-router.route("/donors-projects")
-    .get(checkAuth, checkAdmin, getDonorsProjects); // Get all Physical Donors and all Projects 
 
 
 

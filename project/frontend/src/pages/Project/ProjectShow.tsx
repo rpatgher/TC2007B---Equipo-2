@@ -42,7 +42,7 @@ export const ProjectShow = () => {
         if(params.id){
             dataProvider.getOne('projects', params)
             .then((response) => {
-                console.log(response);
+                // console.log(response);
                 setProject({
                     id: response.data.id,
                     name: response.data.name,
@@ -70,7 +70,7 @@ export const ProjectShow = () => {
     const handleDeleteProject = () => {
         dataProvider.delete('projects', { id: project.id })
         .then((response) => {
-            console.log(response);
+            // console.log(response);
             notify('El proyecto ha sido eliminado', { type: "success" });
             navigate('/projects');
         })

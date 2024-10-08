@@ -47,7 +47,7 @@ export const DonationShow = () => {
             dataProvider
                 .getOne("donations", params)
                 .then((response) => {
-                    console.log(response);
+                    // console.log(response);
                     setDonation({
                         id: response.data.id,
                         donor: {

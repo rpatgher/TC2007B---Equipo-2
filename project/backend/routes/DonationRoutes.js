@@ -20,7 +20,7 @@ import checkAuth from "../middleware/checkAuth.js";
 // This route would be for explample /api/donations
 router.route("/")
     .get(checkAuth, getDonations) // Get all Donations
-    .post(createDonation); // Create a Donation
+    .post(checkAuth, createDonation); // Create a Donation
 
 // This route would be for explample /api/donations/1234492 (where 1234492 would be the id of the donation)
 router.route("/:id")

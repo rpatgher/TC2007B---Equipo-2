@@ -97,6 +97,14 @@ const dataProvider: DataProvider = {
         });
         return { data: json };
     },
+    getPhyDonorsAndProjects: async (resource) => {
+        const url = `${apiUrl}/${resource}/donors-projects`;
+        const { json } = await httpClient(url);
+        // console.log(json);
+        return {
+            data: json,
+        };
+    }
 };
 
 export default dataProvider;

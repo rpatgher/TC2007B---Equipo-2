@@ -37,7 +37,7 @@ export const UserShow = () => {
         if(params.id){
             dataProvider.getOne('users', params)
             .then((response) => {
-                console.log(response);
+                // console.log(response);
                 setUser({
                     id: response.data.id,
                     name: response.data.name,
@@ -59,7 +59,7 @@ export const UserShow = () => {
     const handleDeleteUser = () => {
         dataProvider.delete('users', params)
             .then((response) => {
-                console.log(response);
+                // console.log(response);
                 notify("Donador Físico eliminado exitosamente", { type: "success" });
                 navigate('/users');
             })

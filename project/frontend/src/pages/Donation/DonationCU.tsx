@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNotify } from "react-admin";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import dataProvider from "../../dataProvider";
 
@@ -12,13 +12,16 @@ import GoBackButton from "../../components/GoBackButton/GoBackButton";
 
 type Donation = {
     id?: string;
-    amount: number;
+    amount: string;
     createdAt: string;
-    project?: string;
+    project?: {
+        id: string;
+    };
     donor: {
-        name: string;
-        surname: string;
-        role: string;
+        id: string;
+        name?: string;
+        surname?: string;
+        role?: string;
     };
     method: string;
 };
@@ -135,26 +138,172 @@ export const DonationCreateDonor = () => {
     );
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
 export const DonationFormAdmin = ({
     initialDonation,
+    edit
 }: {
     initialDonation?: Donation;
+    edit?: boolean;
 }) => {
+    const notify = useNotify();
+    const navigate = useNavigate();
+    const [donors, setDonors] = useState<Array<any>>([]);
+    const [projects, setProjects] = useState<Array<any>>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [donation, setDonation] = useState<Donation>({
+        id: "",
+        amount: "",
+        createdAt: "",
+        project: {
+            id: ""
+        },
+        donor: {
+            id: "",
+            name: "",
+            surname: "",
+            role: "",
+        },
+        method: "",
+    });
+
+    useEffect(() => {
+        if (initialDonation) {
+            setDonation(initialDonation);
+        }
+    }, [initialDonation]);
+
+
+    useEffect(() => {
+        // Get all physical donors and projects
+        dataProvider.getPhyDonorsAndProjects("users").then((response) => {
+            setDonors(response.data.donors);
+            setProjects(response.data.projects);
+        }).catch((error) => {
+            console.log(error);
+            notify("Error al obtener los donadores y proyectos. Refresca la página para intentar nuevamente",{ type: "error" });
+        });
+    }, []);
+
+    const handleChange = (e: any) => {
+        setDonation({
+            ...donation,
+            [e.target.name]: e.target.value,
+        });
+    }
+
+    const handleSelectChange = (e: any) => {
+        const value = e.target.value;
+        if(e.target.name === "donor") {
+            const donor = donors.find((donor) => donor.id === value);
+            setDonation({
+                ...donation,
+                donor: {
+                    id: donor.id,
+                    name: donor.name,
+                    surname: donor.surname,
+                    role: donor.role,
+                },
+            });
+        } else{
+            const project = projects.find((project) => project.id === value);
+            setDonation({
+                ...donation,
+                project: {
+                    id: project.id,
+                },
+            });
+        }
+    }
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+        if (!donation.amount || !donation.donor.id) {
+            notify("Por favor, rellene todos los campos obligatorios", { type: "error" });
+            return;
+        }
+        setLoading(true);
+        document.body.style.cursor = "wait";
+        if(edit && initialDonation){
+            dataProvider.update("donations", { id: initialDonation.id, data: donation })
+                .then((_) => {
+                    notify("Donación actualizada exitosamente", { type: "success" });
+                    navigate("/donations");
+                    setLoading(false);
+                    document.body.style.cursor = "default";
+                })
+                .catch((error) => {
+                    console.log(error);
+                    notify("Error al actualizar la donación. Intenta Nuevamente", { type: "error" });
+                    setLoading(false);
+                    document.body.style.cursor = "default";
+                })
+                .finally(() => {
+                    setLoading(false);
+                    document.body.style.cursor = "default";
+                });
+        } else {
+            dataProvider.create("donations", { data: donation })
+                .then((_) => {
+                    notify("Donación creada exitosamente", { type: "success" });
+                    setLoading(false);
+                    navigate("/donations");
+                    document.body.style.cursor = "default";
+                })
+                .catch((error) => {
+                    console.log(error);
+                    notify("Error al crear la donación. Intenta Nuevamente", { type: "error" });
+                    setLoading(false);
+                    document.body.style.cursor = "default";
+                })
+                .finally(() => {
+                    setLoading(false);
+                    document.body.style.cursor = "default";
+                });
+        }
+    }
 
 
     return (
         <>
-            <form className={styles.form}>
+            <form 
+                className={styles.form}
+                onSubmit={handleSubmit}
+            >
                 {initialDonation && initialDonation.donor.role === "donor" ? (
                     <></>
                 ) : (
                     <>
                         <div className={`${styles.field}`}>
-                            <label htmlFor="amount">Donador</label>
-                            <select name="donor">
+                            <label htmlFor="donor">Donador</label>
+                            <select 
+                                name="donor"
+                                id="donor"
+                                value={donation.donor.id}
+                                onChange={handleSelectChange}
+                            >
                                 <option value="" disabled>
                                     -- Seleccion un dondador físico --
                                 </option>
+                                {donors.map((donor, index) => (
+                                    <option 
+                                        key={index} 
+                                        value={donor.id}
+                                    >
+                                        {donor.name} {donor.surname}
+                                    </option>
+                                ))}
                             </select>
                         </div>
                         <div className={`${styles.field}`}>
@@ -164,17 +313,42 @@ export const DonationFormAdmin = ({
                                 id="amount"
                                 name="amount"
                                 placeholder="Cantidad de donación"
+                                value={donation.amount}
+                                onChange={handleChange}
                             />
                         </div>
                     </>
                 )}
                 <div className={`${styles.field}`}>
-                    <label htmlFor="amount">Proyecto</label>
-                    <select name="donor">
+                    <label htmlFor="project">Proyecto</label>
+                    <select 
+                        name="project"
+                        id="project"
+                        value={donation?.project?.id || ""}
+                        onChange={handleSelectChange}
+                    >
                         <option value="" disabled>
                             -- Seleccion un proyecto --
                         </option>
+                        {projects.map((project, index) => (
+                            <option 
+                                key={index} 
+                                value={project.id}
+                            >
+                                {project.name}
+                            </option>
+                        ))}
                     </select>
+                </div>
+
+                <div className={styles.submit}>
+                    <button 
+                        type="submit"
+                        className={`${styles["submit-button"]} ${loading ? styles.loading : ""}`}
+                        disabled={loading}
+                    >
+                        {edit ? 'Guardar Donación' : 'Crear Donación'}
+                    </button>
                 </div>
             </form>
         </>
@@ -185,7 +359,7 @@ export const DonationCreateAdmin = () => {
     return (
         <>
             <GoBackButton />
-            <h1 className={styles.heading}>Crear Donación</h1>
+            <h1 className={styles.heading}>Crear Donación Física</h1>
             <div className={styles.content}>
                 <DonationFormAdmin />
                 <aside className={styles.sidebar}></aside>
@@ -199,10 +373,13 @@ export const DonationUpdateAdmin = () => {
     const notify = useNotify();
     const [donation, setDonation] = useState<Donation>({
         id: "",
-        amount: 0,
+        amount: "",
         createdAt: "",
-        project: "",
+        project: {
+            id: ""
+        },
         donor: {
+            id: "",
             name: "",
             surname: "",
             role: "",
@@ -220,8 +397,11 @@ export const DonationUpdateAdmin = () => {
                         id: response.data.id,
                         amount: response.data.amount,
                         createdAt: response.data.createdAt,
-                        project: response.data.project,
+                        project: {
+                            id: response.data?.project?.id || "",
+                        },
                         donor: {
+                            id: response.data.donor.id,
                             name: response.data.donor.name,
                             surname: response.data.donor.surname,
                             role: response.data.donor.role,

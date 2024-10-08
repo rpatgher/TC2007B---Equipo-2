@@ -16,7 +16,7 @@ const DonationSchema = new mongoose.Schema({
     },
     method: {
         type: String,
-        enum: ['paypal', 'stripe'],
+        enum: ['paypal', 'stripe', 'physical'],
         required: true
     }
 },{

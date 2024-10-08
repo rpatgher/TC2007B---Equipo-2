@@ -2,7 +2,43 @@ import Donation from '../models/Donation.js';
 
 // This function creates a new donation
 const createDonation = async (req, res) => {
-    return res.status(200).json({ msg: "To Create a Donation (Not implemented yet)." });
+    const user = req.user;
+    if (user.role === 'admin') {
+        const { amount, donor, project } = req.body;
+        if (!amount || !donor) {
+            return res.status(400).json({ msg: "Please enter all fields." });
+        }
+        const donation = new Donation({
+            amount,
+            donor: donor.id,
+            method: 'physical',
+            project: project ? project.id : null
+        });
+        try {
+            await donation.save();
+            return res.status(201).json({ msg: "Donation created successfully." });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ msg: "Internal Server Error." });
+        }
+    } else{
+        const { amount, method } = req.body;
+        if (!amount || !method) {
+            return res.status(400).json({ msg: "Please enter all fields." });
+        }
+        const donation = new Donation({
+            amount,
+            method,
+            donor: user.id
+        });
+        try {
+            await donation.save();
+            return res.status(201).json({ msg: "Donation created successfully." });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ msg: "Internal Server Error." });
+        }
+    }
 }
 
 // This function gets all donations
@@ -57,15 +93,31 @@ const getDonations = async (req, res) => {
 // This function gets a donation by id
 const getDonation = async (req, res) => {
     const { id } = req.params;
-    const donation = await Donation.findById(id).populate('donor', 'name surname email').lean();
+    // Get the donation by id and populate the donor field and project field
+    const donation = await Donation
+        .findById(id)
+        .select('-__v')
+        .populate('donor', '_id name surname email')
+        .populate('project', '_id name')
+        .lean();
+    // If the donation is not found, return a 404 Not Found error
     if (!donation) {
         return res.status(404).json({ msg: "Donation not found." });
     }
+    console.log(donation);
     const { _id } = donation;
     delete donation._id;
     return res.status(200).json({
         id: _id.toString(),
-        ...donation
+        ...donation,
+        donor: donation.donor ? {
+            id: donation.donor._id.toString(),
+            ...donation.donor
+        } : null,
+        project: donation.project ? {
+            id: donation.project._id.toString(),
+            ...donation.project
+        } : null
     });
 }
 

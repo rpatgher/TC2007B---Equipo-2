@@ -54,7 +54,7 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
         if(edit && initialProject){
             dataProvider.update('projects', { id: initialProject.id, data: project })
                 .then((response) => {
-                    console.log(response);
+                    // console.log(response);
                     notify("Proyecto actualizado exitosamente", { type: "success" });
                     navigate('/projects');
                 })
@@ -69,7 +69,7 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
         } else {
             dataProvider.create('projects', { data: project })
                 .then((response) => {
-                    console.log(response);
+                    // console.log(response);
                     notify("Proyecto creado exitosamente", { type: "success" });
                     navigate('/projects');
                 })
@@ -184,7 +184,7 @@ export const ProjectUpdate = () => {
         if(params.id){
             dataProvider.getOne('projects', params)
             .then((response) => {
-                console.log(response);
+                // console.log(response);
                 setProject({
                     id: response.data.id,
                     name: response.data.name,
