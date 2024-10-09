@@ -1,11 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { List, useGetList } from "react-admin";
-
-
-// ***************** Helpers ***************** //
-import formatDate from "../../helpers/formatDate";
-import formatMoney from "../../helpers/formatMoney";
 
 // ***************** Styles ***************** //
 import styles from "./DonationList.module.css";
@@ -13,6 +7,7 @@ import styles from "./DonationList.module.css";
 // ***************** Componets ***************** //
 import Toolbar from "../../components/Toolbar/Toolbar";
 import Actions from "../../components/Actions/Actions";
+import DonationCard from "../../components/DonationCard/DonationCard";
 
 
 type Donation = {
@@ -24,40 +19,14 @@ type Donation = {
 };
 
 const DonationListView = ({ data }: { data: Array<Donation> }) => {
-    const navigate = useNavigate();
     return (
         <div className={styles.donations}>
             {data &&
                 data.map((record) => (
-                    <div 
+                    <DonationCard 
                         key={record.id} 
-                        className={styles.donation}
-                        onClick={() => navigate(`/donations/${record.id}/show`)}
-                    >
-                        <div className={styles.left}>
-                            <p className={styles.name}>
-                                {record.donor.name} {record.donor.surname}
-                            </p>
-                            <p className={styles.since}>
-                                Donado el {" "}
-                                <span>{formatDate(record.createdAt)}</span>
-                            </p>
-                        </div>
-                        <div>
-                            {record.project ? (
-                                <p className={styles.project}>
-                                    {record.project.name}
-                                </p>
-                            ) : (
-                                <p className={styles.project}>
-                                    Sin proyecto asignado
-                                </p>
-                            )}
-                        </div>
-                        <div className={styles.right}>
-                            <p className={styles.amount}>{formatMoney(record.amount)}</p>
-                        </div>
-                    </div>
+                        donation={record}
+                    />
                 ))
             }
         </div>
@@ -104,16 +73,4 @@ export const DonationList = () => {
             </List>
         </>
     )
-}
-
-export const DonationShow = () => {
-
-}
-
-export const DonationEdit = () => {
-
-}
-
-export const DonationCreate = () => {
-
 }

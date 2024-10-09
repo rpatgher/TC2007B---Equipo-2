@@ -1,17 +1,13 @@
 import { useState } from "react";
 import { List, useGetList } from "react-admin";
-import { useNavigate } from "react-router-dom";
-
-// ***************** Helpers ***************** //
-import formatDate from "../../helpers/formatDate";
 
 // ***************** Styles ***************** //
 import styles from "./ProjectList.module.css";
 
 // ***************** Componets ***************** //
+import ProjectCard from "../../components/ProjectCard/ProjectCard";
 import Toolbar from "../../components/Toolbar/Toolbar";
 import Actions from "../../components/Actions/Actions";
-import CircleGraph from "../../components/CircleGraph/CircleGraph";
 
 type Project = {
     id: string;
@@ -25,44 +21,14 @@ type Project = {
 };
 
 const ProjectListView = ({ data }: { data: Array<Project> }) => {
-    const navigate = useNavigate();
     return (
         <div className={styles.projects}>
             {data &&
                 data.map((record) => (
-                    <div 
-                        key={record.id} 
-                        className={styles.project}
-                        onClick={() => navigate(`/projects/${record.id}/show`)}
-                    >
-                        <div className={styles.left}>
-                            <p className={styles.type}>
-                                {record.type === "sexuality"
-                                    ? "Sexualidad"
-                                    : record.type === "nutrition" ? "Nutrición" : "Agua"}
-                            </p>
-                            <p className={styles.name}>
-                                {record.name}
-                                <span>{record.description}</span>
-                            </p>
-                            <p className={styles.since}>
-                                Creado el {" "}
-                                <span>{formatDate(record.createdAt)}</span>
-                                {" "} por {" "}
-                                <span>{record.creator.name} {record.creator.surname}</span>
-                            </p>
-                        </div>
-                        <div className={styles.right}>
-                            <div className={styles.graphs}>
-                                <CircleGraph
-                                    heading="Recaudado"
-                                    amount={record.money_raised}
-                                    money
-                                    target={record.money_goal}
-                                />
-                            </div>
-                        </div>
-                    </div>
+                    <ProjectCard
+                        key={record.id}
+                        project={record}
+                    />
                 ))}
         </div>
     );

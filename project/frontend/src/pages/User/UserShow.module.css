@@ -15,9 +15,72 @@
     width: 100%;
     padding: 20px 35px;
     margin: 20px 0;
+
+    display: flex;
+    align-items: flex-start;
 }
+.left{
+    flex: 1;
+}
+.right{
+    min-width: 30%;
+}
+.role{
+    font-size: 10px;
+    text-transform: uppercase;
+    color: var(--dark-gray);
+}
+.email{
+    font-size: 16px;
+    color: var(--dark-gray);
+}
+.email span{
+    font-weight: 600;
+    color: var(--black);
+}
+.since{
+    font-size: 10px;
+    color: var(--dark-gray);
+}
+.since span{
+    font-weight: 600;
+    color: var(--black);
+}
+.donations-label{
+    font-size: 20px;
+    font-weight: 600;
+    margin: 20px 0;
+}
+.donations{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 20px 0;
+}
+.nodonations{
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    padding: 20px 35px;
 
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+.graphs{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: flex-end;
+    justify-content: flex-end;
+    align-self: flex-end;
+
+    padding: 50px 30px;
+}
 .actions{
     display: flex;
     align-items: center;

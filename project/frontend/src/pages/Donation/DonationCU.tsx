@@ -217,6 +217,15 @@ export const DonationFormAdmin = ({
                 },
             });
         } else{
+            if (value === "no-project") {
+                setDonation({
+                    ...donation,
+                    project: {
+                        id: "",
+                    },
+                });
+                return;
+            }
             const project = projects.find((project) => project.id === value);
             setDonation({
                 ...donation,
@@ -330,6 +339,9 @@ export const DonationFormAdmin = ({
                         <option value="" disabled>
                             -- Seleccion un proyecto --
                         </option>
+                        <option value={'no-project'}>
+                            Sin Proyecto asignado
+                        </option>
                         {projects.map((project, index) => (
                             <option 
                                 key={index} 
@@ -427,7 +439,10 @@ export const DonationUpdateAdmin = () => {
                 {donation.donor.surname}
             </h1>
             <div className={styles.content}>
-                <DonationFormAdmin initialDonation={donation} />
+                <DonationFormAdmin 
+                    initialDonation={donation}
+                    edit
+                />
                 <aside className={styles.sidebar}></aside>
             </div>
         </>

@@ -28,6 +28,10 @@ const ProjectSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
+    donations: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Donation'
+    }],
     milestones: [{
         description: {
             type: String,

@@ -7,6 +7,7 @@ import dataProvider from "../../dataProvider";
 // *************** Components ***************
 import GoBackButton from "../../components/GoBackButton/GoBackButton";
 import ModalDelete from "../../components/ModalDelete/ModalDelete";
+import DonationCard from "../../components/DonationCard/DonationCard";
 
 // ***************** Helpers ***************** //
 import formatDate from "../../helpers/formatDate";
@@ -35,7 +36,8 @@ export const ProjectShow = () => {
         money_goal: "",
         type: "",
         creator: { name: "", surname: "" },
-        createdAt: ""
+        createdAt: "",
+        donations: []
     });
 
     useEffect(() => {
@@ -53,7 +55,8 @@ export const ProjectShow = () => {
                     },
                     money_goal: response.data.money_goal,
                     type: response.data.type,
-                    createdAt: response.data.createdAt
+                    createdAt: response.data.createdAt,
+                    donations: response.data.donations
                 });
             })
             .catch((error) => {
@@ -69,7 +72,7 @@ export const ProjectShow = () => {
 
     const handleDeleteProject = () => {
         dataProvider.delete('projects', { id: project.id })
-        .then((response) => {
+        .then((_) => {
             // console.log(response);
             notify('El proyecto ha sido eliminado', { type: "success" });
             navigate('/projects');
@@ -103,6 +106,24 @@ export const ProjectShow = () => {
                         {" "} por {" "}
                         <span>{project.creator.name} {project.creator.surname}</span>
                     </p>
+                    <p className={styles["donations-label"]}>Donaciones:</p>
+                    <div className={styles.donations}>
+                        {project.donations && (
+                            <>
+                                {project.donations.length > 0 ? (
+                                    project.donations.map((donation) => (
+                                        <DonationCard
+                                            key={donation.id}
+                                            donation={donation}
+                                            inShow={false}
+                                        />
+                                    ))
+                                ) : (
+                                    <p className={styles.nodonations}>Sin donaciones</p>
+                                )}
+                            </>
+                        )}
+                    </div>
                 </div>
                 <div
                     className={styles.actions}

@@ -10,7 +10,7 @@ const data = [
                 name: 'Project 1',
                 description: 'Description 1',
                 money_goal: 10000,
-                money_raised: 1000,
+                money_raised: 0,
                 type: 'sexuality',
                 impact: {
                     description: 'Impact 1',
@@ -36,7 +36,7 @@ const data = [
                 name: 'Project 2',
                 description: 'Description 2',
                 money_goal: 20000,
-                money_raised: 1530,
+                money_raised: 0,
                 type: 'water',
                 impact: {
                     description: 'Impact 2',
@@ -62,7 +62,7 @@ const data = [
                 name: 'Project 3',
                 description: 'Description 3',
                 money_goal: 30000,
-                money_raised: 20000,
+                money_raised: 0,
                 type: 'nutrition',
                 impact: {
                     description: 'Impact 3',
@@ -97,7 +97,7 @@ const data = [
                 name: 'Project 4',
                 description: 'Description 4',
                 money_goal: 40000,
-                money_raised: 2500,
+                money_raised: 0,
                 type: 'nutrition',
                 impact: {
                     description: 'Impact 4',
@@ -123,7 +123,7 @@ const data = [
                 name: 'Project 5',
                 description: 'Description 5',
                 money_goal: 50000,
-                money_raised: 4000,
+                money_raised: 0,
                 type: 'water',
                 impact: {
                     description: 'Impact 5',
@@ -149,7 +149,7 @@ const data = [
                 name: 'Project 6',
                 description: 'Description 6',
                 money_goal: 60000,
-                money_raised: 30000,
+                money_raised: 0,
                 type: 'sexuality',
                 impact: {
                     description: 'Impact 6',

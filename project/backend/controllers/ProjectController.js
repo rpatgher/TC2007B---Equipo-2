@@ -57,7 +57,18 @@ const getProjects = async (req, res) => {
 // This function gets a project by id
 const getProject = async (req, res) => {
     const { id } = req.params;
-    const project = await Project.findById(id).populate('creator', 'name surname email').lean();
+    const project = await Project.findById(id)
+            .populate('creator', 'name surname email')
+            .populate('donations', 'amount createdAt')
+            .populate({
+                path: 'donations',
+                select: 'amount createdAt',
+                populate: {
+                    path: 'donor',
+                    select: 'name surname email'
+                }
+            })
+            .lean();
     if (!project) {
         return res.status(404).json({ msg: "Project not found." });
     }
@@ -65,7 +76,15 @@ const getProject = async (req, res) => {
     delete project._id;
     return res.status(200).json({
         id: _id.toString(),
-        ...project
+        ...project,
+        donations: project.donations.map(donation => {
+            const { _id } = donation;
+            delete donation._id;
+            return {
+                id: _id.toString(),
+                ...donation
+            }
+        })
     });
 }
 

@@ -8,7 +8,8 @@ const DonationSchema = new mongoose.Schema({
     project: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Project',
-        required: false
+        required: false,
+        default: null
     },
     donor: {
         type: mongoose.Schema.Types.ObjectId,

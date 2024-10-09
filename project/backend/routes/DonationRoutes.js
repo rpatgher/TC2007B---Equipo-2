@@ -14,6 +14,7 @@ const router = express.Router();
 
 // Importing the Check Auth Middleware
 import checkAuth from "../middleware/checkAuth.js";
+import checkAdmin from "../middleware/checkAdmin.js";
 
 // **************************** Endpoints Routes for Dontation Model ****************************
 
@@ -24,8 +25,8 @@ router.route("/")
 
 // This route would be for explample /api/donations/1234492 (where 1234492 would be the id of the donation)
 router.route("/:id")
-    .get(getDonation) // Get a Donation by Id
-    .put(updateDonation) // Update a Donation by Id
+    .get(checkAuth, getDonation) // Get a Donation by Id
+    .put(checkAuth, checkAdmin, updateDonation) // Update a Donation by Id
     .delete(deleteDonation); // Delete a Donation by Id
     
 

@@ -68,7 +68,18 @@ const getUsers = async (req, res) => {
 // This function gets a user by id
 const getUser = async (req, res) => {
     const { id } = req.params;
-    const user = await User.findById(id).populate('donations', 'amount').lean();
+    const user = await User.findById(id)
+                .select('-password -__v -updatedAt')
+                .populate({
+                    path: 'donations',
+                    select: 'amount createdAt project',
+                    populate: {
+                        path: 'project',
+                        select: 'name description type'
+                    }
+                })
+                .lean();
+    console.log(user);
     if (!user) {
         return res.status(404).json({ msg: "User not found." });
     }
@@ -76,7 +87,19 @@ const getUser = async (req, res) => {
     delete user._id;
     return res.status(200).json({
         id: _id.toString(),
-        ...user
+        ...user,
+        donations: user.donations.map(donation => {
+            const { _id } = donation;
+            delete donation._id;
+            return {
+                id: _id.toString(),
+                ...donation,
+                project: donation.project ? {
+                    id: donation.project._id.toString(),
+                    ...donation.project
+                } : null
+            }
+        })
     });
 }
 

@@ -1,43 +1,68 @@
 import Donation from '../models/Donation.js';
+import User from '../models/User.js';
+import Project from '../models/Project.js';
 
 // This function creates a new donation
 const createDonation = async (req, res) => {
     const user = req.user;
+    const { amount, donor, project, method } = req.body;
+    let donation;
     if (user.role === 'admin') {
-        const { amount, donor, project } = req.body;
         if (!amount || !donor) {
             return res.status(400).json({ msg: "Please enter all fields." });
         }
-        const donation = new Donation({
+        donation = new Donation({
             amount,
             donor: donor.id,
             method: 'physical',
-            project: project ? project.id : null
+            project: project && project.id ? project.id : null
         });
+        let projectDB = null;
+        if (project && project.id) {
+            projectDB = await Project.findById(project.id);
+            if (!projectDB) {
+                return res.status(404).json({ msg: "Project not found." });
+            }
+            projectDB.donations.push(donation.id);
+        }
+        const donorUser = await User.findById(donor.id);
+        if (!donorUser) {
+            return res.status(404).json({ msg: "Donor not found." });
+        }
+        donorUser.donations.push(donation.id);
         try {
             await donation.save();
+            await donorUser.save();
+            if (projectDB) {
+                await projectDB.save();
+            }
             return res.status(201).json({ msg: "Donation created successfully." });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ msg: "Internal Server Error." });
         }
     } else{
-        const { amount, method } = req.body;
         if (!amount || !method) {
             return res.status(400).json({ msg: "Please enter all fields." });
         }
-        const donation = new Donation({
+        donation = new Donation({
             amount,
             method,
             donor: user.id
         });
-        try {
-            await donation.save();
-            return res.status(201).json({ msg: "Donation created successfully." });
-        } catch (error) {
-            console.error(error);
-            return res.status(500).json({ msg: "Internal Server Error." });
+        const donorUser = await User.findById(user.id);
+        if (!donorUser) {
+            return res.status(404).json({ msg: "Donor not found." });
         }
+        donorUser.donations.push(donation.id);
+    }
+    try {
+        await donation.save();
+        await donorUser.save();
+        return res.status(201).json({ msg: "Donation created successfully." });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ msg: "Internal Server Error." });
     }
 }
 
@@ -70,6 +95,7 @@ const getDonations = async (req, res) => {
         .limit(end - start + 1)
         // .populate('project', 'name')
         .populate('donor', 'name surname email')
+        .populate('project', 'name')
         .lean();
     // Map the donations to add an id field and remove the _id field
     donations = donations.map(donation => {
@@ -98,7 +124,7 @@ const getDonation = async (req, res) => {
         .findById(id)
         .select('-__v')
         .populate('donor', '_id name surname email')
-        .populate('project', '_id name')
+        .populate('project', '_id name description type createdAt money_goal money_raised')
         .lean();
     // If the donation is not found, return a 404 Not Found error
     if (!donation) {
@@ -123,12 +149,75 @@ const getDonation = async (req, res) => {
 
 // This function updates a donation
 const updateDonation = async (req, res) => {
-    return res.status(200).json({ msg: "To Update a Donation (Not implemented yet)." });
+    const { id } = req.params;
+    const { amount, donor, project } = req.body;
+    const donorDB = await User.findById(donor.id);
+    if (!donorDB) {
+        return res.status(404).json({ msg: "Donor not found." });
+    }
+    const donation = await Donation.findById(id);
+    if (!donation) {
+        return res.status(404).json({ msg: "Donation not found." });
+    }
+    if (donorDB.role === 'physical-donor') {
+        if (!amount) {
+            return res.status(400).json({ msg: "Please enter all fields." });
+        }
+        donation.amount = amount;   
+        donation.donor = donor.id;
+    }
+    let projectDB = null;
+    if(project && project.id){
+        donation.project = project.id;
+        projectDB = await Project.findById(project.id);
+        if (!projectDB) {
+            return res.status(404).json({ msg: "Project not found." });
+        }
+        projectDB.donations.push(donation.id);
+        projectDB.money_raised += amount;
+    } else{
+        donation.project = null;
+    }
+    try {
+        await donation.save();
+        await donorDB.save();
+        if (projectDB) {
+            await projectDB.save();
+        }
+        return res.status(200).json({ msg: "Donation updated successfully." });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ msg: "Internal Server Error." });
+    }
 }
 
 // This function deletes a donation
 const deleteDonation = async (req, res) => {
-    return res.status(200).json({ msg: "To Delete a Donation (Not implemented yet)." });
+    const { id } = req.params;
+    const donation = await Donation.findById(id);
+    if (!donation) {
+        return res.status(404).json({ msg: "Donation not found." });
+    }
+    const donor = await User.findById(donation.donor);
+    if (!donor) {
+        return res.status(404).json({ msg: "Donor not found." });
+    }
+    if (donor.role === 'donor') {
+        return res.status(403).json({ msg: "Donations by digitla donors cannot be deleted." });
+    }
+    if (donation.project) {
+        return res.status(400).json({ msg: "Donation is associated with a project." });
+    }
+    try {
+        await donation.deleteOne();
+        donor.donations = donor.donations.filter(d => d.toString() !== id);
+        await donor.save();
+        return res.status(200).json({ msg: "Donation deleted successfully." });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ msg: "Internal Server Error." });
+    }
+
 }
 
 
