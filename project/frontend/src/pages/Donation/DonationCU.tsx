@@ -12,7 +12,7 @@ import GoBackButton from "../../components/GoBackButton/GoBackButton";
 
 type Donation = {
     id?: string;
-    amount: string;
+    amount: number;
     createdAt: string;
     project?: {
         id: string;
@@ -164,7 +164,7 @@ export const DonationFormAdmin = ({
     const [loading, setLoading] = useState<boolean>(false);
     const [donation, setDonation] = useState<Donation>({
         id: "",
-        amount: "",
+        amount: 0,
         createdAt: "",
         project: {
             id: ""
@@ -322,7 +322,7 @@ export const DonationFormAdmin = ({
                                 id="amount"
                                 name="amount"
                                 placeholder="Cantidad de donación"
-                                value={donation.amount}
+                                value={donation.amount === 0 ? "" : donation.amount}
                                 onChange={handleChange}
                             />
                         </div>
@@ -385,7 +385,7 @@ export const DonationUpdateAdmin = () => {
     const notify = useNotify();
     const [donation, setDonation] = useState<Donation>({
         id: "",
-        amount: "",
+        amount: 0,
         createdAt: "",
         project: {
             id: ""

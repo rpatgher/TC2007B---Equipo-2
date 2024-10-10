@@ -24,6 +24,7 @@ const createDonation = async (req, res) => {
                 return res.status(404).json({ msg: "Project not found." });
             }
             projectDB.donations.push(donation.id);
+            projectDB.money_raised += amount;
         }
         const donorUser = await User.findById(donor.id);
         if (!donorUser) {
@@ -176,7 +177,13 @@ const updateDonation = async (req, res) => {
         projectDB.donations.push(donation.id);
         projectDB.money_raised += amount;
     } else{
+        projectDB = await Project.findById(donation.project);
         donation.project = null;
+        if (!projectDB) {
+            return res.status(404).json({ msg: "Project not found." });
+        }
+        projectDB.donations = projectDB.donations.filter(d => d.toString() !== id);
+        projectDB.money_raised -= donation.amount;
     }
     try {
         await donation.save();
