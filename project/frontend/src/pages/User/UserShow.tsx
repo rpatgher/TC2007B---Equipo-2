@@ -105,7 +105,7 @@ export const UserShow = () => {
                                             />
                                         ))
                                     ) : (
-                                        <p className={styles.nodonations}>Sin donaciones</p>
+                                        <p className={styles.nodonations}>Sin donaciones realizadas</p>
                                     )}
                                 </>
                             )}

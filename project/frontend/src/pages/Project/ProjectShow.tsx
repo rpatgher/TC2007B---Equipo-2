@@ -11,6 +11,7 @@ import DonationCard from "../../components/DonationCard/DonationCard";
 
 // ***************** Helpers ***************** //
 import formatDate from "../../helpers/formatDate";
+import formatToMoney from "../../helpers/formatMoney";
 
 // *************** Styles ***************
 import styles from "./ProjectShow.module.css";
@@ -37,7 +38,9 @@ export const ProjectShow = () => {
         type: "",
         creator: { name: "", surname: "" },
         createdAt: "",
-        donations: []
+        donations: [],
+        milestones: [],
+        impact: 0
     });
 
     useEffect(() => {
@@ -56,7 +59,9 @@ export const ProjectShow = () => {
                     money_goal: response.data.money_goal,
                     type: response.data.type,
                     createdAt: response.data.createdAt,
-                    donations: response.data.donations
+                    donations: response.data.donations,
+                    milestones: response.data.milestones,
+                    impact: response.data.impact
                 });
             })
             .catch((error) => {
@@ -98,7 +103,7 @@ export const ProjectShow = () => {
                         {project.description}
                     </p>
                     <p className={styles.goal}>
-                        Objetivo: {project.money_goal}
+                        Objetivo: {formatToMoney(project.money_goal)}
                     </p>
                     <p className={styles.since}>
                         Creado el {" "}
@@ -119,7 +124,7 @@ export const ProjectShow = () => {
                                         />
                                     ))
                                 ) : (
-                                    <p className={styles.nodonations}>Sin donaciones</p>
+                                    <p className={styles.nodonations}>Sin donaciones asignadas</p>
                                 )}
                             </>
                         )}

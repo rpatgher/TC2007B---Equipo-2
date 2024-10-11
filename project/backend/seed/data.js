@@ -12,17 +12,15 @@ const data = [
                 money_goal: 10000,
                 money_raised: 0,
                 type: 'sexuality',
-                impact: {
-                    description: 'Impact 1',
-                    amount: 500,
-                    unit: 'people'
-                },
+                impact: 500,
                 milestones: [
                     {
+                        reached: true,
                         description: 'Milestone 1',
                         percentage: 10
                     },
                     {
+                        reached: true,
                         description: 'Milestone 2',
                         percentage: 70
                     },
@@ -38,13 +36,10 @@ const data = [
                 money_goal: 20000,
                 money_raised: 0,
                 type: 'water',
-                impact: {
-                    description: 'Impact 2',
-                    amount: 1000,
-                    unit: 'people'
-                },
+                impact: 1000,
                 milestones: [
                     {
+                        reached: true,
                         description: 'Milestone 1',
                         percentage: 10
                     },
@@ -64,21 +59,20 @@ const data = [
                 money_goal: 30000,
                 money_raised: 0,
                 type: 'nutrition',
-                impact: {
-                    description: 'Impact 3',
-                    amount: 1500,
-                    unit: 'people'
-                },
+                impact: 1500,
                 milestones: [
                     {
+                        reached: true,
                         description: 'Milestone 1',
                         percentage: 10
                     },
                     {
+                        reached: true,
                         description: 'Milestone 2',
                         percentage: 70
                     },
                     {
+                        reached: true,
                         description: 'Milestone 3',
                         percentage: 100
                     }
@@ -99,13 +93,10 @@ const data = [
                 money_goal: 40000,
                 money_raised: 0,
                 type: 'nutrition',
-                impact: {
-                    description: 'Impact 4',
-                    amount: 2000,
-                    unit: 'people'
-                },
+                impact: 2000,
                 milestones: [
                     {
+                        reached: true,
                         description: 'Milestone 1',
                         percentage: 10
                     },
@@ -125,11 +116,7 @@ const data = [
                 money_goal: 50000,
                 money_raised: 0,
                 type: 'water',
-                impact: {
-                    description: 'Impact 5',
-                    amount: 2500,
-                    unit: 'people'
-                },
+                impact: 2500,
                 milestones: [
                     {
                         description: 'Milestone 1',
@@ -151,11 +138,7 @@ const data = [
                 money_goal: 60000,
                 money_raised: 0,
                 type: 'sexuality',
-                impact: {
-                    description: 'Impact 6',
-                    amount: 3000,
-                    unit: 'people'
-                },
+                impact: 3000,
                 milestones: [
                     {
                         description: 'Milestone 1',

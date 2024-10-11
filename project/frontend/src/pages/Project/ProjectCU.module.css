@@ -22,7 +22,9 @@
     display: grid;
     grid-template-areas:    "name name"
                             "description description"
-                            "goal type";
+                            "goal impact"
+                            "type type"
+                            "milestones milestones";
     gap: 20px;
 }
 .name-field{
@@ -37,6 +39,79 @@
 .type-field{
     grid-area: type;
 }
+.milestones{
+    grid-area: milestones;
+}
+.impact-field{
+    grid-area: impact;
+}
+.milestones-actions-label{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.milestones-actions{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.milestones-actions-label svg{
+    width: 15px;
+    margin: 0;
+}
+.add-milestone{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    background-color: var(--blue);
+    color: var(--white);
+
+    font-size: 12px;
+    padding: 0 5px;
+    margin: 0;
+}
+.milestones-list{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.milestone{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+}
+.milestone-desc{
+    font-weight: 500;
+}
+.delete-milestone{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+.delete-milestone svg{
+    fill: var(--red);
+    width: 15px;
+    padding: 0;
+}
+.field-inputs{
+    display: flex;
+    align-items: center;
+    gap: 10px;   
+}
+.field-inputs input:first-of-type{
+    width: 60%;
+}
+.field-inputs input:nth-of-type(2){
+    flex: 1;
+}
 .field{
     background-color: var(--white);
     border-radius: 10px;
@@ -48,6 +123,7 @@
 }
 .field label{
     font-size: 14px;
+    font-weight: 600;
 }
 .field input, .field select, .field textarea{
     font-size: 14px;

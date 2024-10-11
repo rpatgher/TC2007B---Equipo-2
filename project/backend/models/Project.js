@@ -33,6 +33,7 @@ const ProjectSchema = new mongoose.Schema({
         ref: 'Donation'
     }],
     milestones: [{
+        
         description: {
             type: String,
             required: true
@@ -43,18 +44,8 @@ const ProjectSchema = new mongoose.Schema({
         },
     }],
     impact: {
-        description: {
-            type: String,
-            required: true
-        },
-        amount: {
-            type: Number,
-            required: true
-        },
-        unit: {
-            type: String,
-            required: true
-        },
+        type: Number,
+        required: true
     }
 },{
     timestamps: true

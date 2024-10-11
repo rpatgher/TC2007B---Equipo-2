@@ -1,12 +1,16 @@
 import { 
     Admin, 
-    Resource, 
-    ListGuesser,
+    CustomRoutes, 
+    Resource
 } from "react-admin";
+import { Route } from "react-router-dom";
 import authProvider from "./authProvider";
 import dataProvider from "./dataProvider";
 import lightTheme from "./lightTheme";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
+
+// ************ Custom Pages ************
+import Settings from "./pages/Settings/Settings";
 
 // ************ User Components ************
 import { UserList } from "./pages/User/UserList";
@@ -52,6 +56,9 @@ function App() {
                     />
                     {permissions === "admin" && (
                         <>
+                            <CustomRoutes>
+                                <Route path="/settings" element={<Settings />} />
+                            </CustomRoutes>
                             <Resource 
                                 name="users" 
                                 list={UserList}

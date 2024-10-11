@@ -76,6 +76,7 @@
 }
 .drop-down{
     position: absolute;
+    z-index: 100;
     top: calc(100% + 10px);
     border-radius: 5px;
     width: 100%;

@@ -15,6 +15,7 @@ import authRouter from './routes/AuthRoutes.js';
 import donationRouter from './routes/DonationRoutes.js';
 import userRouter from './routes/UserRoutes.js';
 import projectRouter from './routes/ProjectRoutes.js';
+import configRouter from './routes/ConfigRoutes.js';
 
 // Create Express App
 const app = express();
@@ -47,6 +48,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/donations', donationRouter);
 app.use('/api/users', userRouter);
 app.use('/api/projects', projectRouter);
+app.use('/api/config', configRouter);
 
 // Read Certificates
 const privateKey = fs.readFileSync('./certs/server.key', 'utf8');

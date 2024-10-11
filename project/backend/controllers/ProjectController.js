@@ -2,12 +2,12 @@ import Project from '../models/Project.js';
 
 // This function creates a new project
 const createProject = async (req, res) => {
-    const { name, description, money_goal, type } = req.body;
-    if (!name || !description || !money_goal || !type) {
+    const { name, description, money_goal, type, milestones, impact } = req.body;
+    if (!name || !description || !money_goal || !type || !milestones || !impact) {
         return res.status(400).json({ msg: "Please enter all fields." });
     }
     const creator = req.user.id;
-    const project = new Project({ name, description, money_goal, type, creator });
+    const project = new Project({ name, description, money_goal, type, creator, milestones, impact });
     try {
         await project.save();
         return res.status(201).json({ msg: "Project created successfully." });
@@ -91,8 +91,8 @@ const getProject = async (req, res) => {
 // This function updates a project
 const updateProject = async (req, res) => {
     const { id } = req.params;
-    const { name, description, money_goal, type } = req.body;
-    if (!name || !description || !money_goal || !type) {
+    const { name, description, money_goal, type, milestones, impact } = req.body;
+    if (!name || !description || !money_goal || !type || !milestones || !impact) {
         return res.status(400).json({ msg: "Please enter all fields." });
     }
     const project = await Project.findById(id);
@@ -103,6 +103,8 @@ const updateProject = async (req, res) => {
     project.description = description;
     project.money_goal = money_goal;
     project.type = type;
+    project.milestones = milestones;
+    project.impact = impact;
     try {
         await project.save();
         return res.status(200).json({ msg: "Project updated successfully." });

@@ -17,6 +17,8 @@ type Project = {
     description: string;
     money_goal: string;
     type: string;
+    impact: number;
+    milestones?: Array<any>;
 };
 
 const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, edit?: boolean }) => {
@@ -27,7 +29,9 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
         name: "",
         description: "",
         money_goal: "",
-        type: ""
+        impact: 0,
+        type: "",
+        milestones: []
     });
 
     useEffect(() => {
@@ -45,7 +49,7 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        if(project.name === "" || project.description === "" || project.money_goal === "" || project.type === "") {
+        if(project.name === "" || project.description === "" || project.money_goal === "" || project.type === "" || project.impact === 0 || project.milestones.length === 0) {
             notify("Todos los campos son requeridos", { type: "warning" });
             return;
         }
@@ -53,7 +57,7 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
         document.body.style.cursor = 'wait';
         if(edit && initialProject){
             dataProvider.update('projects', { id: initialProject.id, data: project })
-                .then((response) => {
+                .then((_) => {
                     // console.log(response);
                     notify("Proyecto actualizado exitosamente", { type: "success" });
                     navigate('/projects');
@@ -68,7 +72,7 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
                 });
         } else {
             dataProvider.create('projects', { data: project })
-                .then((response) => {
+                .then((_) => {
                     // console.log(response);
                     notify("Proyecto creado exitosamente", { type: "success" });
                     navigate('/projects');
@@ -82,6 +86,35 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
                     document.body.style.cursor = 'default';
                 });
         }
+    }
+
+
+    const addMilestone = () => {
+        const milestoneDesc = document.getElementById("milestone-desc") as HTMLInputElement;
+        const milestonePercentage = document.getElementById("milestone-percentage") as HTMLInputElement;
+        if(milestoneDesc.value === "" || milestonePercentage.value === "") {
+            notify("El porcentaje y la descripción del milestone son necesarios", { type: "warning" });
+            return;
+        }
+        setProject({
+            ...project,
+            milestones: [
+                ...project.milestones,
+                {
+                    description: milestoneDesc.value,
+                    percentage: milestonePercentage.value
+                }
+            ]
+        });
+        milestoneDesc.value = "";
+        milestonePercentage.value = "";
+    }
+
+    const removeMilestone = (index: number) => {
+        setProject({
+            ...project,
+            milestones: project.milestones.filter((_, i) => i !== index)
+        });
     }
 
     return (
@@ -123,7 +156,7 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
                     />
                 </div>
                 <div className={`${styles.field} ${styles["type-field"]}`}>
-                    <label htmlFor="type">Tipo:</label>
+                    <label htmlFor="type">Categoría</label>
                     <select 
                         id="type" 
                         name="type"
@@ -131,11 +164,72 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
                         value={project.type}
                         
                     >
-                        <option value="" disabled>-- Seleccione un tipo --</option>
+                        <option value="" disabled>-- Seleccione una categoría --</option>
                         <option value="water">Agua</option>
                         <option value="nutrition">Nutrición</option>
                         <option value="sexuality">Sexualidad</option>
                     </select>
+                </div>
+                <div className={`${styles.field} ${styles["impact-field"]}`}>
+                    <label htmlFor="impact">Impacto</label>
+                    <input 
+                        type="number" 
+                        id="impact" 
+                        name="impact" 
+                        placeholder="Impacto del proyecto"
+                        onChange={handleChange}
+                        value={project.impact === 0 ? "" : project.impact}
+                    />
+                </div>
+                <div className={`${styles.field} ${styles["milestones"]}`}>
+                    <div className={styles["milestones-actions-label"]}>
+                        <label htmlFor="milestones">Milestones</label>
+                        <div className={styles["milestones-actions"]}>
+                            <button 
+                                type="button"
+                                className={styles["add-milestone"]}
+                                onClick={addMilestone}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+                    <div className={styles["milestones-list"]}>
+                        {project.milestones && project.milestones.map((milestone, index) => (
+                            <div key={index} className={styles["milestone"]}>
+                                <div className={styles["milestone-desc"]}>
+                                    <span>{milestone.description}</span>
+                                </div>
+                                <div className={styles["milestone-percentage"]}>
+                                    <span>{milestone.percentage}%</span>
+                                </div>
+                                {project.milestones && project.milestones.length <= index + 1 && (
+                                    <button 
+                                        className={styles["delete-milestone"]}
+                                        type="button"
+                                        onClick={() => removeMilestone(index)}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                                    </button>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                    <div className={styles["field-inputs"]}>
+                        <input 
+                            type="text" 
+                            id="milestone-desc" 
+                            name="milestone-desc" 
+                            placeholder="Descripción del milestone"
+                        />
+                        <input 
+                            type="number" 
+                            id="milestone-percentage" 
+                            name="milestone-percentage" 
+                            placeholder="Procentaje que representa el milestone"
+                        />
+                    </div>
                 </div>
             </div>
 
@@ -177,7 +271,9 @@ export const ProjectUpdate = () => {
         name: "",
         description: "",
         money_goal: "",
-        type: ""
+        type: "",
+        milestones: [],
+        impact: 0
     });
 
     useEffect(() => {
@@ -190,7 +286,9 @@ export const ProjectUpdate = () => {
                     name: response.data.name,
                     description: response.data.description,
                     money_goal: response.data.money_goal,
-                    type: response.data.type
+                    type: response.data.type,
+                    milestones: response.data.milestones,
+                    impact: response.data.impact
                 });
             })
             .catch((error) => {

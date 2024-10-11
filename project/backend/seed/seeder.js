@@ -2,8 +2,10 @@ import { exit } from 'node:process';
 import connectDB from "../config/db.js";
 
 import data from "./data.js";
+import config from "./config.js";
 
 import User, { Admin, Donor, PhysicalDonor } from "../models/User.js";
+import Config from "../models/Config.js";
 import Donation from "../models/Donation.js";
 import Project from '../models/Project.js';
 
@@ -15,6 +17,8 @@ dotenv.config();
 const insertData = async () => {
     try {
         await connectDB();
+        await Config.create(config);
+        console.log('Inserting Data...');
         await Promise.all(data.map(async (user) => {
             let userDB;
             if(user.role === 'admin'){
@@ -84,6 +88,7 @@ const deleteData = async () => {
     try {
         await connectDB();
         console.log('Deleting Data...');
+        await Config.deleteMany();
         await User.deleteMany();
         await Donation.deleteMany();
         await Project.deleteMany();
