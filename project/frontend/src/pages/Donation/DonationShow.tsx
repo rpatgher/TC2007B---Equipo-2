@@ -117,9 +117,11 @@ export const DonationShow = () => {
     return (
         <>
             <GoBackButton />
-            <h1 className={styles.heading}>
-                Donación de {donation.donor.name} {donation.donor.surname}
-            </h1>
+            {permissions === "admin" && (
+                <h1 className={styles.heading}>
+                    Donación de {donation.donor.name} {donation.donor.surname}
+                </h1>
+            )}
             <div className={styles.content}>
                 <div className={styles.info}>
                     <div className={styles.left}>

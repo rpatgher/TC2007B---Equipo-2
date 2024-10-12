@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { usePermissions } from "react-admin"; 
 
 // ***************** Helpers ******************* //
 import formatDate from "../../helpers/formatDate";
@@ -23,6 +24,7 @@ type Project = {
 
 const ProjectCardInShow = ({ project }: { project: Project }) => {
     const navigate = useNavigate();
+    const { permissions } = usePermissions();
 
     const calculateProgress = () => {
         if(project.milestones){
@@ -41,8 +43,8 @@ const ProjectCardInShow = ({ project }: { project: Project }) => {
 
     return (
         <div
-            className={`${styles.project} ${!project && styles["no-hover"]}`}
-            onClick={() => project && navigate(`/projects/${project.id}/show`)}
+            className={`${styles.project} ${(!project || permissions === 'donor') && styles["no-hover"]}`}
+            onClick={() => permissions === 'admin' && project && navigate(`/projects/${project.id}/show`)}
         >
             <div className={styles.left}>
                 {project?.type && (

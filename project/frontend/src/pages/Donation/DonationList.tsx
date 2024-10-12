@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { List, useGetList } from "react-admin";
+import { List, useGetList, usePermissions } from "react-admin";
 
 // ***************** Styles ***************** //
 import styles from "./DonationList.module.css";
@@ -8,6 +8,7 @@ import styles from "./DonationList.module.css";
 import Toolbar from "../../components/Toolbar/Toolbar";
 import Actions from "../../components/Actions/Actions";
 import DonationCard from "../../components/DonationCard/DonationCard";
+import DonationCardInShow from "../../components/DonationCard/DonationCardInShow";
 
 
 type Donation = {
@@ -19,14 +20,23 @@ type Donation = {
 };
 
 const DonationListView = ({ data }: { data: Array<Donation> }) => {
+    const { permissions } = usePermissions();
+
     return (
         <div className={styles.donations}>
             {data &&
                 data.map((record) => (
-                    <DonationCard 
-                        key={record.id} 
-                        donation={record}
-                    />
+                    permissions === "admin" ? (
+                        <DonationCard
+                            key={record.id} 
+                            donation={record}
+                        />   
+                    ) : (
+                        <DonationCardInShow
+                            key={record.id} 
+                            donation={record}
+                        />
+                    )
                 ))
             }
         </div>
@@ -35,6 +45,7 @@ const DonationListView = ({ data }: { data: Array<Donation> }) => {
 
 
 export const DonationList = () => {
+    const { permissions } = usePermissions();
     const [filter, setFilter] = useState("");
     const [page, setPage] = useState(1);
     const [perPage, setPerPage] = useState(10);
@@ -50,7 +61,7 @@ export const DonationList = () => {
 
     return(
         <>
-            <h1 className={styles.heading}>Donaciones</h1>
+            <h1 className={styles.heading}>{permissions === 'admin' ? 'Donaciones' : 'Historial de Donaciones'}</h1>
             <List emptyWhileLoading actions={false} pagination={false}>
                 <div className={styles.content}>
                     <div className={styles.table}>
