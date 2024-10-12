@@ -3,9 +3,9 @@ import { fetchUtils } from 'react-admin';
 interface DataProvider {
     getList: (resource: string, params: any) => Promise<any>;
     getOne: (resource: string, params: any) => Promise<any>;
-    update: (resource: string, params: any) => Promise<any>;
+    update: (resource: string, params: any, images: boolean) => Promise<any>;
     updateMany: (resource: string, params: any) => Promise<any>;
-    create: (resource: string, params: any) => Promise<any>;
+    create: (resource: string, params: any, images: boolean) => Promise<any>;
     delete: (resource: string, params: any) => Promise<any>;
     deleteMany: (resource: string, params: any) => Promise<any>;
     getPhyDonorsAndProjects: (resource: string) => Promise<any>;
@@ -49,7 +49,26 @@ const dataProvider: DataProvider = {
         };
     },
 
-    update: async (resource, params) => {
+    update: async (resource, params, images = false) => {
+        if (images) {
+            const formData = new FormData();
+            const keys = Object.keys(params.data);
+            keys.forEach((key) => {
+                if (key === 'milestones') {
+                    formData.append('milestones', JSON.stringify(params.data.milestones));
+                } else if (key === 'id') {
+                    // Do nothing
+                } else {
+                    formData.append(key, params.data[key]);
+                }
+            });
+            const { json } = await httpClient(`${apiUrl}/${resource}/${params.id}`, {
+                method: 'PUT',
+                contentType: 'multipart/form-data',
+                body: formData,
+            });
+            return { data: json };
+        }
         const url = `${apiUrl}/${resource}/${params.id}`;
         const { json } = await httpClient(url, {
             method: 'PUT',
@@ -70,7 +89,26 @@ const dataProvider: DataProvider = {
         return { data: json };
     },
 
-    create: async (resource, params) => {
+    create: async (resource, params, images = false) => {
+        if (images) {
+            const formData = new FormData();
+            const keys = Object.keys(params.data);
+            keys.forEach((key) => {
+                if (key === 'milestones') {
+                    formData.append('milestones', JSON.stringify(params.data.milestones));
+                } else {
+                    formData.append(key, params.data[key]);
+                }
+            });
+            const { json } = await httpClient(`${apiUrl}/${resource}`, {
+                method: 'POST',
+                contentType: 'multipart/form-data',
+                body: formData,
+            });
+            return {
+                data: { ...params.data, id: json.id },
+            };
+        }
         const { json } = await httpClient(`${apiUrl}/${resource}`, {
             method: 'POST',
             body: JSON.stringify(params.data),

@@ -20,12 +20,25 @@
 }
 .fields{
     display: grid;
-    grid-template-areas:    "name name"
+    grid-template-areas:    "image image"
+                            "type type"
+                            "name name"
                             "description description"
                             "goal impact"
-                            "type type"
                             "milestones milestones";
     gap: 20px;
+}
+.image-field{
+    grid-area: image;
+}
+.image{
+    width: 30%;
+    border-radius: 10px;
+    overflow: hidden;
+    object-fit: cover;
+}
+.image img{
+    width: 100%;
 }
 .name-field{
     grid-area: name;
@@ -83,6 +96,30 @@
     align-items: center;
     gap: 10px;
     font-size: 12px;
+}
+.milestone-reached{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.milestone-reached input[type="checkbox"]{
+    all: unset;
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+    width: 15px;
+    height: 15px;
+}
+.milestone-reached input[type="checkbox"]:checked{
+    background-color: var(--blue);
+    position: relative;
+}
+.milestone-reached input[type="checkbox"]:checked::after{
+    content: "✓";
+    color: var(--white);
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
 }
 .milestone-desc{
     font-weight: 500;

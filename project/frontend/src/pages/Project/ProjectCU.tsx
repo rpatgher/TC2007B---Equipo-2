@@ -14,6 +14,7 @@ import GoBackButton from "../../components/GoBackButton/GoBackButton";
 type Project = {
     id?: string;
     name: string;
+    img: string;
     description: string;
     money_goal: string;
     type: string;
@@ -27,18 +28,41 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
     const [loading, setLoading] = useState(false);
     const [project, setProject] = useState<Project>({
         name: "",
+        img: "",
         description: "",
         money_goal: "",
         impact: 0,
         type: "",
         milestones: []
     });
+    const [impacts, setImpacts] = useState<Array<any>>([]);
 
     useEffect(() => {
         if(initialProject) {
             setProject(initialProject);
         }
     }, [initialProject]);
+
+    useEffect(() => {
+        const getImpacts = async () => {
+            const token = localStorage.getItem('token');
+            try{
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/config`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                setImpacts(data.impacts);
+            } catch(error) {
+                console.log(error);
+                notify("Error al obtener los impactos. Intenta nuevamente", { type: "error" });
+            }
+        }
+        getImpacts();
+    }, []);
 
     const handleChange = (e: any) => {
         setProject({
@@ -56,7 +80,7 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
         setLoading(true);
         document.body.style.cursor = 'wait';
         if(edit && initialProject){
-            dataProvider.update('projects', { id: initialProject.id, data: project })
+            dataProvider.update('projects', { id: initialProject.id, data: project }, true)
                 .then((_) => {
                     // console.log(response);
                     notify("Proyecto actualizado exitosamente", { type: "success" });
@@ -71,7 +95,7 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
                     document.body.style.cursor = 'default';
                 });
         } else {
-            dataProvider.create('projects', { data: project })
+            dataProvider.create('projects', { data: project }, true)
                 .then((_) => {
                     // console.log(response);
                     notify("Proyecto creado exitosamente", { type: "success" });
@@ -117,12 +141,87 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
         });
     }
 
+    const handleMilestoneReached = (e: any, index: number) => {
+        if(e.target.checked){
+            setProject({
+                ...project,
+                milestones: project.milestones.map((milestone, i) => {
+                    if(i <= index){
+                        return {
+                            ...milestone,
+                            reached: true
+                        }
+                    }
+                    return milestone;
+                })
+            });
+        } else {
+            setProject({
+                ...project,
+                milestones: project.milestones.map((milestone, i) => {
+                    if(i >= index){
+                        return {
+                            ...milestone,
+                            reached: false
+                        }
+                    }
+                    return milestone;
+                })
+            });
+        }
+    }
+
+    const handleChangeImage = (e: any) => {
+        const file = e.target.files[0];
+        setProject({
+            ...project,
+            img: file
+        });
+    }
+
     return (
         <form
             className={styles.form}
             onSubmit={handleSubmit}
         >
             <div className={styles.fields}>
+                <div className={`${styles.field} ${styles["image-field"]}`}>
+                    <label htmlFor="img">Imagen</label>
+                    <input 
+                        type="file" 
+                        id="img" 
+                        name="img"
+                        accept="image/*"
+                        onChange={handleChangeImage}
+                    />
+                    {project.img && typeof project.img !== 'string' ? (
+                        <div className={styles.image}>
+                            <img src={URL.createObjectURL(project.img)} alt="project" />
+                        </div>
+                    ): project.img === '' ? null : (
+                        <div className={styles.image}>
+                            <img 
+                                src={`${import.meta.env.VITE_API_URL}/uploads/projects/${project.img}`} 
+                                alt={project.name} 
+                            />
+                        </div>
+                    )}
+                </div>
+                <div className={`${styles.field} ${styles["type-field"]}`}>
+                    <label htmlFor="type">Categoría</label>
+                    <select 
+                        id="type" 
+                        name="type"
+                        onChange={handleChange}
+                        value={project.type}
+                        
+                    >
+                        <option value="" disabled>-- Seleccione una categoría --</option>
+                        <option value="water">Agua</option>
+                        <option value="nutrition">Nutrición</option>
+                        <option value="sexuality">Sexualidad</option>
+                    </select>
+                </div>
                 <div className={`${styles.field} ${styles["name-field"]}`}>
                     <label htmlFor="name">Nombre</label>
                     <input 
@@ -155,23 +254,8 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
                         value={project.money_goal}
                     />
                 </div>
-                <div className={`${styles.field} ${styles["type-field"]}`}>
-                    <label htmlFor="type">Categoría</label>
-                    <select 
-                        id="type" 
-                        name="type"
-                        onChange={handleChange}
-                        value={project.type}
-                        
-                    >
-                        <option value="" disabled>-- Seleccione una categoría --</option>
-                        <option value="water">Agua</option>
-                        <option value="nutrition">Nutrición</option>
-                        <option value="sexuality">Sexualidad</option>
-                    </select>
-                </div>
                 <div className={`${styles.field} ${styles["impact-field"]}`}>
-                    <label htmlFor="impact">Impacto</label>
+                    <label htmlFor="impact">Impacto {project.type && <>({impacts && impacts[project.type].unit})</>}</label>
                     <input 
                         type="number" 
                         id="impact" 
@@ -198,6 +282,15 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
                     <div className={styles["milestones-list"]}>
                         {project.milestones && project.milestones.map((milestone, index) => (
                             <div key={index} className={styles["milestone"]}>
+                                <div className={styles["milestone-reached"]}>
+                                    <input 
+                                        type="checkbox" 
+                                        id={`milestone-reached-${index}`} 
+                                        name={`milestone-reached-${index}`} 
+                                        checked={milestone.reached}
+                                        onChange={(e) => handleMilestoneReached(e, index)}
+                                    />
+                                </div>
                                 <div className={styles["milestone-desc"]}>
                                     <span>{milestone.description}</span>
                                 </div>
@@ -269,6 +362,7 @@ export const ProjectUpdate = () => {
     const [project, setProject] = useState({
         id: "",
         name: "",
+        img: "",
         description: "",
         money_goal: "",
         type: "",
@@ -284,6 +378,7 @@ export const ProjectUpdate = () => {
                 setProject({
                     id: response.data.id,
                     name: response.data.name,
+                    img: response.data.image,
                     description: response.data.description,
                     money_goal: response.data.money_goal,
                     type: response.data.type,

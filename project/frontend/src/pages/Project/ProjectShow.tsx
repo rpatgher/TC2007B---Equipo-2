@@ -8,6 +8,7 @@ import dataProvider from "../../dataProvider";
 import GoBackButton from "../../components/GoBackButton/GoBackButton";
 import ModalDelete from "../../components/ModalDelete/ModalDelete";
 import DonationCard from "../../components/DonationCard/DonationCard";
+import CircleGraph from "../../components/CircleGraph/CircleGraph";
 
 // ***************** Helpers ***************** //
 import formatDate from "../../helpers/formatDate";
@@ -33,14 +34,43 @@ export const ProjectShow = () => {
     const [project, setProject] = useState({
         id: "",
         name: "",
+        image: "",
         description: "",
         money_goal: "",
+        money_raised: "",
         type: "",
         creator: { name: "", surname: "" },
         createdAt: "",
-        donations: [],
-        milestones: [],
-        impact: 0
+        donations: [{
+            id: "",
+            amount: "",
+            donor: {
+                name: "",
+                surname: ""
+            },
+            createdAt: ""
+        }],
+        milestones: [{
+            _id: "",
+            description: "",
+            percentage: 0,
+            reached: false
+        }],
+        impact: 0,
+        impacts: {
+            sexuality: {
+                unit: "",
+                description: ""
+            },
+            nutrition: {
+                unit: "",
+                description: ""
+            },
+            water: {
+                unit: "",
+                description: ""
+            }
+        }
     });
 
     useEffect(() => {
@@ -51,17 +81,20 @@ export const ProjectShow = () => {
                 setProject({
                     id: response.data.id,
                     name: response.data.name,
+                    image: response.data.image,
                     description: response.data.description,
                     creator: {
                         name: response.data.creator.name,
                         surname: response.data.creator.surname
                     },
                     money_goal: response.data.money_goal,
+                    money_raised: response.data.money_raised,
                     type: response.data.type,
                     createdAt: response.data.createdAt,
                     donations: response.data.donations,
                     milestones: response.data.milestones,
-                    impact: response.data.impact
+                    impact: response.data.impact,
+                    impacts: response.data.impacts
                 });
             })
             .catch((error) => {
@@ -88,46 +121,121 @@ export const ProjectShow = () => {
         });
     }
 
+    const calculateProgress = () => {
+        if(project.milestones){
+            let total = 0;
+            const reachedMilestones = project.milestones.filter(milestone => milestone.reached);
+            // Find the reached milestone with the maximum percentage
+            const maxReachedMilestone = reachedMilestones.reduce((max, current) => {
+                return (current.percentage > max.percentage) ? current : max;
+            }, { percentage: 0 });
+            total = maxReachedMilestone.percentage;
+            return total;
+        }
+        return 0;
+    }
+
+    console.log(project);
+
     return (
         <>
             <GoBackButton />
             <h1 className={styles.heading}>{project.name}</h1>
             <div className={styles.content}>
-                <div className={styles.info}>
-                    <p className={styles.type}>
-                        {project.type === "sexuality"
-                            ? "Sexualidad"
-                            : project.type === "nutrition" ? "Nutrición" : "Agua"}
-                    </p>
-                    <p className={styles.description}>
-                        {project.description}
-                    </p>
-                    <p className={styles.goal}>
-                        Objetivo: {formatToMoney(project.money_goal)}
-                    </p>
-                    <p className={styles.since}>
-                        Creado el {" "}
-                        <span>{formatDate(project.createdAt)}</span>
-                        {" "} por {" "}
-                        <span>{project.creator.name} {project.creator.surname}</span>
-                    </p>
-                    <p className={styles["donations-label"]}>Donaciones:</p>
-                    <div className={styles.donations}>
-                        {project.donations && (
-                            <>
-                                {project.donations.length > 0 ? (
-                                    project.donations.map((donation) => (
-                                        <DonationCard
-                                            key={donation.id}
-                                            donation={donation}
-                                            inShow={false}
-                                        />
-                                    ))
-                                ) : (
-                                    <p className={styles.nodonations}>Sin donaciones asignadas</p>
+                <div className={styles["image-info"]}>
+                    <div className={styles.image}>
+                        <img 
+                            src={`${import.meta.env.VITE_API_URL}/uploads/projects/${project.image}`} 
+                            alt={project.name} 
+                        />
+                    </div>
+                    <div className={styles.info}>
+                        <div className={styles.graphs}>
+                            <CircleGraph
+                                heading="Progreso"
+                                percentage
+                                amount={calculateProgress()}
+                                target={100}
+                            />
+                            <CircleGraph
+                                heading="Recaudado"
+                                amount={project.money_raised}
+                                money
+                                target={project.money_goal}
+                            />
+                        </div>
+                        <p className={styles.type}>
+                            {project.type === "sexuality"
+                                ? "Sexualidad"
+                                : project.type === "nutrition" ? "Nutrición" : "Agua"}
+                        </p>
+                        <p className={styles.description}>
+                            {project.description}
+                        </p>
+                        <p className={styles.goal}>
+                            Objetivo: <span>{formatToMoney(parseInt(project.money_goal))}</span>
+                        </p>
+                        <p className={styles.impact}>
+                            Impacto: <span>{project.impact} {project.type && project.impacts && project.impacts[project.type] ? project.impacts[project.type].unit + ' ' + project.impacts[project.type].description : ''}</span> 
+                        </p>
+                        <div className={styles.milestones}>
+                            <div className={styles["progress-bar"]}>
+                                <div 
+                                    className={styles["progress"]}
+                                    style={{
+                                        width: `${calculateProgress()}%`
+                                    }}
+                                ></div>
+                            </div>
+                            <div className={styles["milestones-list"]}>
+                                {project.milestones && (
+                                    <>
+                                        {project.milestones.length > 0 ? (
+                                            project.milestones.map(milestone => (
+                                                <div
+                                                    key={milestone._id}
+                                                    className={styles.milestone}
+                                                    style={{
+                                                        left: `${milestone.percentage}%`,
+                                                    }}
+                                                >
+                                                    <div className={`${styles.circle} ${milestone.reached ? styles.reached : ''}`}></div>
+                                                    <p>{milestone.description}</p>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <p className={styles.nodonations}>Sin hitos asignados</p>
+                                        )}
+                                    </>
                                 )}
-                            </>
-                        )}
+                            </div>
+                        </div>
+                        <p className={styles.since}>
+                            Creado el {" "}
+                            <span>{formatDate(project.createdAt)}</span>
+                            {" "} por {" "}
+                            <span>{project.creator.name} {project.creator.surname}</span>
+                        </p>
+                    </div>
+                    <div className={styles["label-content-donations"]}>
+                        <p className={styles["donations-label"]}>Donaciones:</p>
+                        <div className={styles.donations}>
+                            {project.donations && (
+                                <>
+                                    {project.donations.length > 0 ? (
+                                        project.donations.map((donation) => (
+                                            <DonationCard
+                                                key={donation.id}
+                                                donation={donation}
+                                                inShow={false}
+                                            />
+                                        ))
+                                    ) : (
+                                        <p className={styles.nodonations}>Sin donaciones asignadas</p>
+                                    )}
+                                </>
+                            )}
+                        </div>
                     </div>
                 </div>
                 <div

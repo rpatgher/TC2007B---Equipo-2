@@ -26,7 +26,7 @@ const CircleGraph = ({ heading, percentage, amount, money, target }: CircleGraph
     
     return (
         <div className={styles.graph}>
-            <h3 className={styles["graph-heading"]}>{heading}: {setAmount(amount)}</h3>
+            <h3 className={styles["graph-heading"]}>{heading}: <span>{setAmount(amount)}</span></h3>
             <div className={styles["graph-chart"]}>
                 <div className={styles["graph-canvas"]}>
                     <div className={styles["circle-graph"]}>

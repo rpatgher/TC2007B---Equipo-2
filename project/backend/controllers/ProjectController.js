@@ -1,13 +1,24 @@
 import Project from '../models/Project.js';
+import Config from '../models/Config.js';
+import fs from 'fs';
 
 // This function creates a new project
 const createProject = async (req, res) => {
-    const { name, description, money_goal, type, milestones, impact } = req.body;
+    const { file } = req;
+    if (!file) {
+        return res.status(400).json({ msg: "Please upload an image." });
+    }
+    const { name, description, money_goal, type, impact } = req.body;
+    const milestones = JSON.parse(req.body.milestones);
     if (!name || !description || !money_goal || !type || !milestones || !impact) {
+        // delete image
+        if (file) {
+            fs.unlinkSync(file.path);
+        }
         return res.status(400).json({ msg: "Please enter all fields." });
     }
     const creator = req.user.id;
-    const project = new Project({ name, description, money_goal, type, creator, milestones, impact });
+    const project = new Project({ name, description, money_goal, type, creator, milestones, impact, image: file.filename });
     try {
         await project.save();
         return res.status(201).json({ msg: "Project created successfully." });
@@ -71,12 +82,14 @@ const getProject = async (req, res) => {
             .lean();
     if (!project) {
         return res.status(404).json({ msg: "Project not found." });
-    }
+    } 
+    const config = await Config.findOne();
     const { _id } = project;
     delete project._id;
     return res.status(200).json({
         id: _id.toString(),
         ...project,
+        impacts: config.impacts,
         donations: project.donations.map(donation => {
             const { _id } = donation;
             delete donation._id;
@@ -90,13 +103,23 @@ const getProject = async (req, res) => {
 
 // This function updates a project
 const updateProject = async (req, res) => {
+    const { file } = req;
     const { id } = req.params;
-    const { name, description, money_goal, type, milestones, impact } = req.body;
+    const { name, description, money_goal, type, impact } = req.body;
+    const milestones = JSON.parse(req.body.milestones);
     if (!name || !description || !money_goal || !type || !milestones || !impact) {
+        // delete image
+        if (file) {
+            fs.unlinkSync(file.path);
+        }
         return res.status(400).json({ msg: "Please enter all fields." });
     }
     const project = await Project.findById(id);
     if (!project) {
+        // delete image
+        if (file) {
+            fs.unlinkSync(file.path);
+        }
         return res.status(404).json({ msg: "Project not found." });
     }
     project.name = name;
@@ -105,6 +128,18 @@ const updateProject = async (req, res) => {
     project.type = type;
     project.milestones = milestones;
     project.impact = impact;
+    if (file) {
+        // delete old image
+        try {
+            fs.unlinkSync(`./public/uploads/projects/${project.image}`);
+        } catch (error) {
+            // delete current image
+            fs.unlinkSync(file.path);
+            console.error(error);
+            return res.status(500).json({ msg: "Internal Server Error." });
+        }
+        project.image = file.filename;
+    }
     try {
         await project.save();
         return res.status(200).json({ msg: "Project updated successfully." });

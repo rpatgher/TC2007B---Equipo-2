@@ -31,5 +31,6 @@
 .amount{
     font-size: 16px;
     font-weight: 500;
+    color: var(--primary);
     margin: 0;
 }

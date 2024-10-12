@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 
 const ProjectSchema = new mongoose.Schema({
+    image: {
+        type: String,
+        required: true
+    },
     name: {
         type: String,
         required: true,
@@ -33,7 +37,10 @@ const ProjectSchema = new mongoose.Schema({
         ref: 'Donation'
     }],
     milestones: [{
-        
+        reached: {
+            type: Boolean,
+            default: false
+        },
         description: {
             type: String,
             required: true

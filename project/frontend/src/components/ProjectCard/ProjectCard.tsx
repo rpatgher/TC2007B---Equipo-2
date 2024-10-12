@@ -18,12 +18,29 @@ type Project = {
     money_goal: number;
     money_raised: number;
     createdAt: string;
+    milestones: { percentage: number; reached: boolean }[];
     creator: { name: string; surname: string };
     type: string;
 };
 
 const ProjectCard = ({ project }: { project: Project }) => {
     const navigate = useNavigate();
+
+    const calculateProgress = () => {
+        if(project.milestones){
+            let total = 0;
+            const reachedMilestones = project.milestones.filter(milestone => milestone.reached);
+            // Find the reached milestone with the maximum percentage
+            const maxReachedMilestone = reachedMilestones.reduce((max, current) => {
+                return (current.percentage > max.percentage) ? current : max;
+            }, { percentage: 0 });
+            total = maxReachedMilestone.percentage;
+            return total;
+        }
+        return 0;
+    }
+
+
     return (
         <div
             className={styles.project}
@@ -55,6 +72,12 @@ const ProjectCard = ({ project }: { project: Project }) => {
                         amount={project.money_raised}
                         money
                         target={project.money_goal}
+                    />
+                    <CircleGraph
+                        heading="Progreso"
+                        percentage
+                        amount={calculateProgress()}
+                        target={100}
                     />
                 </div>
             </div>

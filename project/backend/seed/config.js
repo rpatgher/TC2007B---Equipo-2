@@ -4,16 +4,16 @@ const config = {
     donations_asignment: 'impact',
     impacts: {
         water: {
-            description: 'Provide clean water to people in need',
-            unit: 'liters'
+            description: 'de agua potable recaudados',
+            unit: 'litros'
         },
         nutrition: {
-            description: 'Provide nutritious meals to people in need',
-            unit: 'meals'
+            description: 'proporcionadas a personas en necesidad',
+            unit: 'comidas'
         },
         sexuality: {
-            description: 'Provide sexual education to people in need',
-            unit: 'hours'
+            description: 'de preservativos entregados',
+            unit: 'condones'
         }
     }
 }

@@ -9,6 +9,14 @@
     justify-content: space-between;
     align-items: flex-start;
 }
+.project:hover{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+.no-hover:hover{
+    cursor: default;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 .project p{
     margin: 0;
 }
@@ -46,7 +54,7 @@
 }
 .graphs{
     display: grid;
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 30px;
     align-self: flex-start;
 }

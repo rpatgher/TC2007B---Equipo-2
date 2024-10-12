@@ -23,6 +23,10 @@
     margin: 0 0 5px 0;
     font-weight: 400;
 }
+.graph-heading span{
+    color: var(--primary);
+    font-weight: 500;
+}
 .circle-graph{
     display: flex;
     align-items: center;

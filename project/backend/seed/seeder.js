@@ -63,6 +63,7 @@ const insertData = async () => {
                     const projectDB = new Project({
                         name: project.name,
                         description: project.description,
+                        image: project.image,
                         money_goal: project.money_goal,
                         money_raised: project.money_raised,
                         type: project.type,
