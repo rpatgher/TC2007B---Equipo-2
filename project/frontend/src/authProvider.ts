@@ -1,4 +1,14 @@
-import { AuthProvider } from 'react-admin';
+// import { AuthProvider } from 'react-admin';
+
+type AuthProvider = {
+    login: (params: { username: string, password: string }) => Promise<void>;
+    checkError: (error: any) => Promise<void>;
+    checkAuth: () => Promise<void>;
+    logout: () => Promise<void>;
+    getIdentity: () => Promise<{ id: string, fullName: string, email: string }>;
+    getPermissions: () => Promise<string>;
+    register: (params: { name: string, surname: string, email: string, password: string }) => Promise<void>;
+};
 
 
 
@@ -77,6 +87,17 @@ const authProvider: AuthProvider = {
         }
         return Promise.reject();
     },
+    register: async ({ name, surname, email, password }) => {
+        const request = new Request(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
+            method: 'POST',
+            body: JSON.stringify({ name, surname, email, password }),
+            headers: new Headers({ 'Content-Type': 'application/json' }),
+        });
+        const response = await fetch(request);
+        if (response.status < 200 || response.status >= 300) {
+            throw new Error(response.statusText);
+        }
+    }
 };
 
 export default authProvider;

@@ -10,9 +10,25 @@
 .main{
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 .sidebar{
     min-width: 500px;
+}
+.sidebar-donor{
+    min-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.paypal-payment{
+    width: 90%;
+    margin: 0 auto;
+    background-color: var(--white);
+    padding: 20px 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: auto;
 }
 .form{
     width: 100%;
@@ -20,6 +36,58 @@
     flex-direction: column;
     gap: 20px;
     margin: 30px 0;
+}
+.form-donor{
+    width: 100%;
+    display: flex;
+    gap: 50px;
+    margin: 30px 0;
+}
+.field-sidebar{
+    width: 90%;
+    margin: 0 auto;
+}
+.content-donor-form{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.notes{
+    font-size: 12px;
+    margin: 0;
+    color: var(--dark-gray);
+}
+.asignments{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.asignment{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    padding: 0 10px;
+    border-radius: 5px;
+    background-color: var(--light-gray);
+}
+.projects{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.asignment:hover{
+    cursor: pointer;
+    background-color: var(--gray);
+}
+.asignment label{
+    flex: 1;
+    margin: 5px 0;
+}
+.asignment.active{
+    background-color: var(--blue);
+    color: var(--white);
 }
 .amounts{
     display: grid;

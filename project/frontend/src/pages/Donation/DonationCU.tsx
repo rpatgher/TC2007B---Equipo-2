@@ -9,6 +9,8 @@ import styles from "./DonationCU.module.css";
 
 // ********************** Components **********************
 import GoBackButton from "../../components/GoBackButton/GoBackButton";
+import PayPalPayment from "../../components/Paypal/Paypal";
+import StripePayment from "../../components/Stripe/Stripe";
 
 type Donation = {
     id?: string;
@@ -32,88 +34,180 @@ const DonationCreateFormDonor = () => {
     const [inialAmounts, _] = useState<Array<number>>([
         200, 250, 300, 350, 400,
     ]);
+    const [selectedProject, setSelectedProject] = useState<string>("");
+    const [selectedAsignment, setSelectedAsignment] = useState<string>("auto");
+    const [inputDisabled, setInputDisabled] = useState<boolean>(true);
+    const [projects, setProjects] = useState<Array<any>>([]);
 
     const handleAmountSelection = (e: any) => {
         const amount = e.target.dataset.amount;
         if (amount === "other") {
             setSelectedAmount(0);
+            setInputDisabled(false);
         } else {
             setSelectedAmount(parseInt(amount));
         }
     };
 
+    const getProjects = () => {
+        // Get all projects
+        dataProvider.getAll("projects").then((response) => {
+            setProjects(response.data);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
     return (
-        <form className={styles.form}>
-            <div className={styles.amounts}>
-                {inialAmounts.map((amount, index) => (
+        <form className={styles["form-donor"]}>
+            <div className={styles["content-donor-form"]}>
+                <div className={styles.amounts}>
+                    {inialAmounts.map((amount, index) => (
+                        <button
+                            key={index}
+                            className={`${styles.amount} ${
+                                selectedAmount === amount ? styles.selected : ""
+                            }`}
+                            data-amount={amount}
+                            type="button"
+                            onClick={handleAmountSelection}
+                        >
+                            ${amount}
+                        </button>
+                    ))}
                     <button
-                        key={index}
-                        className={`${styles.amount} ${
-                            selectedAmount === amount ? styles.selected : ""
+                        className={`${styles.amount} ${styles["other-amount"]} ${
+                            !inialAmounts.includes(selectedAmount)
+                                ? styles.selected
+                                : ""
                         }`}
-                        data-amount={amount}
+                        data-amount="other"
                         type="button"
                         onClick={handleAmountSelection}
                     >
-                        ${amount}
-                    </button>
-                ))}
-                <button
-                    className={`${styles.amount} ${styles["other-amount"]} ${
-                        !inialAmounts.includes(selectedAmount)
-                            ? styles.selected
-                            : ""
-                    }`}
-                    data-amount="other"
-                    type="button"
-                    onClick={handleAmountSelection}
-                >
-                    Otra Cantidad
-                </button>
-            </div>
-            <div className={styles.field}>
-                <label htmlFor="amount">Cantidad</label>
-                <input
-                    id="amount"
-                    type="number"
-                    min="1"
-                    step="1"
-                    disabled={inialAmounts.includes(selectedAmount)}
-                    className={`${
-                        !inialAmounts.includes(selectedAmount)
-                            ? ""
-                            : styles.disabled
-                    }`}
-                    value={selectedAmount === 0 ? "" : selectedAmount}
-                    onChange={(e) =>
-                        setSelectedAmount(parseInt(e.target.value))
-                    }
-                    placeholder="Cantidad a donar"
-                />
-            </div>
-            <div className={styles.field}>
-                <label>Método de Pago</label>
-                <div className={styles.methods}>
-                    <button
-                        type="button"
-                        className={`${styles.method} ${
-                            selectedMethod === "stripe" ? styles.selected : ""
-                        }`}
-                        onClick={() => setSelectedMethod("stripe")}
-                    >
-                        Tarjeta de Crédito
-                    </button>
-                    <button
-                        type="button"
-                        className={`${styles.method} ${
-                            selectedMethod === "paypal" ? styles.selected : ""
-                        }`}
-                        onClick={() => setSelectedMethod("paypal")}
-                    >
-                        PayPal
+                        Otra Cantidad
                     </button>
                 </div>
+                <div className={styles.field}>
+                    <label htmlFor="amount">Cantidad</label>
+                    <input
+                        id="amount"
+                        type="number"
+                        min="1"
+                        step="1"
+                        disabled={inputDisabled}
+                        className={`${
+                            !inputDisabled
+                                ? ""
+                                : styles.disabled
+                        }`}
+                        value={selectedAmount === 0 ? "" : selectedAmount}
+                        onChange={(e) =>
+                            setSelectedAmount(parseInt(e.target.value))
+                        }
+                        onBlur={(e) => {
+                            if (inialAmounts.includes(parseInt(e.target.value))) {
+                                setInputDisabled(true);
+                            }
+                        }}
+                        placeholder="Cantidad a donar"
+                    />
+                </div>
+                <div className={styles.field}>
+                    <label>Proyecto a donar</label>
+                    <p className={styles.notes}>¿Gustarías asignar tu donación directamente a una proyecto?</p>
+                    <div className={styles.asignments}>
+                        <div className={`${styles.asignment} ${selectedAsignment === 'auto' && styles.active}`}>
+                            <input 
+                                type="radio"
+                                name="asignment"
+                                id="auto"
+                                checked={selectedAsignment === 'auto'}
+                                onChange={() => setSelectedAsignment('auto')}
+                            />
+                            <label htmlFor="auto">Dejar que la fundación asigne el proyecto a mi donación</label>
+                        </div>
+                        <div  className={`${styles.asignment} ${selectedAsignment === 'manual' && styles.active}`}>
+                            <input 
+                                type="radio"
+                                name="asignment"
+                                id="manual"
+                                checked={selectedAsignment === 'manual'}
+                                onChange={() => {
+                                    getProjects();
+                                    setSelectedAsignment('manual')
+                                }}
+                            />
+                            <label htmlFor="manual">Elegir yo el proyecto al que quiero donar</label>
+                        </div>
+                    </div>
+                    {selectedAsignment === 'manual' && (
+                        <div className={styles.projects}>
+                            <label htmlFor="project">Projecto</label>
+                            <select
+                                name="project"
+                                id="project"
+                                value={selectedProject}
+                                onChange={(e) => setSelectedProject(e.target.value)}
+                            >
+                                <option value="" disabled>-- Seleccione un proyecto --</option>
+                                {projects.map(project => (
+                                    <option 
+                                        key={project.id} 
+                                        value={project.id}
+                                    >
+                                        {project.name} - {project.type === 'water' ? 'Agua' : project.type === 'nutrition' ? 'Nutrición' : 'Sexualidad'}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
+                </div>
             </div>
+            <aside className={styles["sidebar-donor"]}>
+            <div className={`${styles.field} ${styles["field-sidebar"]}`}>
+                    <label>Método de Pago</label>
+                    <div className={styles.methods}>
+                        <button
+                            type="button"
+                            className={`${styles.method} ${
+                                selectedMethod === "stripe" ? styles.selected : ""
+                            }`}
+                            onClick={() => setSelectedMethod("stripe")}
+                        >
+                            Tarjeta de Crédito
+                        </button>
+                        <button
+                            type="button"
+                            className={`${styles.method} ${
+                                selectedMethod === "paypal" ? styles.selected : ""
+                            }`}
+                            onClick={() => setSelectedMethod("paypal")}
+                        >
+                            PayPal
+                        </button>
+                    </div>
+                </div>
+                {selectedMethod === "paypal" ? (
+                    <div className={styles["paypal-payment"]}>
+                        <PayPalPayment 
+                            amount={selectedAmount} 
+                            project={selectedProject}
+                            asignment={selectedAsignment}
+                        />
+                    </div>
+                ) : selectedMethod === "stripe" ? (
+                    <div className={styles["stripe-payment"]}>
+                        <StripePayment 
+                            amount={selectedAmount} 
+                            project={selectedProject}
+                            asignment={selectedAsignment}
+                        />
+                    </div>
+                ) : (
+                    <></>
+                )}
+            </aside>
         </form>
     );
 };
@@ -132,7 +226,6 @@ export const DonationCreateDonor = () => {
                     </p>
                     <DonationCreateFormDonor />
                 </main>
-                <aside className={styles.sidebar}></aside>
             </div>
         </>
     );

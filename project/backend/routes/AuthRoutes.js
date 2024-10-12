@@ -5,7 +5,8 @@ import {
     signUp,
     loginUser,
     logoutUser,
-    permissions
+    permissions,
+    stripeIntent
 } from "../controllers/AuthController.js";
 
 // Create a Router for Auth endpoints
@@ -27,6 +28,10 @@ router.route("/login")
 // This route would be for example /api/auth/logout
 router.route("/logout")
     .get(logoutUser); // Logout a User
+
+// This route would be for example /api/auth/stripe
+router.route("/stripe")
+    .post(checkAuth, stripeIntent); // Stripe Payment
 
 // This route would be for example /api/auth/permisions
 router.route("/permissions")

@@ -9,6 +9,7 @@ import Toolbar from "../../components/Toolbar/Toolbar";
 import Actions from "../../components/Actions/Actions";
 import DonationCard from "../../components/DonationCard/DonationCard";
 import DonationCardInShow from "../../components/DonationCard/DonationCardInShow";
+import { Link } from "react-router-dom";
 
 
 type Donation = {
@@ -43,6 +44,15 @@ const DonationListView = ({ data }: { data: Array<Donation> }) => {
     )
 }
 
+const Empty = () => {
+    return (
+        <div>
+            <p>No se encontraron donaciones</p>
+            <p>Aportarías mucho a la fundación para que pueda seguir ayudando a la gente <Link to='/donations/create'>reliazando una donación</Link>.</p>
+        </div>
+    )
+}
+
 
 export const DonationList = () => {
     const { permissions } = usePermissions();
@@ -62,7 +72,7 @@ export const DonationList = () => {
     return(
         <>
             <h1 className={styles.heading}>{permissions === 'admin' ? 'Donaciones' : 'Historial de Donaciones'}</h1>
-            <List emptyWhileLoading actions={false} pagination={false}>
+            <List emptyWhileLoading actions={false} pagination={false} empty={<Empty />}>
                 <div className={styles.content}>
                     <div className={styles.table}>
                         <Actions

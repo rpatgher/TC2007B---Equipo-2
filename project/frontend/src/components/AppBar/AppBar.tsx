@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { usePermissions, useGetIdentity } from 'react-admin';
+import { usePermissions, useGetIdentity, useAuthProvider } from 'react-admin';
 
 
 import styles from './AppBar.module.css';
-import authProvider from '../../authProvider';
+// import authProvider from '../../authProvider';
 import logo from '../../assets/logo_sanders.webp';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 export const AppBar = () => {
     const navigate = useNavigate();
     const { permissions } = usePermissions();
+    const authProvider = useAuthProvider();
     const { data } = useGetIdentity();
 
     const [fullName, setFullName] = useState('');
@@ -43,7 +44,7 @@ export const AppBar = () => {
                 </div>
                 <div className={styles["drop-down"]}>
                     <div onClick={() => {
-                        authProvider.logout(null).then(() => {
+                        authProvider?.logout(null).then(() => {
                             navigate('/login');
                         });
                     }}>

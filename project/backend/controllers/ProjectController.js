@@ -4,22 +4,28 @@ import fs from 'fs';
 
 // This function creates a new project
 const createProject = async (req, res) => {
+    // Check if an image was uploaded
     const { file } = req;
     if (!file) {
         return res.status(400).json({ msg: "Please upload an image." });
     }
+    // Get the project data
     const { name, description, money_goal, type, impact } = req.body;
+    // Parse the milestones
     const milestones = JSON.parse(req.body.milestones);
+    // Check if all fields are provided
     if (!name || !description || !money_goal || !type || !milestones || !impact) {
-        // delete image
+        // if not, delete the image that was just uploaded (in the uploadImage middleware)
         if (file) {
             fs.unlinkSync(file.path);
         }
         return res.status(400).json({ msg: "Please enter all fields." });
     }
+    // Create the project
     const creator = req.user.id;
     const project = new Project({ name, description, money_goal, type, creator, milestones, impact, image: file.filename });
     try {
+        // Save the project
         await project.save();
         return res.status(201).json({ msg: "Project created successfully." });
     } catch (error) {
@@ -30,6 +36,22 @@ const createProject = async (req, res) => {
 
 // This function gets all projects
 const getProjects = async (req, res) => {
+    let projects;
+    if(req.user.role !== 'admin') {
+        projects = await Project.find()
+            .sort({ createdAt: -1 })
+            .select('-__v -updatedAt -creator -donations -milestones -impact -money_goal -money_raised')
+            .lean();
+        projects = projects.map(project => {
+            const { _id } = project;
+            delete project._id;
+            return {
+                id: _id.toString(),
+                ...project
+            }
+        });
+        return res.status(200).json(projects);
+    }
     // TODO: Implement the filtering by name, email, phone, role
     const { range, sort, filter } = req.query;
     // Get the range and sort values
@@ -39,7 +61,7 @@ const getProjects = async (req, res) => {
     const order = sortOrder[1] === 'ASC' ? 1 : -1;
     let filterBy = '';
 
-    let projects = await Project.find(filterBy !== '' ? {
+    projects = await Project.find(filterBy !== '' ? {
         $or: [
             { name: { $regex: filter, $options: 'i' } },
             { description: { $regex: filter, $options: 'i' } }
@@ -107,29 +129,33 @@ const updateProject = async (req, res) => {
     const { id } = req.params;
     const { name, description, money_goal, type, impact } = req.body;
     const milestones = JSON.parse(req.body.milestones);
+    // Check if all fields are provided
     if (!name || !description || !money_goal || !type || !milestones || !impact) {
-        // delete image
+        // if not, delete the image that was just uploaded (in the uploadImage middleware)
         if (file) {
             fs.unlinkSync(file.path);
         }
         return res.status(400).json({ msg: "Please enter all fields." });
     }
     const project = await Project.findById(id);
+    // Check if the project exists
     if (!project) {
-        // delete image
+        // if not, delete the image that was just uploaded (in the uploadImage middleware)
         if (file) {
             fs.unlinkSync(file.path);
         }
         return res.status(404).json({ msg: "Project not found." });
     }
+    // Update the project
     project.name = name;
     project.description = description;
     project.money_goal = money_goal;
     project.type = type;
     project.milestones = milestones;
     project.impact = impact;
+    // Check if a new image was uploaded
     if (file) {
-        // delete old image
+        // if so, delete the old image
         try {
             fs.unlinkSync(`./public/uploads/projects/${project.image}`);
         } catch (error) {
@@ -138,9 +164,11 @@ const updateProject = async (req, res) => {
             console.error(error);
             return res.status(500).json({ msg: "Internal Server Error." });
         }
+        // and save the new image reference
         project.image = file.filename;
     }
     try {
+        // Save the project
         await project.save();
         return res.status(200).json({ msg: "Project updated successfully." });
     } catch (error) {
@@ -151,6 +179,7 @@ const updateProject = async (req, res) => {
 
 // This function deletes a project
 const deleteProject = async (req, res) => {
+    // TODO: Delete the image of the project
     const { id } = req.params;
     const project = await Project.findById(id);
     if (!project) {

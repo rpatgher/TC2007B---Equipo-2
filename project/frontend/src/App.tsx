@@ -27,6 +27,13 @@ import { DonationList } from "./pages/Donation/DonationList";
 import { DonationShow } from "./pages/Donation/DonationShow";
 import { DonationCreateAdmin, DonationUpdateAdmin, DonationCreateDonor } from "./pages/Donation/DonationCU";
 
+// ************ Login Components ************
+import Login from "./pages/Login/Login";
+// *********** Register Components **********
+import Register from "./pages/Register/Register";
+// *********** Forgot Components **********
+import Forgot from "./pages/Forgot/Forgot";
+
 
 // import {
 //     DonationList
@@ -40,11 +47,16 @@ function App() {
         <Admin 
             authProvider={authProvider}
             dataProvider={dataProvider}
+            loginPage={Login}
             dashboard={Dashboard}
             theme={lightTheme}
             layout={Layout}
             darkTheme={null}
         >
+            <CustomRoutes noLayout>
+                <Route path="/register" element={<Register />} />
+                <Route path="/forgot" element={<Forgot />} />
+            </CustomRoutes>
             {permissions => (
                 <>
                     <Resource 

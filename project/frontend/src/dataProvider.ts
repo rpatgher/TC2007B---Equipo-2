@@ -3,6 +3,7 @@ import { fetchUtils } from 'react-admin';
 interface DataProvider {
     getList: (resource: string, params: any) => Promise<any>;
     getOne: (resource: string, params: any) => Promise<any>;
+    getAll: (resource: string) => Promise<any>;
     update: (resource: string, params: any, images: boolean) => Promise<any>;
     updateMany: (resource: string, params: any) => Promise<any>;
     create: (resource: string, params: any, images: boolean) => Promise<any>;
@@ -12,7 +13,7 @@ interface DataProvider {
 }
 
 const apiUrl = `${import.meta.env.VITE_API_URL}/api`;
-const httpClient = (url: {url: String}, options = {}) => {
+const httpClient = (url: {url: string}, options = {}) => {
     if (!options.headers) {
         options.headers = new Headers({ Accept: 'application/json' });
     }
@@ -39,6 +40,13 @@ const dataProvider: DataProvider = {
         return {
             data: json,
             total: parseInt(headers.get('Content-Range')?.split('/').pop() || '0', 10),
+        };
+    },
+    getAll: async (resource) => {
+        const url = `${apiUrl}/${resource}`;
+        const { json } = await httpClient(url);
+        return {
+            data: json,
         };
     },
 

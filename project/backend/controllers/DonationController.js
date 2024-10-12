@@ -1,16 +1,28 @@
 import Donation from '../models/Donation.js';
 import User from '../models/User.js';
 import Project from '../models/Project.js';
+import Config from '../models/Config.js';
 
+// **************** helpers ****************
+import donationsAsigment from '../helpers/donationsAsigment.js';
+
+
+// TODO: This can be improved by not repeating the code to create a donation in both cases (physical and digital donors)
 // This function creates a new donation
 const createDonation = async (req, res) => {
+    // Get the user from the request object (added by the checkAuth middleware)
     const user = req.user;
-    const { amount, donor, project, method } = req.body;
+    // Get the amount, donor, project and method from the request body
+    const { amount, donor, project, method, asignment } = req.body;
     let donation;
+    let donorUser;
     if (user.role === 'admin') {
+        // if the user is an admin, create a donation for a physical donor
         if (!amount || !donor) {
+            // if the amount or donor (physical donor) is not provided, return an error
             return res.status(400).json({ msg: "Please enter all fields." });
         }
+        // create a new donation
         donation = new Donation({
             amount,
             donor: donor.id,
@@ -19,19 +31,23 @@ const createDonation = async (req, res) => {
         });
         let projectDB = null;
         if (project && project.id) {
+            // if the donation is associated with a project, update the project
             projectDB = await Project.findById(project.id);
             if (!projectDB) {
                 return res.status(404).json({ msg: "Project not found." });
             }
             projectDB.donations.push(donation.id);
+            // update the money raised by the project
             projectDB.money_raised += amount;
         }
-        const donorUser = await User.findById(donor.id);
+        // find the donor by id to update the donations field
+        donorUser = await User.findById(donor.id);
         if (!donorUser) {
             return res.status(404).json({ msg: "Donor not found." });
         }
         donorUser.donations.push(donation.id);
         try {
+            // save the donation, donor and project
             await donation.save();
             await donorUser.save();
             if (projectDB) {
@@ -43,27 +59,57 @@ const createDonation = async (req, res) => {
             return res.status(500).json({ msg: "Internal Server Error." });
         }
     } else{
-        if (!amount || !method) {
+        // TODO: Save the payment id and status
+        // if the user is not an admin, create a donation for a digital donor
+        if (!amount || !method || !asignment) {
+            // if the amount or method is not provided, return an error
             return res.status(400).json({ msg: "Please enter all fields." });
         }
+        // create a new donation
         donation = new Donation({
             amount,
             method,
             donor: user.id
         });
-        const donorUser = await User.findById(user.id);
+        let projectDB = null;
+        if(asignment === 'manual'){
+            // if the donor wants to assign the donation to a project manually
+            if(project && project.id){
+                projectDB = await Project.findById(project.id);
+                if (!projectDB) {
+                    return res.status(404).json({ msg: "Project not found." });
+                }
+                donation.project = project.id;
+                projectDB.donations.push(donation.id);
+                // update the money raised by the project
+                projectDB.money_raised += amount;
+            }
+        } else{
+            // if the donor wants the system to assign the donation to a project automatically
+            const config = await Config.findOne();
+            if (!config) {
+                return res.status(500).json({ msg: "Internal Server Error." });
+            }
+            donation = await donationsAsigment[config.donations_asignment](donation);
+        }
+        // find the donor by id to update the donations field
+        donorUser = await User.findById(user.id);
         if (!donorUser) {
             return res.status(404).json({ msg: "Donor not found." });
         }
         donorUser.donations.push(donation.id);
-    }
-    try {
-        await donation.save();
-        await donorUser.save();
-        return res.status(201).json({ msg: "Donation created successfully." });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ msg: "Internal Server Error." });
+        try {
+            // save the donation and donor
+            await donation.save();
+            await donorUser.save();
+            if (projectDB) {
+                await projectDB.save();
+            }
+            return res.status(201).json({ msg: "Donation created successfully." });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ msg: "Internal Server Error." });
+        }
     }
 }
 
@@ -124,14 +170,13 @@ const getDonation = async (req, res) => {
     const donation = await Donation
         .findById(id)
         .select('-__v')
-        .populate('donor', '_id name surname email')
-        .populate('project', '_id name description type createdAt money_goal money_raised')
+        .populate('donor', '_id name surname email') // populate the donor field with the name, surname and email
+        .populate('project', '_id name description type createdAt money_goal money_raised milestones') // populate the project field with the name, description, type, createdAt, money_goal and money_raised
         .lean();
     // If the donation is not found, return a 404 Not Found error
     if (!donation) {
         return res.status(404).json({ msg: "Donation not found." });
     }
-    console.log(donation);
     const { _id } = donation;
     delete donation._id;
     return res.status(200).json({
@@ -150,26 +195,35 @@ const getDonation = async (req, res) => {
 
 // This function updates a donation
 const updateDonation = async (req, res) => {
+    // Get the id from the request parameters
     const { id } = req.params;
     const { amount, donor, project } = req.body;
+    // Get the user from the body to kwon if the current donor was made by a physical donor or a digital donor
     const donorDB = await User.findById(donor.id);
     if (!donorDB) {
+        // If the donor is not found, return a 404 Not Found error
         return res.status(404).json({ msg: "Donor not found." });
     }
+    // Get the donation by id
     const donation = await Donation.findById(id);
     if (!donation) {
+        // If the donation is not found, return a 404 Not Found error
         return res.status(404).json({ msg: "Donation not found." });
     }
+    // If the donor is a digital donor, the amount cannot be updated
     if (donorDB.role === 'physical-donor') {
         if (!amount) {
             return res.status(400).json({ msg: "Please enter all fields." });
         }
+        // update the donation information with the new amount and donor
         donation.amount = amount;   
         donation.donor = donor.id;
     }
     let projectDB = null;
     if(project && project.id){
+        // If the donation is associated with a project, update the project
         donation.project = project.id;
+        // Get the project by id to update the donations field and money_raised field
         projectDB = await Project.findById(project.id);
         if (!projectDB) {
             return res.status(404).json({ msg: "Project not found." });
@@ -177,6 +231,7 @@ const updateDonation = async (req, res) => {
         projectDB.donations.push(donation.id);
         projectDB.money_raised += amount;
     } else{
+        // If the donation is not associated with a project, update the project field to null
         projectDB = await Project.findById(donation.project);
         donation.project = null;
         if (!projectDB) {
@@ -186,6 +241,7 @@ const updateDonation = async (req, res) => {
         projectDB.money_raised -= donation.amount;
     }
     try {
+        // save the donation, donor and project
         await donation.save();
         await donorDB.save();
         if (projectDB) {
@@ -200,22 +256,29 @@ const updateDonation = async (req, res) => {
 
 // This function deletes a donation
 const deleteDonation = async (req, res) => {
+    // Get the id from the request parameters
     const { id } = req.params;
     const donation = await Donation.findById(id);
+    // if the donation is not found, return a 404 Not Found error
     if (!donation) {
         return res.status(404).json({ msg: "Donation not found." });
     }
+    // Get the donor of the donation
     const donor = await User.findById(donation.donor);
+    // if the donor is not found, return a 404 Not Found error
     if (!donor) {
         return res.status(404).json({ msg: "Donor not found." });
     }
+    // if the donor is a digital donor, the donation cannot be deleted
     if (donor.role === 'donor') {
         return res.status(403).json({ msg: "Donations by digitla donors cannot be deleted." });
     }
+    // if the donation is associated with a project, the donation cannot be deleted
     if (donation.project) {
         return res.status(400).json({ msg: "Donation is associated with a project." });
     }
     try {
+        // delete the donation and update the donor
         await donation.deleteOne();
         donor.donations = donor.donations.filter(d => d.toString() !== id);
         await donor.save();

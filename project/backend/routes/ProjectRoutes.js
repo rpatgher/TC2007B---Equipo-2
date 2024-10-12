@@ -23,7 +23,7 @@ import uploadImage from "../middleware/uploadImage.js";
 
 // This route would be for explample /api/projects
 router.route("/")
-    .get(checkAuth, checkAdmin, getProjects) // Get all projects
+    .get(checkAuth, getProjects) // Get all projects
     .post(checkAuth, checkAdmin, uploadImage, createProject); // Create a projects
 
 // This route would be for explample /api/projects/1234492 (where 1234492 would be the id of the project)

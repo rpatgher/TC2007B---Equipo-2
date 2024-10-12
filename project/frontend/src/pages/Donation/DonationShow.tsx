@@ -29,6 +29,8 @@ type Donation = {
         type: string;
         money_goal: number;
         money_raised: number;
+        milestones?: [];
+
     };
     donor: {
         name: string;
@@ -59,6 +61,7 @@ export const DonationShow = () => {
             type: "",
             money_goal: 0,
             money_raised: 0,
+            milestones: [],
         },
         amount: 0,
         createdAt: "",

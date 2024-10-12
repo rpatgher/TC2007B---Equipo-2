@@ -1,0 +1,96 @@
+.main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background-color: var(--background);
+}
+
+.form{
+    background-color: var(--white);
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    min-width: 400px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+
+}
+.content{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 5px 0;
+}
+.heading{
+    margin: 10px 0 0 0;
+    font-size: 26px;
+    color: var(--primary);
+    text-align: center;
+}
+.description{
+    font-size: 14px;
+    color: var(--dark-gray);
+    max-width: 350px;
+    margin: 0 auto;
+    text-align: center;
+}
+.field{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.field label{
+    font-size: 14px;
+    font-weight: 500;
+}
+.field input {
+    font-size: 14px;
+    padding: 10px 10px 10px 35px;
+    border-radius: 10px;
+    border: 1px solid var(--gray);
+    background-color: var(--white);
+    font-family: inherit;
+    color: var(--black);
+}
+.input-icon{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+.input-icon svg{
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    fill: var(--gray);
+    width: 20px;
+}
+svg.show-pass{
+    left: auto;
+    right: 10px;
+    fill: var(--dark-gray);
+}
+.submit{
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: var(--primary);
+    margin: 10px 0 0 0;
+}
+.actions{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    font-size: 12px;
+}
+.actions a{
+    color: var(--blue);
+}
+.actions p{
+    margin: 0;
+}
