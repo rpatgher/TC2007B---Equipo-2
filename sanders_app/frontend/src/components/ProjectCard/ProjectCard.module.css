@@ -21,19 +21,42 @@
     text-transform: uppercase;
     color: var(--dark-gray);
 }
-.name{
-    font-size: 26px;
-    font-weight: 600;
-
+.name-desc{
     display: flex;
     gap: 10px;
     align-items: baseline;
     justify-content: flex-start;
 }
-.name span{
+.name{
+    font-size: 26px;
+    font-weight: 600;
+
+
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    
+    position: relative;
+}
+.description{
     font-weight: 400;
     font-size: 14px;
     color: var(--dark-gray);
+
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    
+    position: relative;
+}
+.name::after, .description::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 80%, var(--white) 95%, var(--white) 100%);
 }
 .since{
     font-size: 10px;

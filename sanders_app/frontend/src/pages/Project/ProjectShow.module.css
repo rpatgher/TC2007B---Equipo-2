@@ -52,6 +52,9 @@
     text-transform: uppercase;
     color: var(--dark-gray);
 }
+.description{
+    max-width: 65%;
+}
 .goal, .impact{
     font-size: 14px;
     font-weight: 400;

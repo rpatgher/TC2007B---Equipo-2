@@ -11,8 +11,6 @@ import formatDate from "../../helpers/formatDate";
 // ****************** styles ******************* //
 import styles from "./ProjectCard.module.css";
 
-// ******************** Animation **************************
-import AnimationComponent from '../../components/AnimationComponent/AnimationComponent';
 
 type Project = {
     id: string;
@@ -57,10 +55,10 @@ const ProjectCard = ({ project }: { project: Project }) => {
                         ? "Nutrición"
                         : "Agua"}
                 </p>
-                <p className={styles.name}>
-                    {project.name}
-                    <span>{project.description}</span>
-                </p>
+                <div className={styles["name-desc"]}>
+                    <p className={styles.name}>{project.name}</p>
+                    <p className={styles.description}>{project.description}</p>
+                </div>
                 <p className={styles.since}>
                     Creado el <span>{formatDate(project.createdAt)}</span> por{" "}
                     <span>
