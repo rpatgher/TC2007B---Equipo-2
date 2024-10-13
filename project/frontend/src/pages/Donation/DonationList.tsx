@@ -11,6 +11,9 @@ import DonationCard from "../../components/DonationCard/DonationCard";
 import DonationCardInShow from "../../components/DonationCard/DonationCardInShow";
 import { Link } from "react-router-dom";
 
+// ******************** Animation **************************
+import AnimationComponent from '../../components/AnimationComponent/AnimationComponent';
+
 
 type Donation = {
     id: string;
@@ -71,7 +74,9 @@ export const DonationList = () => {
 
     return(
         <>
-            <h1 className={styles.heading}>{permissions === 'admin' ? 'Donaciones' : 'Historial de Donaciones'}</h1>
+            <AnimationComponent>
+                <h1 className={styles.heading}>{permissions === 'admin' ? 'Donaciones' : 'Historial de Donaciones'}</h1>
+            </AnimationComponent>
             <List emptyWhileLoading actions={false} pagination={false} empty={<Empty />}>
                 <div className={styles.content}>
                     <div className={styles.table}>
@@ -79,8 +84,11 @@ export const DonationList = () => {
                             filter={filter}
                             setFilter={setFilter}
                             entity="donación"
+                            createPath="/dashboard/donations/create"
                         />
-                        <DonationListView data={data || []} />
+                        <AnimationComponent dir="down">
+                            <DonationListView data={data || []} />
+                        </AnimationComponent>
                         <Toolbar
                             perPage={perPage}
                             setPerPage={setPerPage}

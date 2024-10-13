@@ -13,6 +13,9 @@ import Toolbar from "../../components/Toolbar/Toolbar";
 import Actions from "../../components/Actions/Actions";
 import CardGraph from "../../components/CardGraph/CardGraph";
 
+// ******************** Animation **************************
+import AnimationComponent from '../../components/AnimationComponent/AnimationComponent';
+
 type User = {
     id: string;
     name: string;
@@ -32,7 +35,7 @@ const UserListView = ({ data }: {data: Array<User>}) => {
                     <div 
                         key={record.id} 
                         className={styles.user}
-                        onClick={() => navigate(`/users/${record.id}/show`)}
+                        onClick={() => navigate(`/dashboard/users/${record.id}/show`)}
                     >
                         <div className={styles.left}>
                             <p className={styles.role}>
@@ -90,7 +93,9 @@ export const UserList = () => {
 
     return (
         <>
-            <h1 className={styles.heading}>Donadores</h1>
+            <AnimationComponent>
+                <h1 className={styles.heading}>Donadores</h1>
+            </AnimationComponent>
             <List emptyWhileLoading actions={false} pagination={false}>
                 <div className={styles.content}>
                     <div className={styles.table}>
@@ -98,8 +103,11 @@ export const UserList = () => {
                             filter={filter}
                             setFilter={setFilter}
                             entity="donador"
+                            createPath="/dashboard/users/create"
                         />
-                        <UserListView data={data || []} />
+                        <AnimationComponent dir="down">
+                            <UserListView data={data || []} />
+                        </AnimationComponent>
                         <Toolbar
                             perPage={perPage}
                             setPerPage={setPerPage}

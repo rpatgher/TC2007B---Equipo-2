@@ -3,7 +3,7 @@ import {
     CustomRoutes, 
     Resource
 } from "react-admin";
-import { Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import authProvider from "./authProvider";
 import dataProvider from "./dataProvider";
 import lightTheme from "./lightTheme";
@@ -34,6 +34,9 @@ import Register from "./pages/Register/Register";
 // *********** Forgot Components **********
 import Forgot from "./pages/Forgot/Forgot";
 
+// ************ Homepage ************
+import Homepage from "./pages/Homepage/Homepage";
+
 
 // import {
 //     DonationList
@@ -42,11 +45,12 @@ import Forgot from "./pages/Forgot/Forgot";
 
 import { Layout } from "./Layout/Layout";
 
-function App() {
+function DashboardPages() {
     return (
         <Admin 
             authProvider={authProvider}
             dataProvider={dataProvider}
+            basename="/dashboard"
             loginPage={Login}
             dashboard={Dashboard}
             theme={lightTheme}
@@ -90,6 +94,17 @@ function App() {
                 </>
             )}
         </Admin>
+    )
+}
+
+function App() {
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Homepage />} />
+                <Route path="/dashboard/*" element={<DashboardPages />} />
+            </Routes>
+        </BrowserRouter>
     )
 }
 

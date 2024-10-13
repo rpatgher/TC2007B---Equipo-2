@@ -16,6 +16,9 @@ import formatDate from "../../helpers/formatDate";
 import styles from "./UserShow.module.css";
 import CardGraph from "../../components/CardGraph/CardGraph";
 
+// ******************** Animation **************************
+import AnimationComponent from '../../components/AnimationComponent/AnimationComponent';
+
 // *************** Types ***************
 // type User = {
 //     id: string;
@@ -67,7 +70,7 @@ export const UserShow = () => {
         dataProvider.delete('users', params)
             .then((_) => {
                 notify("Donador Físico eliminado exitosamente", { type: "success" });
-                navigate('/users');
+                navigate('/dashboard/users');
             })
             .catch((error) => {
                 console.log(error);
@@ -78,59 +81,65 @@ export const UserShow = () => {
     return (
         <>
             <GoBackButton />
-            <h1 className={styles.heading}>{user.name} {user.surname}</h1>
+            <AnimationComponent>
+                <h1 className={styles.heading}>{user.name} {user.surname}</h1>
+            </AnimationComponent>
+            <AnimationComponent dir="down">
             <div className={styles.content}>
-                <div className={styles.info}>
-                    <div className={styles.left}>
-                        <p className={styles.role}>
-                            {user.role === "admin"
-                                ? "Administrador"
-                                : user.role === "donor" ? "Donador" : "Donador Físico"}
-                        </p>
-                        <p className={styles.email}>
-                            Email: <span>{user.email}</span>
-                        </p>
-                        <p className={styles.since}>
-                            Donador desde el <span>{formatDate(user.createdAt)}</span>
-                        </p>
-                        <p className={styles["donations-label"]}>Donaciones: </p>
-                        <div className={styles.donations}>
-                            {user.donations && (
-                                <>
-                                    {user.donations.length > 0 ? (
-                                        user.donations.map((donation) => (
-                                            <DonationCardInShow
-                                                key={donation.id}
-                                                donation={donation}
-                                            />
-                                        ))
-                                    ) : (
-                                        <p className={styles.nodonations}>Sin donaciones realizadas</p>
+                    <div className={styles.info}>
+                        <div className={styles.left}>
+                            <p className={styles.role}>
+                                {user.role === "admin"
+                                    ? "Administrador"
+                                    : user.role === "donor" ? "Donador" : "Donador Físico"}
+                            </p>
+                            <p className={styles.email}>
+                                Email: <span>{user.email}</span>
+                            </p>
+                            <p className={styles.since}>
+                                Donador desde el <span>{formatDate(user.createdAt)}</span>
+                            </p>
+                            <p className={styles["donations-label"]}>Donaciones: </p>
+                            <AnimationComponent>
+                                <div className={styles.donations}>
+                                    {user.donations && (
+                                        <>
+                                            {user.donations.length > 0 ? (
+                                                user.donations.map((donation) => (
+                                                    <DonationCardInShow
+                                                        key={donation.id}
+                                                        donation={donation}
+                                                    />
+                                                ))
+                                            ) : (
+                                                <p className={styles.nodonations}>Sin donaciones realizadas</p>
+                                            )}
+                                        </>
                                     )}
-                                </>
-                            )}
+                                </div>
+                            </AnimationComponent>
+                        </div>
+                        <div className={styles.right}>
+                            <div className={styles.graphs}>
+                                <CardGraph
+                                    heading="Donaciones"
+                                    amount={user?.donations?.length}
+                                />
+                                <CardGraph
+                                    heading="Total donado"
+                                    amount={user.donations.reduce(
+                                        (
+                                            acc: number,
+                                            donation: { amount: number }
+                                        ) => acc + donation.amount,
+                                        0
+                                    )}
+                                    money
+                                />
+                            </div>
                         </div>
                     </div>
-                    <div className={styles.right}>
-                        <div className={styles.graphs}>
-                            <CardGraph
-                                heading="Donaciones"
-                                amount={user?.donations?.length}
-                            />
-                            <CardGraph
-                                heading="Total donado"
-                                amount={user.donations.reduce(
-                                    (
-                                        acc: number,
-                                        donation: { amount: number }
-                                    ) => acc + donation.amount,
-                                    0
-                                )}
-                                money
-                            />
-                        </div>
-                    </div>
-                </div>
+                
                 <div
                     className={styles.actions}
                 >
@@ -144,7 +153,7 @@ export const UserShow = () => {
                     {user.role === "physical-donor" &&
                         <button
                             className={styles["edit-button"]}
-                            onClick={() => navigate(`/users/${user.id}`)}
+                            onClick={() => navigate(`/dashboard/users/${user.id}`)}
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
                             Editar
@@ -152,6 +161,7 @@ export const UserShow = () => {
                     }
                 </div> 
             </div>
+            </AnimationComponent>
             {modalDelete && (
                 <ModalDelete
                     entity='donador'

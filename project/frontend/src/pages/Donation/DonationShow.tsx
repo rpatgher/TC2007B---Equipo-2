@@ -16,6 +16,9 @@ import formatMoney from "../../helpers/formatMoney";
 // *************** Styles ***************
 import styles from "./DonationShow.module.css";
 
+// ******************** Animation **************************
+import AnimationComponent from '../../components/AnimationComponent/AnimationComponent';
+
 // *************** Types ***************
 type Donation = {
     id?: string;
@@ -106,7 +109,7 @@ export const DonationShow = () => {
             .delete("donations", { id: donation.id })
             .then((_) => {
                 notify("Donación eliminada correctamente", { type: "info" });
-                navigate("/donations");
+                navigate("/dashboard/donations");
             })
             .catch((error) => {
                 console.log(error);
@@ -119,61 +122,65 @@ export const DonationShow = () => {
 
     return (
         <>
-            <GoBackButton />
-            {permissions === "admin" && (
-                <h1 className={styles.heading}>
-                    Donación de {donation.donor.name} {donation.donor.surname}
-                </h1>
-            )}
-            <div className={styles.content}>
-                <div className={styles.info}>
-                    <div className={styles.left}>
-                        <p className={styles.since}>
-                            Donado el <span>{formatDate(donation.createdAt)}</span>
-                        </p>
-                        <p className={styles.method}>
-                            Método de pago: <span>{donation.method.slice(0, 1).toUpperCase() + donation.method.slice(1)}</span>
-                        </p>
-                        <p className={styles["project-label"]}>Projecto:</p>
-                        <ProjectCardInShow 
-                            project={donation.project} 
-                        />
+            <AnimationComponent>
+                <GoBackButton />
+                {permissions === "admin" && (
+                    <h1 className={styles.heading}>
+                        Donación de {donation.donor.name} {donation.donor.surname}
+                    </h1>
+                )}
+            </AnimationComponent>
+            <AnimationComponent dir="down">
+                <div className={styles.content}>
+                    <div className={styles.info}>
+                        <div className={styles.left}>
+                            <p className={styles.since}>
+                                Donado el <span>{formatDate(donation.createdAt)}</span>
+                            </p>
+                            <p className={styles.method}>
+                                Método de pago: <span>{donation.method.slice(0, 1).toUpperCase() + donation.method.slice(1)}</span>
+                            </p>
+                            <p className={styles["project-label"]}>Projecto:</p>
+                            <ProjectCardInShow 
+                                project={donation.project} 
+                            />
+                        </div>
+                        <div className={styles.right}>
+                            <p className={styles.amount}>Monto: {formatMoney(donation.amount)}</p>
+                        </div>
                     </div>
-                    <div className={styles.right}>
-                        <p className={styles.amount}>Monto: {formatMoney(donation.amount)}</p>
-                    </div>
-                </div>
-                <div className={styles.actions}>
-                    {permissions === "admin" && (
-                        <>
-                            <button
-                                className={styles["edit-button"]}
-                                onClick={() => navigate(`/donations/${donation.id}`)}
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    height="24px"
-                                    viewBox="0 -960 960 960"
-                                    width="24px"
-                                    fill="#e8eaed"
-                                >
-                                    <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" />
-                                </svg>
-                                Editar
-                            </button>
-                            {donation.donor.role === 'physical-donor' && (
+                    <div className={styles.actions}>
+                        {permissions === "admin" && (
+                            <>
                                 <button
-                                    className={styles["delete-button"]}
-                                    onClick={handleDelete}
+                                    className={styles["edit-button"]}
+                                    onClick={() => navigate(`/dashboard/donations/${donation.id}`)}
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
-                                    Borrar
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        height="24px"
+                                        viewBox="0 -960 960 960"
+                                        width="24px"
+                                        fill="#e8eaed"
+                                    >
+                                        <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" />
+                                    </svg>
+                                    Editar
                                 </button>
-                            )}
-                        </>
-                    )}
+                                {donation.donor.role === 'physical-donor' && (
+                                    <button
+                                        className={styles["delete-button"]}
+                                        onClick={handleDelete}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
+                                        Borrar
+                                    </button>
+                                )}
+                            </>
+                        )}
+                    </div>
                 </div>
-            </div>
+            </AnimationComponent>
             {modalDelete && (
                 <ModalDelete
                     entity='proyecto'

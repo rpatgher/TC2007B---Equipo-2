@@ -38,7 +38,7 @@ const Login = () => {
                 password: user.password
             });
             notify('Usuario registrado correctamente', { type:'success' });
-            navigate('/login');
+            navigate('/dashboard/login');
         } catch (error) {
             notify('Error al registrar usuario. Intente Nuevamente', { type:'error' });
             setUser({
@@ -154,8 +154,8 @@ const Login = () => {
                     Registrarse
                 </button>
                 <div className={styles.actions}>
-                    <p>¿Ya tienes cuenta? <Link to='/login'>Inicia Sesión</Link></p>
-                    <p>¿Olvistaste tu contraseña? <Link to='/forgot'>Reestablécela</Link></p>
+                    <p>¿Ya tienes cuenta? <Link to='/dashboard/login'>Inicia Sesión</Link></p>
+                    <p>¿Olvistaste tu contraseña? <Link to='/dashboard/forgot'>Reestablécela</Link></p>
                 </div>
             </form>
         </main>

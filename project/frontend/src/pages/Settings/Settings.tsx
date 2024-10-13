@@ -8,6 +8,9 @@ import styles from './Settings.module.css';
 import Impact from './Impact';
 import Donations from './Donations';
 
+// ******************** Animation **************************
+import AnimationComponent from '../../components/AnimationComponent/AnimationComponent';
+
 const Settings = () => {
     const notify = useNotify();
     const [config, setConfig] = useState({
@@ -59,20 +62,24 @@ const Settings = () => {
 
     return (
         <>
-            <h1 className={styles.heading}>Configuración</h1>
-            <div className={styles.content}>
-                <p>Configuración de la aplicación</p>
-            </div>
-            <div className={styles.settings}>
-                <Donations 
-                    initialConfig={config.donations_asignment} 
-                    setConfig={setConfig}
-                />
-                <Impact 
-                    config={config}
-                    setConfig={setConfig}
-                />
-            </div>
+            <AnimationComponent>
+                <h1 className={styles.heading}>Configuración</h1>
+                <div className={styles.content}>
+                    <p>Configuración de la aplicación</p>
+                </div>
+            </AnimationComponent>
+            <AnimationComponent dir="down">
+                <div className={styles.settings}>
+                    <Donations 
+                        initialConfig={config.donations_asignment} 
+                        setConfig={setConfig}
+                    />
+                    <Impact 
+                        config={config}
+                        setConfig={setConfig}
+                    />
+                </div>
+            </AnimationComponent>
         </>
     )
 }

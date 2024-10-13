@@ -20,7 +20,7 @@ const DonationCardInShow = ({ donation }: { donation: Donation }) => {
     return (
         <div
             className={styles.donation}
-            onClick={() => navigate(`/donations/${donation.id}/show`)}
+            onClick={() => navigate(`/dashboard/donations/${donation.id}/show`)}
         >
             <div className={styles.left}>
                 {donation.project ? (

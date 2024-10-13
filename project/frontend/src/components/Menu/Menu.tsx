@@ -19,26 +19,26 @@ export const MyMenu = () => {
         <div className={styles.bar}>
             <nav className={styles.navbar}>
                 <Menu.Item
-                    to="/"
+                    to="/dashboard/"
                     primaryText="Inicio"
                     leftIcon={<HomeIcon />}
                     className={styles.navbarItem}
                 />
                 {permissions === "admin" &&
                     <Menu.Item
-                        to="/users"
+                        to="/dashboard/users"
                         primaryText="Donadores"
                         leftIcon={<Diversity1Icon />}
                     />
                 }
                 <Menu.Item
-                    to="/donations"
+                    to="/dashboard/donations"
                     primaryText="Donaciones"
                     leftIcon={<VolunteerActivismIcon />}
                 />
                 {permissions === "admin" &&
                     <Menu.Item
-                        to="/projects"
+                        to="/dashboard/projects"
                         primaryText="Proyectos"
                         leftIcon={<AccountTreeIcon />}
                     />
@@ -46,7 +46,7 @@ export const MyMenu = () => {
             </nav>
             {permissions === "admin" &&
                 <Menu.Item
-                    to="/settings"
+                    to="/dashboard/settings"
                     primaryText="Configuración"
                     leftIcon={<SettingsIcon />}
                 />

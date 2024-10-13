@@ -55,7 +55,7 @@
 //             setError(error.message || "Error al procesar el pago");
 //         } else {
 //             notify("Pago exitoso", { type: "success" });
-//             navigate("/success");
+//             navigate("/dashboard/success");
 //         }
 //         setIsProcessing(false);
 //     };

@@ -12,4 +12,7 @@
     padding: 20px 50px;
     flex: 1;
     overflow-y: scroll;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
 }

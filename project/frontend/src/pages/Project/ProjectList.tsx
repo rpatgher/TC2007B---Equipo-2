@@ -9,6 +9,9 @@ import ProjectCard from "../../components/ProjectCard/ProjectCard";
 import Toolbar from "../../components/Toolbar/Toolbar";
 import Actions from "../../components/Actions/Actions";
 
+// ******************** Animation **************************
+import AnimationComponent from '../../components/AnimationComponent/AnimationComponent';
+
 type Project = {
     id: string;
     name: string;
@@ -50,7 +53,9 @@ export const ProjectList = () => {
 
     return (
         <>
-            <h1 className={styles.heading}>Proyectos</h1>
+            <AnimationComponent>
+                <h1 className={styles.heading}>Proyectos</h1>
+            </AnimationComponent>
             <List emptyWhileLoading actions={false} pagination={false}>
                 <div className={styles.content}>
                     <div className={styles.table}>
@@ -58,8 +63,11 @@ export const ProjectList = () => {
                             filter={filter}
                             setFilter={setFilter}
                             entity="proyecto"
+                            createPath="/dashboard/projects/create"
                         />
-                        <ProjectListView data={data || []} />
+                        <AnimationComponent dir="down">
+                            <ProjectListView data={data || []} />
+                        </AnimationComponent>
                         <Toolbar
                             perPage={perPage}
                             setPerPage={setPerPage}

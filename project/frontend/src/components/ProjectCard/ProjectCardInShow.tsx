@@ -44,7 +44,7 @@ const ProjectCardInShow = ({ project }: { project: Project }) => {
     return (
         <div
             className={`${styles.project} ${(!project || permissions === 'donor') && styles["no-hover"]}`}
-            onClick={() => permissions === 'admin' && project && navigate(`/projects/${project.id}/show`)}
+            onClick={() => permissions === 'admin' && project && navigate(`/dashboard/projects/${project.id}/show`)}
         >
             <div className={styles.left}>
                 {project?.type && (

@@ -17,6 +17,9 @@ import formatToMoney from "../../helpers/formatMoney";
 // *************** Styles ***************
 import styles from "./ProjectShow.module.css";
 
+// ******************** Animation **************************
+import AnimationComponent from '../../components/AnimationComponent/AnimationComponent';
+
 // *************** Types ***************
 // type Project = {
 //     id?: string;
@@ -139,124 +142,128 @@ export const ProjectShow = () => {
 
     return (
         <>
-            <GoBackButton />
-            <h1 className={styles.heading}>{project.name}</h1>
-            <div className={styles.content}>
-                <div className={styles["image-info"]}>
-                    <div className={styles.image}>
-                        <img 
-                            src={`${import.meta.env.VITE_API_URL}/uploads/projects/${project.image}`} 
-                            alt={project.name} 
-                        />
-                    </div>
-                    <div className={styles.info}>
-                        <div className={styles.graphs}>
-                            <CircleGraph
-                                heading="Progreso"
-                                percentage
-                                amount={calculateProgress()}
-                                target={100}
-                            />
-                            <CircleGraph
-                                heading="Recaudado"
-                                amount={project.money_raised}
-                                money
-                                target={project.money_goal}
+            <AnimationComponent>
+                <GoBackButton />
+                <h1 className={styles.heading}>{project.name}</h1>
+            </AnimationComponent>
+            <AnimationComponent dir="down">
+                <div className={styles.content}>
+                    <div className={styles["image-info"]}>
+                        <div className={styles.image}>
+                            <img 
+                                src={`${import.meta.env.VITE_API_URL}/uploads/projects/${project.image}`} 
+                                alt={project.name} 
                             />
                         </div>
-                        <p className={styles.type}>
-                            {project.type === "sexuality"
-                                ? "Sexualidad"
-                                : project.type === "nutrition" ? "Nutrición" : "Agua"}
-                        </p>
-                        <p className={styles.description}>
-                            {project.description}
-                        </p>
-                        <p className={styles.goal}>
-                            Objetivo: <span>{formatToMoney(parseInt(project.money_goal))}</span>
-                        </p>
-                        <p className={styles.impact}>
-                            Impacto: <span>{project.impact} {project.type && project.impacts && project.impacts[project.type] ? project.impacts[project.type].unit + ' ' + project.impacts[project.type].description : ''}</span> 
-                        </p>
-                        <div className={styles.milestones}>
-                            <div className={styles["progress-bar"]}>
-                                <div 
-                                    className={styles["progress"]}
-                                    style={{
-                                        width: `${calculateProgress()}%`
-                                    }}
-                                ></div>
+                        <div className={styles.info}>
+                            <div className={styles.graphs}>
+                                <CircleGraph
+                                    heading="Progreso"
+                                    percentage
+                                    amount={calculateProgress()}
+                                    target={100}
+                                />
+                                <CircleGraph
+                                    heading="Recaudado"
+                                    amount={project.money_raised}
+                                    money
+                                    target={project.money_goal}
+                                />
                             </div>
-                            <div className={styles["milestones-list"]}>
-                                {project.milestones && (
+                            <p className={styles.type}>
+                                {project.type === "sexuality"
+                                    ? "Sexualidad"
+                                    : project.type === "nutrition" ? "Nutrición" : "Agua"}
+                            </p>
+                            <p className={styles.description}>
+                                {project.description}
+                            </p>
+                            <p className={styles.goal}>
+                                Objetivo: <span>{formatToMoney(parseInt(project.money_goal))}</span>
+                            </p>
+                            <p className={styles.impact}>
+                                Impacto: <span>{project.impact} {project.type && project.impacts && project.impacts[project.type] ? project.impacts[project.type].unit + ' ' + project.impacts[project.type].description : ''}</span> 
+                            </p>
+                            <div className={styles.milestones}>
+                                <div className={styles["progress-bar"]}>
+                                    <div 
+                                        className={styles["progress"]}
+                                        style={{
+                                            width: `${calculateProgress()}%`
+                                        }}
+                                    ></div>
+                                </div>
+                                <div className={styles["milestones-list"]}>
+                                    {project.milestones && (
+                                        <>
+                                            {project.milestones.length > 0 ? (
+                                                project.milestones.map(milestone => (
+                                                    <div
+                                                        key={milestone._id}
+                                                        className={styles.milestone}
+                                                        style={{
+                                                            left: `${milestone.percentage}%`,
+                                                        }}
+                                                    >
+                                                        <div className={`${styles.circle} ${milestone.reached ? styles.reached : ''}`}></div>
+                                                        <p>{milestone.description}</p>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <p className={styles.nodonations}>Sin hitos asignados</p>
+                                            )}
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                            <p className={styles.since}>
+                                Creado el {" "}
+                                <span>{formatDate(project.createdAt)}</span>
+                                {" "} por {" "}
+                                <span>{project.creator.name} {project.creator.surname}</span>
+                            </p>
+                        </div>
+                        <div className={styles["label-content-donations"]}>
+                            <p className={styles["donations-label"]}>Donaciones:</p>
+                            <div className={styles.donations}>
+                                {project.donations && (
                                     <>
-                                        {project.milestones.length > 0 ? (
-                                            project.milestones.map(milestone => (
-                                                <div
-                                                    key={milestone._id}
-                                                    className={styles.milestone}
-                                                    style={{
-                                                        left: `${milestone.percentage}%`,
-                                                    }}
-                                                >
-                                                    <div className={`${styles.circle} ${milestone.reached ? styles.reached : ''}`}></div>
-                                                    <p>{milestone.description}</p>
-                                                </div>
+                                        {project.donations.length > 0 ? (
+                                            project.donations.map((donation) => (
+                                                <DonationCard
+                                                    key={donation.id}
+                                                    donation={donation}
+                                                    inShow={false}
+                                                />
                                             ))
                                         ) : (
-                                            <p className={styles.nodonations}>Sin hitos asignados</p>
+                                            <p className={styles.nodonations}>Sin donaciones asignadas</p>
                                         )}
                                     </>
                                 )}
                             </div>
                         </div>
-                        <p className={styles.since}>
-                            Creado el {" "}
-                            <span>{formatDate(project.createdAt)}</span>
-                            {" "} por {" "}
-                            <span>{project.creator.name} {project.creator.surname}</span>
-                        </p>
                     </div>
-                    <div className={styles["label-content-donations"]}>
-                        <p className={styles["donations-label"]}>Donaciones:</p>
-                        <div className={styles.donations}>
-                            {project.donations && (
-                                <>
-                                    {project.donations.length > 0 ? (
-                                        project.donations.map((donation) => (
-                                            <DonationCard
-                                                key={donation.id}
-                                                donation={donation}
-                                                inShow={false}
-                                            />
-                                        ))
-                                    ) : (
-                                        <p className={styles.nodonations}>Sin donaciones asignadas</p>
-                                    )}
-                                </>
-                            )}
-                        </div>
-                    </div>
+                    <div
+                        className={styles.actions}
+                    >
+                        <button
+                            className={styles["delete-button"]}
+                            onClick={handleDelete}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
+                            Borrar
+                        </button>
+                        <button
+                            className={styles["edit-button"]}
+                            onClick={() => navigate(`/dashboard/projects/${project.id}`)}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
+                            Editar
+                        </button>    
+                    </div>  
                 </div>
-                <div
-                    className={styles.actions}
-                >
-                    <button
-                        className={styles["delete-button"]}
-                        onClick={handleDelete}
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
-                        Borrar
-                    </button>
-                    <button
-                        className={styles["edit-button"]}
-                        onClick={() => navigate(`/projects/${project.id}`)}
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
-                        Editar
-                    </button>    
-                </div>  
-            </div>
+            </AnimationComponent>
             {modalDelete && (
                 <ModalDelete
                     entity='proyecto'

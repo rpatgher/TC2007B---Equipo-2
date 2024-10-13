@@ -10,6 +10,9 @@ import styles from "./ProjectCU.module.css";
 // *************** Components ***************
 import GoBackButton from "../../components/GoBackButton/GoBackButton";
 
+// ******************** Animation **************************
+import AnimationComponent from '../../components/AnimationComponent/AnimationComponent';
+
 // *************** Types ***************
 type Project = {
     id?: string;
@@ -84,7 +87,7 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
                 .then((_) => {
                     // console.log(response);
                     notify("Proyecto actualizado exitosamente", { type: "success" });
-                    navigate('/projects');
+                    navigate('/dashboard/projects');
                 })
                 .catch((error) => {
                     console.log(error);
@@ -99,7 +102,7 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
                 .then((_) => {
                     // console.log(response);
                     notify("Proyecto creado exitosamente", { type: "success" });
-                    navigate('/projects');
+                    navigate('/dashboard/projects');
                 })
                 .catch((error) => {
                     console.log(error);
@@ -344,14 +347,18 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
 export const ProjectCreate = () => {
     return (
         <>
-            <GoBackButton />
-            <h1 className={styles.heading}>Crear Nuevo Proyecto</h1>
-            <div className={styles.content}>
-                <ProjectCreateForm />
-                <aside className={styles.sidebar}>
-                    
-                </aside>
-            </div>
+            <AnimationComponent>
+                <GoBackButton />
+                <h1 className={styles.heading}>Crear Nuevo Proyecto</h1>
+            </AnimationComponent>
+            <AnimationComponent dir="down">
+                <div className={styles.content}>
+                    <ProjectCreateForm />
+                    <aside className={styles.sidebar}>
+                        
+                    </aside>
+                </div>
+            </AnimationComponent>
         </>
     )
 }
@@ -395,17 +402,21 @@ export const ProjectUpdate = () => {
 
     return (
         <>
-            <GoBackButton />
-            <h1 className={styles.heading}>Editar Proyecto: {project.name}</h1>
-            <div className={styles.content}>
-                <ProjectCreateForm 
-                    initialProject={project}
-                    edit
-                />
-                <aside className={styles.sidebar}>
+            <AnimationComponent>
+                <GoBackButton />
+                <h1 className={styles.heading}>Editar Proyecto: {project.name}</h1>
+            </AnimationComponent>
+            <AnimationComponent dir="down">
+                <div className={styles.content}>
+                    <ProjectCreateForm 
+                        initialProject={project}
+                        edit
+                    />
+                    <aside className={styles.sidebar}>
 
-                </aside>
-            </div>
+                    </aside>
+                </div>
+            </AnimationComponent>
         </>
     )
 }

@@ -27,4 +27,24 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    gap: 10px;
+}
+.create{
+    background-color: var(--blue);
+    border: none;
+    border-radius: 10px;
+    color: var(--white);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px 10px;
+
+    display: flex;
+    align-items: center;
+}
+.create:hover{
+    background-color: var(--primary);
+}
+.create svg{
+    fill: var(--white);
+    width: 20px;
 }

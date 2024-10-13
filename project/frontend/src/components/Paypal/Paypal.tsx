@@ -78,7 +78,7 @@ const PayPalPayment: React.FC<PayPalPaymentProps> = ({ amount, project, asignmen
                                     .then(response => {
                                         if (response.ok) {
                                             notify('Pago exitoso', { type: 'info' });
-                                            navigate('/success');
+                                            navigate('/dashboard/success');
                                         } else {
                                             notify('Error al guardar el pago en la base de datos', { type: 'error' });
                                         }

@@ -10,6 +10,9 @@ import styles from "./UserCU.module.css";
 // *************** Components ***************
 import GoBackButton from "../../components/GoBackButton/GoBackButton";
 
+// ******************** Animation **************************
+import AnimationComponent from '../../components/AnimationComponent/AnimationComponent';
+
 // *************** Types ***************
 type User = {
     id: string;
@@ -50,10 +53,10 @@ export const UserCreateForm = ({ initialUser, edit }: { initialUser?: User, edit
         document.body.style.cursor = 'wait';
         if(edit && initialUser){
             dataProvider.update('users', { id: initialUser.id, data: user })
-                .then((response) => {
+                .then((_) => {
                     // console.log(response);
                     notify("Donador Físico actualizado exitosamente", { type: "success" });
-                    navigate('/users');
+                    navigate('/dashboard/users');
                 })
                 .catch((error) => {
                     notify("Error al actualizar el donador físico. Intenta nuevamente", { type: "error" });
@@ -65,10 +68,10 @@ export const UserCreateForm = ({ initialUser, edit }: { initialUser?: User, edit
                 });
         } else {
             dataProvider.create('users', { data: user })
-                .then((response) => {
+                .then((_) => {
                     // console.log(response);
                     notify("Donador Físico creado exitosamente", { type: "success" });
-                    navigate('/users');
+                    navigate('/dashboard/users');
                 })
                 .catch((error) => {
                     console.log(error);
@@ -128,14 +131,18 @@ export const UserCreateForm = ({ initialUser, edit }: { initialUser?: User, edit
 export const UserCreate = () => {
     return (
         <>
-            <GoBackButton />
-            <h1 className={styles.heading}>Crear Nuevo Donador Físico</h1>
-            <div className={styles.content}>
-                <UserCreateForm />
-                <aside className={styles.sidebar}>
+            <AnimationComponent>
+                <GoBackButton />
+                <h1 className={styles.heading}>Crear Nuevo Donador Físico</h1>
+            </AnimationComponent>
+            <AnimationComponent dir="down">
+                <div className={styles.content}>
+                    <UserCreateForm />
+                    <aside className={styles.sidebar}>
 
-                </aside>
-            </div>
+                    </aside>
+                </div>
+            </AnimationComponent>
         </>
     )
 };
@@ -166,17 +173,21 @@ export const UserUpdate = () => {
 
     return (
         <>
-            <GoBackButton />
-            <h1 className={styles.heading}>Editar Donador Físico: {user.name} {user.surname}</h1>
-            <div className={styles.content}>
-                <UserCreateForm 
-                    initialUser={user}
-                    edit
-                />
-                <aside className={styles.sidebar}>
+            <AnimationComponent>
+                <GoBackButton />
+                <h1 className={styles.heading}>Editar Donador Físico: {user.name} {user.surname}</h1>
+            </AnimationComponent>
+            <AnimationComponent dir="down">
+                <div className={styles.content}>
+                    <UserCreateForm 
+                        initialUser={user}
+                        edit
+                    />
+                    <aside className={styles.sidebar}>
 
-                </aside>
-            </div>
+                    </aside>
+                </div>
+            </AnimationComponent>
         </>
     )
 

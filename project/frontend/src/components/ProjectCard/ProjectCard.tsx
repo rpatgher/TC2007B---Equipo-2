@@ -11,6 +11,9 @@ import formatDate from "../../helpers/formatDate";
 // ****************** styles ******************* //
 import styles from "./ProjectCard.module.css";
 
+// ******************** Animation **************************
+import AnimationComponent from '../../components/AnimationComponent/AnimationComponent';
+
 type Project = {
     id: string;
     name: string;
@@ -44,7 +47,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
     return (
         <div
             className={styles.project}
-            onClick={() => navigate(`/projects/${project.id}/show`)}
+            onClick={() => navigate(`/dashboard/projects/${project.id}/show`)}
         >
             <div className={styles.left}>
                 <p className={styles.type}>

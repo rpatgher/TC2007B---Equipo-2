@@ -12,6 +12,9 @@ import GoBackButton from "../../components/GoBackButton/GoBackButton";
 import PayPalPayment from "../../components/Paypal/Paypal";
 import StripePayment from "../../components/Stripe/Stripe";
 
+// ******************** Animation **************************
+import AnimationComponent from '../../components/AnimationComponent/AnimationComponent';
+
 type Donation = {
     id?: string;
     amount: number;
@@ -341,7 +344,7 @@ export const DonationFormAdmin = ({
             dataProvider.update("donations", { id: initialDonation.id, data: donation })
                 .then((_) => {
                     notify("Donación actualizada exitosamente", { type: "success" });
-                    navigate("/donations");
+                    navigate("/dashboard/donations");
                     setLoading(false);
                     document.body.style.cursor = "default";
                 })
@@ -360,7 +363,7 @@ export const DonationFormAdmin = ({
                 .then((_) => {
                     notify("Donación creada exitosamente", { type: "success" });
                     setLoading(false);
-                    navigate("/donations");
+                    navigate("/dashboard/donations");
                     document.body.style.cursor = "default";
                 })
                 .catch((error) => {
@@ -463,12 +466,16 @@ export const DonationFormAdmin = ({
 export const DonationCreateAdmin = () => {
     return (
         <>
-            <GoBackButton />
-            <h1 className={styles.heading}>Crear Donación Física</h1>
-            <div className={styles.content}>
-                <DonationFormAdmin />
-                <aside className={styles.sidebar}></aside>
-            </div>
+            <AnimationComponent>
+                <GoBackButton />
+                <h1 className={styles.heading}>Crear Donación Física</h1>
+            </AnimationComponent>
+            <AnimationComponent dir="down">
+                <div className={styles.content}>
+                    <DonationFormAdmin />
+                    <aside className={styles.sidebar}></aside>
+                </div>
+            </AnimationComponent>
         </>
     );
 };
@@ -526,18 +533,22 @@ export const DonationUpdateAdmin = () => {
 
     return (
         <>
-            <GoBackButton />
-            <h1 className={styles.heading}>
-                Editar Donación de {donation.donor.name}{" "}
-                {donation.donor.surname}
-            </h1>
-            <div className={styles.content}>
-                <DonationFormAdmin 
-                    initialDonation={donation}
-                    edit
-                />
-                <aside className={styles.sidebar}></aside>
-            </div>
+            <AnimationComponent>
+                <GoBackButton />
+                <h1 className={styles.heading}>
+                    Editar Donación de {donation.donor.name}{" "}
+                    {donation.donor.surname}
+                </h1>
+            </AnimationComponent>
+            <AnimationComponent dir="down">
+                <div className={styles.content}>
+                    <DonationFormAdmin 
+                        initialDonation={donation}
+                        edit
+                    />
+                    <aside className={styles.sidebar}></aside>
+                </div>
+            </AnimationComponent>
         </>
     );
 };

@@ -56,8 +56,8 @@ const Login = () => {
                     Enviar instrucciones
                 </button>
                 <div className={styles.actions}>
-                    <p>¿Ya tienes cuenta? <Link to='/login'>Inicia Sesión</Link></p>
-                    <p>¿No tienes cuenta? <Link to='/register'>Regístrate</Link></p>
+                    <p>¿Ya tienes cuenta? <Link to='/dashboard/login'>Inicia Sesión</Link></p>
+                    <p>¿No tienes cuenta? <Link to='/dashboard/register'>Regístrate</Link></p>
                 </div>
             </form>
         </main>

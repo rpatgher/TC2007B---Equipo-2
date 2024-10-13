@@ -45,7 +45,7 @@ export const AppBar = () => {
                 <div className={styles["drop-down"]}>
                     <div onClick={() => {
                         authProvider?.logout(null).then(() => {
-                            navigate('/login');
+                            navigate('/dashboard/login');
                         });
                     }}>
                         <LogoutIcon />

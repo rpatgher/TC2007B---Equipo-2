@@ -77,8 +77,8 @@ const Login = () => {
                     Iniciar Sesión
                 </button>
                 <div className={styles.actions}>
-                    <p>¿No tienes cuenta? <Link to='/register'>Regístrate</Link></p>
-                    <p>¿Olvistaste tu contraseña? <Link to='/forgot'>Reestablécela</Link></p>
+                    <p>¿No tienes cuenta? <Link to='/dashboard/register'>Regístrate</Link></p>
+                    <p>¿Olvistaste tu contraseña? <Link to='/dashboard/forgot'>Reestablécela</Link></p>
                 </div>
             </form>
         </main>
