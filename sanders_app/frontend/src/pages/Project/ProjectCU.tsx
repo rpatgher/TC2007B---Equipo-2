@@ -189,7 +189,7 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
         >
             <div className={styles.fields}>
                 <div className={`${styles.field} ${styles["image-field"]}`}>
-                    <label htmlFor="img">Imagen</label>
+                    <label htmlFor="img" className='field-required'>Imagen</label>
                     <input 
                         type="file" 
                         id="img" 
@@ -211,7 +211,7 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
                     )}
                 </div>
                 <div className={`${styles.field} ${styles["type-field"]}`}>
-                    <label htmlFor="type">Categoría</label>
+                    <label htmlFor="type" className='field-required'>Categoría</label>
                     <select 
                         id="type" 
                         name="type"
@@ -226,7 +226,7 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
                     </select>
                 </div>
                 <div className={`${styles.field} ${styles["name-field"]}`}>
-                    <label htmlFor="name">Nombre</label>
+                    <label htmlFor="name" className='field-required'>Nombre</label>
                     <input 
                         type="text" 
                         id="name" 
@@ -237,7 +237,7 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
                     />
                 </div>
                 <div className={`${styles.field} ${styles["description-field"]}`}>
-                    <label htmlFor="description">Descripción</label>
+                    <label htmlFor="description" className='field-required'>Descripción</label>
                     <textarea 
                         id="description" 
                         name="description" 
@@ -247,7 +247,7 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
                     />
                 </div>
                 <div className={`${styles.field} ${styles["goal-field"]}`}>
-                    <label htmlFor="goal">Meta</label>
+                    <label htmlFor="goal" className='field-required'>Meta</label>
                     <input 
                         type="number" 
                         id="goal" 
@@ -258,7 +258,7 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
                     />
                 </div>
                 <div className={`${styles.field} ${styles["impact-field"]}`}>
-                    <label htmlFor="impact">Impacto {project.type && <>({impacts && impacts[project.type].unit})</>}</label>
+                    <label htmlFor="impact" className='field-required'>Impacto {project.type && <>({impacts && impacts[project.type].unit})</>}</label>
                     <input 
                         type="number" 
                         id="impact" 
@@ -270,7 +270,7 @@ const ProjectCreateForm = ({initialProject, edit} : { initialProject?: Project, 
                 </div>
                 <div className={`${styles.field} ${styles["milestones"]}`}>
                     <div className={styles["milestones-actions-label"]}>
-                        <label htmlFor="milestones">Milestones</label>
+                        <label htmlFor="milestones" className='field-required'>Milestones</label>
                         <div className={styles["milestones-actions"]}>
                             <button 
                                 type="button"
@@ -355,7 +355,11 @@ export const ProjectCreate = () => {
                 <div className={styles.content}>
                     <ProjectCreateForm />
                     <aside className={styles.sidebar}>
-                        
+                        <AnimationComponent dir="right">
+                            <div className={styles["sidebar-content"]}>
+                                <p>*** Poner algo aquí ***</p>
+                            </div>
+                        </AnimationComponent>
                     </aside>
                 </div>
             </AnimationComponent>
@@ -413,7 +417,11 @@ export const ProjectUpdate = () => {
                         edit
                     />
                     <aside className={styles.sidebar}>
-
+                        <AnimationComponent dir="right">
+                            <div className={styles["sidebar-content"]}>
+                                <p>*** Poner algo aquí ***</p>
+                            </div>
+                        </AnimationComponent>
                     </aside>
                 </div>
             </AnimationComponent>

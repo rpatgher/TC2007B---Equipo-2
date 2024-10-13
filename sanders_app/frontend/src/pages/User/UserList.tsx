@@ -1,9 +1,5 @@
 import { useState } from "react";
 import { List, useGetList } from "react-admin";
-import { useNavigate } from "react-router-dom";
-
-// ***************** Helpers ***************** //
-import formatDate from "../../helpers/formatDate";
 
 // ***************** Styles ***************** //
 import styles from "./UserList.module.css";
@@ -11,7 +7,7 @@ import styles from "./UserList.module.css";
 // ***************** Components ***************** //
 import Toolbar from "../../components/Toolbar/Toolbar";
 import Actions from "../../components/Actions/Actions";
-import CardGraph from "../../components/CardGraph/CardGraph";
+import UserCard from "../../components/UserCard/UserCard";
 
 // ******************** Animation **************************
 import AnimationComponent from '../../components/AnimationComponent/AnimationComponent';
@@ -27,52 +23,14 @@ type User = {
 };
 
 const UserListView = ({ data }: {data: Array<User>}) => {
-    const navigate = useNavigate();
     return (
         <div className={styles.users}>
             {data &&
                 data.map((record) => (
-                    <div 
+                    <UserCard 
                         key={record.id} 
-                        className={styles.user}
-                        onClick={() => navigate(`/dashboard/users/${record.id}/show`)}
-                    >
-                        <div className={styles.left}>
-                            <p className={styles.role}>
-                                {record.role === "donor"
-                                    ? "Donador"
-                                    : record.role === "admin" ? "Administrador" : "Donador Físico"}
-                            </p>
-                            <p className={styles.name}>
-                                {record.name} {record.surname}
-                                <span>{record.email}</span>
-                            </p>
-                            {/* <p>{record.email}</p> */}
-                            <p className={styles.since}>
-                                Desde:{" "}
-                                <span>{formatDate(record.createdAt)}</span>
-                            </p>
-                        </div>
-                        <div className={styles.right}>
-                            <div className={styles.graphs}>
-                                <CardGraph
-                                    heading="Donaciones"
-                                    amount={record?.donations?.length}
-                                />
-                                <CardGraph
-                                    heading="Total donado"
-                                    amount={record?.donations?.reduce(
-                                        (
-                                            acc: number,
-                                            donation: { amount: number }
-                                        ) => acc + donation.amount,
-                                        0
-                                    )}
-                                    money
-                                />
-                            </div>
-                        </div>
-                    </div>
+                        user={record}
+                    />
                 ))}
         </div>
     );
@@ -116,7 +74,15 @@ export const UserList = () => {
                             total={total || 0}
                         />
                     </div>
-                    <aside className={styles.sidebar}></aside>
+                    <aside className={styles.sidebar}>
+                        <AnimationComponent dir="right">
+                            <div className={styles["sidebar-content"]}>
+                                <p>Esta sección es donde puedes ver a todos los <span>donadores</span> que han aportado a la fundación. Puedes ver su información y el total de donaciones que han hecho.</p>
+                                <p>Da click en un donador para ver más <span>información sobre él</span>. Puedes filtrar a los donadores por su nombre o correo electrónico.</p>
+                                <p>De igual forma puedes agregar un nuevo <span>donador físico</span>. Esto permite llevar registro no sólo de los que donan a través de la plataforma, sino también de los que aportan por <span>otros medios</span>.</p>
+                            </div>
+                        </AnimationComponent>
+                    </aside>
                 </div>
             </List>
         </>

@@ -8,7 +8,29 @@
     align-items: flex-start;
 }
 .sidebar{
-    min-width: 500px;
+    width: 45%;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 80px;
+}
+.sidebar-content{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px 30px;
+    width: 85%;
+    margin: 0 auto;
+}
+.sidebar-content p{
+    font-size: 12px;
+    margin: 0;
+}
+.sidebar-content p span{
+    font-weight: 600;
+    color: var(--black);
 }
 .form{
     width: 100%;

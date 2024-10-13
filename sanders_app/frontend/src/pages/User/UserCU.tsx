@@ -91,7 +91,7 @@ export const UserCreateForm = ({ initialUser, edit }: { initialUser?: User, edit
             onSubmit={handleSubmit}
         >
             <div className={styles.field}>
-                <label htmlFor="name">Nombre</label>
+                <label htmlFor="name" className='field-required'>Nombre</label>
                 <input 
                     type="text" 
                     id="name" 
@@ -102,7 +102,7 @@ export const UserCreateForm = ({ initialUser, edit }: { initialUser?: User, edit
                 />
             </div>
             <div className={styles.field}>
-                <label htmlFor="surname">Apellido(s)</label>
+                <label htmlFor="surname" className='field-required'>Apellido(s)</label>
                 <input 
                     type="text" 
                     id="surname" 
@@ -139,7 +139,11 @@ export const UserCreate = () => {
                 <div className={styles.content}>
                     <UserCreateForm />
                     <aside className={styles.sidebar}>
-
+                        <AnimationComponent dir="right">
+                            <div className={styles["sidebar-content"]}>
+                                <p>*** Poner algo aquí ***</p>
+                            </div>
+                        </AnimationComponent>
                     </aside>
                 </div>
             </AnimationComponent>
@@ -184,7 +188,11 @@ export const UserUpdate = () => {
                         edit
                     />
                     <aside className={styles.sidebar}>
-
+                        <AnimationComponent dir="right">
+                            <div className={styles["sidebar-content"]}>
+                                <p>*** Poner algo aquí ***</p>
+                            </div>
+                        </AnimationComponent>
                     </aside>
                 </div>
             </AnimationComponent>

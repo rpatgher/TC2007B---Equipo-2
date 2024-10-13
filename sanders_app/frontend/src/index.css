@@ -92,3 +92,14 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+.field-required{
+  position: relative;
+  width: fit-content;
+}
+.field-required::before{
+  content: "*";
+  position: absolute;
+  top: 0;
+  right: -10px;
+  color: var(--red);
+}

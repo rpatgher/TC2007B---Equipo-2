@@ -9,7 +9,7 @@ import formatToMoney from '../../helpers/formatMoney';
 type Card1_4Props = {
     title: string;
     money?: boolean;
-    value: number;
+    value: number | string;
     percentage?: boolean;
     icon: any;
     legend?: string;
@@ -23,7 +23,7 @@ const Card1_4 = ({ title, money = false, value, percentage = false, icon, legend
                 {title}
             </p>
             <div className={styles["card-content"]}>
-                <p className={styles["card-value"]}>{money ? formatToMoney(value) : value}{percentage && "%"}</p>
+                <p className={styles["card-value"]}>{money ? typeof value === 'number' && formatToMoney(value) : value}{percentage && "%"}</p>
                 {legend && <p className={styles["card-legend"]}>{legend}</p>}
             </div>
             <div className={styles["card-icon"]}>

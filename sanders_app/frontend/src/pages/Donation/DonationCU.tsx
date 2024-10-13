@@ -92,7 +92,7 @@ const DonationCreateFormDonor = () => {
                     </button>
                 </div>
                 <div className={styles.field}>
-                    <label htmlFor="amount">Cantidad</label>
+                    <label htmlFor="amount" className='field-required'>Cantidad</label>
                     <input
                         id="amount"
                         type="number"
@@ -117,7 +117,7 @@ const DonationCreateFormDonor = () => {
                     />
                 </div>
                 <div className={styles.field}>
-                    <label>Proyecto a donar</label>
+                    <label className='field-required'>Proyecto a donar</label>
                     <p className={styles.notes}>¿Gustarías asignar tu donación directamente a una proyecto?</p>
                     <div className={styles.asignments}>
                         <div className={`${styles.asignment} ${selectedAsignment === 'auto' && styles.active}`}>
@@ -146,7 +146,7 @@ const DonationCreateFormDonor = () => {
                     </div>
                     {selectedAsignment === 'manual' && (
                         <div className={styles.projects}>
-                            <label htmlFor="project">Projecto</label>
+                            <label htmlFor="project" className='field-required'>Proyecto</label>
                             <select
                                 name="project"
                                 id="project"
@@ -169,7 +169,7 @@ const DonationCreateFormDonor = () => {
             </div>
             <aside className={styles["sidebar-donor"]}>
             <div className={`${styles.field} ${styles["field-sidebar"]}`}>
-                    <label>Método de Pago</label>
+                    <label className='field-required'>Método de Pago</label>
                     <div className={styles.methods}>
                         <button
                             type="button"
@@ -178,7 +178,7 @@ const DonationCreateFormDonor = () => {
                             }`}
                             onClick={() => setSelectedMethod("stripe")}
                         >
-                            Tarjeta de Crédito
+                            Stripe
                         </button>
                         <button
                             type="button"
@@ -391,7 +391,7 @@ export const DonationFormAdmin = ({
                 ) : (
                     <>
                         <div className={`${styles.field}`}>
-                            <label htmlFor="donor">Donador</label>
+                            <label htmlFor="donor" className='field-required'>Donador</label>
                             <select 
                                 name="donor"
                                 id="donor"
@@ -412,7 +412,7 @@ export const DonationFormAdmin = ({
                             </select>
                         </div>
                         <div className={`${styles.field}`}>
-                            <label htmlFor="amount">Cantidad</label>
+                            <label htmlFor="amount" className='field-required'>Cantidad</label>
                             <input
                                 type="number"
                                 id="amount"
@@ -473,7 +473,13 @@ export const DonationCreateAdmin = () => {
             <AnimationComponent dir="down">
                 <div className={styles.content}>
                     <DonationFormAdmin />
-                    <aside className={styles.sidebar}></aside>
+                    <aside className={styles.sidebar}>
+                        <AnimationComponent dir="right">
+                            <div className={styles["sidebar-content"]}>
+                                <p>*** Poner algo aquí ***</p>
+                            </div>
+                        </AnimationComponent>
+                    </aside>
                 </div>
             </AnimationComponent>
         </>
@@ -546,7 +552,13 @@ export const DonationUpdateAdmin = () => {
                         initialDonation={donation}
                         edit
                     />
-                    <aside className={styles.sidebar}></aside>
+                    <aside className={styles.sidebar}>
+                        <AnimationComponent dir="right">
+                            <div className={styles["sidebar-content"]}>
+                                <p>*** Poner algo aquí ***</p>
+                            </div>
+                        </AnimationComponent>
+                    </aside>
                 </div>
             </AnimationComponent>
         </>

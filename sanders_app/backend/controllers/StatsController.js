@@ -14,6 +14,40 @@ const getStatsAdmin = async (req, res) => {
         // ************** Donor Stats **************
         const usersThisMonth = await User.find({ createdAt: { $gte: startOfThisMonth, $lt: endOfThisMonth }, role: { $ne: 'admin' } });
         const totalUsers = await User.countDocuments({ role: { $ne: 'admin' } });;
+        const bestDonor = await Donation.aggregate([
+            {
+              $group: {
+                _id: "$donor",
+                total: { $sum: "$amount" }
+              }
+            },
+            {
+              $sort: { total: -1 }
+            },
+            {
+              $limit: 1
+            },
+            {
+              $lookup: {
+                from: "users",
+                localField: "_id",
+                foreignField: "_id",
+                as: "donor"
+              }
+            },
+            {
+              $unwind: "$donor"
+            },
+            {
+              $project: {
+                _id: 0,
+                name: "$donor.name",
+                surname: "$donor.surname",
+                email: "$donor.email",
+                total: 1
+              }
+            }
+        ]);
 
 
         // ************** Project Stats **************
@@ -120,7 +154,8 @@ const getStatsAdmin = async (req, res) => {
             },
             users:{
                 thisMonth: usersThisMonth.length,
-                total: totalUsers
+                total: totalUsers,
+                bestDonor: bestDonor[0]
             },
             projects: {
                 total: totalProjects,

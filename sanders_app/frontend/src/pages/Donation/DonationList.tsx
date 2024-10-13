@@ -97,7 +97,23 @@ export const DonationList = () => {
                             total={total || 0}
                         />
                     </div>
-                    <aside className={styles.sidebar}></aside>
+                    <aside className={styles.sidebar}>
+                        <AnimationComponent dir="right">
+                            {permissions === 'admin' ? (
+                                <div className={styles["sidebar-content"]}>
+                                    <p>En esta sección se lleva un registro de <span>todas la donaciones</span> que entran a la fundación. Se observa que se listan mostrando el nombre del <span>donardor</span> correspondiente, así como el <span>monto</span>, la <span>fecha</span> y el <span>proyecto asignado</span>.</p>
+                                    <p>De igual forma se pueden crear <span>donaciones físicas</span>, que se asocian con <span>donadores físicos</span>. Sin embargo, para todas las donaciones hechas por <span>donadores digitales</span> (a través de la plataforma), únicamente se le puede actualizar el proyecto asignado. Esto para guardar la <span>integridad de la información</span>.</p>
+                                    <p>Dando click en cada una de las donaciones se muestra más <span>información</span> sobre la donación y el proyecto al que fue asignada, así como el <span>método de pago</span> que se utilizó.</p>
+                                </div>
+                            ) : (
+                                <div className={styles["sidebar-content"]}>
+                                    <p>En esta sección se lleva un registro de <span>todas la donaciones</span> que has hecho a la fundación. Se observa que se listan mostrando el <span>monto</span>, la <span>fecha</span> y el <span>proyecto asignado</span>.</p>
+                                    <p>De igual forma se puedes seguir <span>aportando</span> con <span>donaciones</span> al proyecto que tú eligas o dejar que la fundación asigne tu donación al proyecto <span>que más lo necesite</span>.</p>
+                                    <p>Dando click en cada una de las donaciones se muestra más <span>información</span> sobre la donación y el proyecto al que fue asignada, así como el <span>método de pago</span> que se utilizó.</p>
+                                </div>
+                            )}
+                        </AnimationComponent>
+                    </aside>
                 </div>
             </List>
         </>

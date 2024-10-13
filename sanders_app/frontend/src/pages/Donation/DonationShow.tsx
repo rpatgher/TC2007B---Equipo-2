@@ -122,8 +122,8 @@ export const DonationShow = () => {
 
     return (
         <>
+            <GoBackButton />
             <AnimationComponent>
-                <GoBackButton />
                 {permissions === "admin" && (
                     <h1 className={styles.heading}>
                         Donación de {donation.donor.name} {donation.donor.surname}

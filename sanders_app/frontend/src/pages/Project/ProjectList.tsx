@@ -76,7 +76,15 @@ export const ProjectList = () => {
                             total={total || 0}
                         />
                     </div>
-                    <aside className={styles.sidebar}></aside>
+                    <aside className={styles.sidebar}>
+                        <AnimationComponent dir="right">
+                            <div className={styles["sidebar-content"]}>
+                                <p>En esta sección puedes <span>administrar</span> y llevar el <span>control</span> de todos los <span>proyectos activos</span> de la fundación. Se puede <span>agregar</span>, <span>editar</span> o <span>eliminar</span> proyectos según sea necesario.</p>
+                                <p>Se visualiza una lista con todos los proyectos, así como el <span>progreso</span> y el <span>monto recaudado</span> para cada uno de ellos.</p>
+                                <p>De igual forma al hacer click, se puede ver más <span>información</span> al respecto, como los <span>milestones</span>, <span>donaciones asociadas</span> al proyecto, etc.</p>
+                            </div>
+                        </AnimationComponent>
+                    </aside>
                 </div>
             </List>
         </>
