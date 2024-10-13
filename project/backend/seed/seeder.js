@@ -1,7 +1,7 @@
 import { exit } from 'node:process';
 import connectDB from "../config/db.js";
 
-import data from "./data.js";
+import data from "./data2.js";
 import config from "./config.js";
 
 import User, { Admin, Donor, PhysicalDonor } from "../models/User.js";
@@ -36,6 +36,7 @@ const insertData = async () => {
                     email: user.email,
                     password: user.password,
                     role: user.role,
+                    createdAt: user.createdAt
                 });
             } else if(user.role === 'physical-donor'){
                 userDB = new PhysicalDonor({
@@ -51,7 +52,8 @@ const insertData = async () => {
                     const donationDB = new Donation({
                         amount: donation.amount,
                         method: donation.method,
-                        donor: userDB._id
+                        donor: userDB._id,
+                        createdAt: donation.createdAt
                     });
                     await donationDB.save();
                     userDB.donations.push(donationDB);
@@ -69,7 +71,8 @@ const insertData = async () => {
                         type: project.type,
                         creator: userDB._id,
                         milestones: project.milestones,
-                        impact: project.impact
+                        impact: project.impact,
+                        createdAt: project.createdAt
                     });
                     await projectDB.save();
                     userDB.projects.push(projectDB);
