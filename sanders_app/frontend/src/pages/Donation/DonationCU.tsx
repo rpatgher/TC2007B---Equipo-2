@@ -295,7 +295,7 @@ export const DonationFormAdmin = ({
     const handleChange = (e: any) => {
         setDonation({
             ...donation,
-            [e.target.name]: e.target.value,
+            [e.target.name]: e.target.name === 'amount' ? parseInt(e.target.value) : e.target.value,
         });
     }
 

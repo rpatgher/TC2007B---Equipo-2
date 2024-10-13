@@ -51,7 +51,7 @@ const Empty = () => {
     return (
         <div>
             <p>No se encontraron donaciones</p>
-            <p>Aportarías mucho a la fundación para que pueda seguir ayudando a la gente <Link to='/donations/create'>reliazando una donación</Link>.</p>
+            <p>Aportarías mucho a la fundación para que pueda seguir ayudando a la gente <Link to='/dashboard/donations/create'>reliazando una donación</Link>.</p>
         </div>
     )
 }
