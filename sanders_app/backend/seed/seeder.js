@@ -36,7 +36,9 @@ const insertData = async () => {
                     email: user.email,
                     password: user.password,
                     role: user.role,
-                    createdAt: user.createdAt
+                    createdAt: user.createdAt,
+                    confirmed: user.confirmed,
+                    token: 'token',
                 });
             } else if(user.role === 'physical-donor'){
                 userDB = new PhysicalDonor({

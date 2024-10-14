@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useNotify } from 'react-admin';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 
 // **************** Styles ***************
 import styles from './Forgot.module.css';
 
-const Login = () => {
+const Forgot = () => {
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     // const navigate = useNavigate();
     const notify = useNotify();
@@ -18,7 +19,19 @@ const Login = () => {
             return;
         }
         try {
-            
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/forgot-password`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: username })
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.message);
+            }
+            notify('Instrucciones enviadas a tu correo', { type:'success' });
+            navigate('/dashboard/login');
         } catch (error) {
             notify('Usuario no existe', { type:'error' });
         }
@@ -64,4 +77,4 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default Forgot;

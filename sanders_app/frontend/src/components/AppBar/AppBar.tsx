@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { usePermissions, useGetIdentity, useAuthProvider } from 'react-admin';
 
 
@@ -29,14 +29,11 @@ export const AppBar = () => {
     return (
         <header className={styles.header}>
             <div className={styles.logo}>
-                <img src={logo} alt="Sanders Logo" />
+                <Link to="/"><img src={logo} alt="Sanders Logo" /></Link>
             </div>
             <div className={styles.profile}>
                 <div className={styles["profile-image"]}>
-                    <img
-                        src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-                        alt="John Doe"
-                    />
+                    {fullName && fullName.split(' ').map((name: string) => name[0].toUpperCase()).join('').slice(0, 2)}
                 </div>
                 <div className={styles["profile-info"]}>
                     <p className={styles["profile-name"]}>{fullName || ''}</p>

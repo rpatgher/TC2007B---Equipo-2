@@ -2,7 +2,8 @@ import express from "express";
 
 // Importing the Stats Controller Functions
 import {
-    getStatsAdmin
+    getStatsAdmin,
+    getStatsDonor
 } from "../controllers/StatsController.js";
 
 // Create a Router for User endpoints
@@ -17,6 +18,9 @@ import checkAdmin from "../middleware/checkAdmin.js";
 // This route would be for explample /api/stats/admin
 router.route("/admin")
     .get(checkAuth, checkAdmin, getStatsAdmin); // Get all Stats
+
+router.route("/donor")
+    .get(checkAuth, getStatsDonor); // Get all Stats
 
 
 

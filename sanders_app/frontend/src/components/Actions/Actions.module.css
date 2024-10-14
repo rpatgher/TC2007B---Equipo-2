@@ -48,3 +48,9 @@
     fill: var(--white);
     width: 20px;
 }
+.donate-now{
+    gap: 5px;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 10px 20px;
+}

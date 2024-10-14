@@ -27,15 +27,25 @@ import { DonationList } from "./pages/Donation/DonationList";
 import { DonationShow } from "./pages/Donation/DonationShow";
 import { DonationCreateAdmin, DonationUpdateAdmin, DonationCreateDonor } from "./pages/Donation/DonationCU";
 
-// ************ Login Components ************
+
+// *********+** Success Page ************
+import Success from "./pages/Success/Success";
+
+
+// ************ Login Page ************
 import Login from "./pages/Login/Login";
-// *********** Register Components **********
+// *********** Register Page **********
 import Register from "./pages/Register/Register";
-// *********** Forgot Components **********
+// *********** Forgot Page **********
 import Forgot from "./pages/Forgot/Forgot";
+// *********** ResetPassword Page **********
+import ResetPassword from "./pages/ResetPassword/ResetPassword";
+// *********** AccountConfirmed Page **********
+import AccountConfirmed from "./pages/AccountConfirmed/AccountConfirmed";
 
 // ************ Homepage ************
 import Homepage from "./pages/Homepage/Homepage";
+
 
 
 // import {
@@ -60,6 +70,8 @@ function DashboardPages() {
             <CustomRoutes noLayout>
                 <Route path="/register" element={<Register />} />
                 <Route path="/forgot" element={<Forgot />} />
+                <Route path="/reset-password/:token" element={<ResetPassword />} />
+                <Route path="/confirmed-account/:token" element={<AccountConfirmed />} />
             </CustomRoutes>
             {permissions => (
                 <>
@@ -74,6 +86,7 @@ function DashboardPages() {
                         <>
                             <CustomRoutes>
                                 <Route path="/settings" element={<Settings />} />
+                                <Route path="/success/:donationId" element={<Success />} />
                             </CustomRoutes>
                             <Resource 
                                 name="users" 

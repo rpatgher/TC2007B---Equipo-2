@@ -4,9 +4,11 @@ import express from "express";
 import {
     signUp,
     loginUser,
-    logoutUser,
+    confirmAccount,
     permissions,
-    stripeIntent
+    stripeIntent,
+    forgotPassword,
+    resetPassword
 } from "../controllers/AuthController.js";
 
 // Create a Router for Auth endpoints
@@ -25,9 +27,17 @@ router.route("/register")
 router.route("/login")
     .post(loginUser); // Login a User
 
-// This route would be for example /api/auth/logout
-router.route("/logout")
-    .get(logoutUser); // Logout a User
+// This route would be for example /api/auth/confirm/dsjsdbczjniuh
+router.route("/confirm/:token")
+    .get(confirmAccount); // Confirm Account
+
+// This route would be for example /api/auth/forgot-password
+router.route("/forgot-password")
+    .post(forgotPassword); // Forgot Password
+
+// This route would be for example /api/auth/reset-password/dnfjasbdhbejN
+router.route("/reset-password/:token")
+    .post(resetPassword); // Reset Password
 
 // This route would be for example /api/auth/stripe
 router.route("/stripe")

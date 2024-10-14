@@ -22,8 +22,9 @@ const Login = () => {
         }
         try {
             await login({ username, password });
-        } catch (error) {
-            notify('Usuario o contraseña incorrectos', { type:'error' });
+        } catch (error: any) {
+            console.error(error.message);
+            notify(error.message, { type:'error' });
         }
     }
 

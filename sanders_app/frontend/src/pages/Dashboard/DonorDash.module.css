@@ -1,6 +1,33 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 .heading{
     margin: 30px 0;
     font-size: 40px;
+}
+.donate-now{
+    background-color: var(--blue);
+    border: none;
+    border-radius: 10px;
+    color: var(--white);
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 10px 20px;
+}
+.donate-now:hover{
+    background-color: var(--primary);
+}
+.donate-now svg{
+    fill: var(--white);
+    width: 20px;
 }
 .content{
     display: flex;

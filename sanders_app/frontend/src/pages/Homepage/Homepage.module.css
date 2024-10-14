@@ -1,3 +1,31 @@
 body{
     background-color: var(--background);
 }
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 100px;
+    background-color: var(--primary);
+}
+.logo{
+    margin: 0;
+}
+.logo img{
+    width: 150px;
+}
+.actions{
+    display: flex;
+    align-items: center;
+}
+.actions a{
+    padding: 20px 20px;
+    color: var(--white);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+}
+.actions a:hover{
+    color: var(--primary);
+    background-color: var(--white);
+}

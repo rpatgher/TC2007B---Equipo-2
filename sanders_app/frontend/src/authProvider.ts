@@ -22,7 +22,16 @@ const authProvider: AuthProvider = {
 
         const response = await fetch(request);
         if (response.status < 200 || response.status >= 300) {
-            throw new Error(response.statusText);
+            const data = await response.json();
+            if (data.msg === 'User not found') {
+                throw new Error('Usuario no encontrado');
+            }else if (data.msg === 'Invalid Password') {
+                throw new Error('Contraseña incorrecta');
+            } else if (data.msg === 'User not confirmed') {
+                throw new Error('Usuario no confirmado');
+            } else{
+                throw new Error(response.statusText);
+            }
         }
 
         const { token, role, id, name, surname, email } = await response.json();

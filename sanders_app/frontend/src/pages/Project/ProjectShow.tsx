@@ -116,7 +116,7 @@ export const ProjectShow = () => {
         .then((_) => {
             // console.log(response);
             notify('El proyecto ha sido eliminado', { type: "success" });
-            navigate('/projects');
+            navigate('/dashboard/projects');
         })
         .catch((error) => {
             notify('Error al eliminar el proyecto. Inténtalo nuevamente.', { type: 'error' });

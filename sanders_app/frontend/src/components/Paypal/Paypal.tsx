@@ -22,7 +22,6 @@ interface PayPalPaymentProps {
 const PayPalPayment: React.FC<PayPalPaymentProps> = ({ amount, project, asignment }) => {
     const notify = useNotify();
     const navigate = useNavigate();
-    console.log("Monto en PayPalPayment:", amount);
 
     return (
         <PayPalScriptProvider options={{ clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID, currency: "MXN" }}>

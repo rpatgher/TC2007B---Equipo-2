@@ -63,154 +63,162 @@ const DonationCreateFormDonor = () => {
 
     return (
         <form className={styles["form-donor"]}>
-            <div className={styles["content-donor-form"]}>
-                <div className={styles.amounts}>
-                    {inialAmounts.map((amount, index) => (
+            <AnimationComponent dir="left">
+                <div className={styles["content-donor-form"]}>
+                    <div className={styles.amounts}>
+                        {inialAmounts.map((amount, index) => (
+                            <button
+                                key={index}
+                                className={`${styles.amount} ${
+                                    selectedAmount === amount ? styles.selected : ""
+                                }`}
+                                data-amount={amount}
+                                type="button"
+                                onClick={handleAmountSelection}
+                            >
+                                ${amount}
+                            </button>
+                        ))}
                         <button
-                            key={index}
-                            className={`${styles.amount} ${
-                                selectedAmount === amount ? styles.selected : ""
+                            className={`${styles.amount} ${styles["other-amount"]} ${
+                                !inialAmounts.includes(selectedAmount)
+                                    ? styles.selected
+                                    : ""
                             }`}
-                            data-amount={amount}
+                            data-amount="other"
                             type="button"
                             onClick={handleAmountSelection}
                         >
-                            ${amount}
+                            Otra Cantidad
                         </button>
-                    ))}
-                    <button
-                        className={`${styles.amount} ${styles["other-amount"]} ${
-                            !inialAmounts.includes(selectedAmount)
-                                ? styles.selected
-                                : ""
-                        }`}
-                        data-amount="other"
-                        type="button"
-                        onClick={handleAmountSelection}
-                    >
-                        Otra Cantidad
-                    </button>
-                </div>
-                <div className={styles.field}>
-                    <label htmlFor="amount" className='field-required'>Cantidad</label>
-                    <input
-                        id="amount"
-                        type="number"
-                        min="1"
-                        step="1"
-                        disabled={inputDisabled}
-                        className={`${
-                            !inputDisabled
-                                ? ""
-                                : styles.disabled
-                        }`}
-                        value={selectedAmount === 0 ? "" : selectedAmount}
-                        onChange={(e) =>
-                            setSelectedAmount(parseInt(e.target.value))
-                        }
-                        onBlur={(e) => {
-                            if (inialAmounts.includes(parseInt(e.target.value))) {
-                                setInputDisabled(true);
+                    </div>
+                    <div className={styles.field}>
+                        <label htmlFor="amount" className='field-required'>Cantidad</label>
+                        <input
+                            id="amount"
+                            type="number"
+                            min="1"
+                            step="1"
+                            disabled={inputDisabled}
+                            className={`${
+                                !inputDisabled
+                                    ? ""
+                                    : styles.disabled
+                            }`}
+                            value={selectedAmount === 0 ? "" : selectedAmount}
+                            onChange={(e) =>
+                                setSelectedAmount(parseInt(e.target.value))
                             }
-                        }}
-                        placeholder="Cantidad a donar"
-                    />
-                </div>
-                <div className={styles.field}>
-                    <label className='field-required'>Proyecto a donar</label>
-                    <p className={styles.notes}>¿Gustarías asignar tu donación directamente a una proyecto?</p>
-                    <div className={styles.asignments}>
-                        <div className={`${styles.asignment} ${selectedAsignment === 'auto' && styles.active}`}>
-                            <input 
-                                type="radio"
-                                name="asignment"
-                                id="auto"
-                                checked={selectedAsignment === 'auto'}
-                                onChange={() => setSelectedAsignment('auto')}
-                            />
-                            <label htmlFor="auto">Dejar que la fundación asigne el proyecto a mi donación</label>
-                        </div>
-                        <div  className={`${styles.asignment} ${selectedAsignment === 'manual' && styles.active}`}>
-                            <input 
-                                type="radio"
-                                name="asignment"
-                                id="manual"
-                                checked={selectedAsignment === 'manual'}
-                                onChange={() => {
-                                    getProjects();
-                                    setSelectedAsignment('manual')
-                                }}
-                            />
-                            <label htmlFor="manual">Elegir yo el proyecto al que quiero donar</label>
-                        </div>
+                            onBlur={(e) => {
+                                if (inialAmounts.includes(parseInt(e.target.value))) {
+                                    setInputDisabled(true);
+                                }
+                            }}
+                            placeholder="Cantidad a donar"
+                        />
                     </div>
-                    {selectedAsignment === 'manual' && (
-                        <div className={styles.projects}>
-                            <label htmlFor="project" className='field-required'>Proyecto</label>
-                            <select
-                                name="project"
-                                id="project"
-                                value={selectedProject}
-                                onChange={(e) => setSelectedProject(e.target.value)}
+                    <div className={styles.field}>
+                        <label className='field-required'>Proyecto a donar</label>
+                        <p className={styles.notes}>¿Gustarías asignar tu donación directamente a una proyecto?</p>
+                        <div className={styles.asignments}>
+                            <div className={`${styles.asignment} ${selectedAsignment === 'auto' && styles.active}`}>
+                                <input 
+                                    type="radio"
+                                    name="asignment"
+                                    id="auto"
+                                    checked={selectedAsignment === 'auto'}
+                                    onChange={() => setSelectedAsignment('auto')}
+                                />
+                                <label htmlFor="auto">Dejar que la fundación asigne el proyecto a mi donación</label>
+                            </div>
+                            <div  className={`${styles.asignment} ${selectedAsignment === 'manual' && styles.active}`}>
+                                <input 
+                                    type="radio"
+                                    name="asignment"
+                                    id="manual"
+                                    checked={selectedAsignment === 'manual'}
+                                    onChange={() => {
+                                        getProjects();
+                                        setSelectedAsignment('manual')
+                                    }}
+                                />
+                                <label htmlFor="manual">Elegir yo el proyecto al que quiero donar</label>
+                            </div>
+                        </div>
+                        {selectedAsignment === 'manual' && (
+                            <div className={styles.projects}>
+                                <label htmlFor="project" className='field-required'>Proyecto</label>
+                                <select
+                                    name="project"
+                                    id="project"
+                                    value={selectedProject}
+                                    onChange={(e) => setSelectedProject(e.target.value)}
+                                >
+                                    <option value="" disabled>-- Seleccione un proyecto --</option>
+                                    {projects.map(project => (
+                                        <option 
+                                            key={project.id} 
+                                            value={project.id}
+                                        >
+                                            {project.name} - {project.type === 'water' ? 'Agua' : project.type === 'nutrition' ? 'Nutrición' : 'Sexualidad'}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </AnimationComponent>
+            <AnimationComponent dir="right">
+                <aside className={styles["sidebar-donor"]}>
+                <div className={`${styles.field} ${styles["field-sidebar"]}`}>
+                        <label className='field-required'>Método de Pago</label>
+                        <div className={styles.methods}>
+                            <button
+                                type="button"
+                                className={`${styles.method} ${
+                                    selectedMethod === "stripe" ? styles.selected : ""
+                                }`}
+                                onClick={() => setSelectedMethod("stripe")}
                             >
-                                <option value="" disabled>-- Seleccione un proyecto --</option>
-                                {projects.map(project => (
-                                    <option 
-                                        key={project.id} 
-                                        value={project.id}
-                                    >
-                                        {project.name} - {project.type === 'water' ? 'Agua' : project.type === 'nutrition' ? 'Nutrición' : 'Sexualidad'}
-                                    </option>
-                                ))}
-                            </select>
+                                Stripe
+                            </button>
+                            <button
+                                type="button"
+                                className={`${styles.method} ${
+                                    selectedMethod === "paypal" ? styles.selected : ""
+                                }`}
+                                onClick={() => setSelectedMethod("paypal")}
+                            >
+                                PayPal
+                            </button>
                         </div>
+                    </div>
+                    {selectedMethod === "paypal" ? (
+                        <AnimationComponent dir="right">
+                            <div className={styles["paypal-payment"]}>
+                                <PayPalPayment 
+                                    amount={selectedAmount} 
+                                    project={selectedProject}
+                                    asignment={selectedAsignment}
+                                />
+                            </div>
+                        </AnimationComponent>
+                    ) : selectedMethod === "stripe" ? (
+                        <div className={styles["stripe-payment"]}>
+                            <AnimationComponent dir="right">
+                                <StripePayment 
+                                    amount={selectedAmount} 
+                                    project={selectedProject}
+                                    asignment={selectedAsignment}
+                                />
+                            </AnimationComponent>
+                        </div>
+                    ) : (
+                        <></>
                     )}
-                </div>
-            </div>
-            <aside className={styles["sidebar-donor"]}>
-            <div className={`${styles.field} ${styles["field-sidebar"]}`}>
-                    <label className='field-required'>Método de Pago</label>
-                    <div className={styles.methods}>
-                        <button
-                            type="button"
-                            className={`${styles.method} ${
-                                selectedMethod === "stripe" ? styles.selected : ""
-                            }`}
-                            onClick={() => setSelectedMethod("stripe")}
-                        >
-                            Stripe
-                        </button>
-                        <button
-                            type="button"
-                            className={`${styles.method} ${
-                                selectedMethod === "paypal" ? styles.selected : ""
-                            }`}
-                            onClick={() => setSelectedMethod("paypal")}
-                        >
-                            PayPal
-                        </button>
-                    </div>
-                </div>
-                {selectedMethod === "paypal" ? (
-                    <div className={styles["paypal-payment"]}>
-                        <PayPalPayment 
-                            amount={selectedAmount} 
-                            project={selectedProject}
-                            asignment={selectedAsignment}
-                        />
-                    </div>
-                ) : selectedMethod === "stripe" ? (
-                    <div className={styles["stripe-payment"]}>
-                        <StripePayment 
-                            amount={selectedAmount} 
-                            project={selectedProject}
-                            asignment={selectedAsignment}
-                        />
-                    </div>
-                ) : (
-                    <></>
-                )}
-            </aside>
+                </aside>
+            </AnimationComponent>
         </form>
     );
 };
@@ -218,15 +226,19 @@ const DonationCreateFormDonor = () => {
 export const DonationCreateDonor = () => {
     return (
         <>
-            <GoBackButton />
-            <h1 className={styles.heading}>Realizar Donación</h1>
+            <AnimationComponent>
+                <GoBackButton />
+                <h1 className={styles.heading}>Realizar Donación</h1>
+            </AnimationComponent>
             <div className={styles.content}>
                 <main className={styles.main}>
-                    <p>
-                        ¿Cuánto le gustaría donar? Como colaborador de la
-                        Fundación Sanders, nos aseguramos de que su donación
-                        vaya directamente a apoyar nuestra causa.
-                    </p>
+                    <AnimationComponent>
+                        <p>
+                            ¿Cuánto le gustaría donar? Como colaborador de la
+                            Fundación Sanders, nos aseguramos de que su donación
+                            vaya directamente a apoyar nuestra causa.
+                        </p>
+                    </AnimationComponent>
                     <DonationCreateFormDonor />
                 </main>
             </div>

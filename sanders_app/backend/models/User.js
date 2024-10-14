@@ -63,6 +63,14 @@ const Donor = User.discriminator('donor', new mongoose.Schema({
         ref: 'Donation',
         required: false
     }],
+    token: {
+        type: String,
+        required: false
+    },
+    confirmed: {
+        type: Boolean,
+        default: false
+    }
 }, {
     timestamps: true
 }));

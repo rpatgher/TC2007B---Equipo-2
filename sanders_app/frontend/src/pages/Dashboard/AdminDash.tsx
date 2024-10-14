@@ -140,6 +140,7 @@ const AdminDash = () => {
                         />
                         <Card1_2_Table
                             title="Proyectos por finalizar"
+                            type='projects'
                             data={highestProgressProjects}
                         />
                     </div>
