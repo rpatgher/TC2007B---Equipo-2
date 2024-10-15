@@ -45,7 +45,7 @@ export const UserCreateForm = ({ initialUser, edit }: { initialUser?: User, edit
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        if(user.name === "" || user.surname === "") {
+        if(user.name === "") {
             notify("Todos los campos son requeridos", { type: "warning" });
             return;
         }
@@ -102,7 +102,7 @@ export const UserCreateForm = ({ initialUser, edit }: { initialUser?: User, edit
                 />
             </div>
             <div className={styles.field}>
-                <label htmlFor="surname" className='field-required'>Apellido(s)</label>
+                <label htmlFor="surname">Apellido(s)</label>
                 <input 
                     type="text" 
                     id="surname" 

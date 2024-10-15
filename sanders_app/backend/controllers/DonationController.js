@@ -214,7 +214,7 @@ const getDonation = async (req, res) => {
         impact = impacts[donation.project.type];
         amount_impact = donation.amount / donation.project.money_goal * donation.project.impact;
     }
-
+    generatedImpact = `${amount_impact.toFixed(0)} ${impact.unit} ${impact.description}`;
     const { _id } = donation;
     delete donation._id;
     return res.status(200).json({

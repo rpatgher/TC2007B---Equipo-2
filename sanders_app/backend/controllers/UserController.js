@@ -3,7 +3,7 @@ import Project from '../models/Project.js';
 
 const createUser = async (req, res) => {
     const { name, surname } = req.body;
-    if (!name || !surname) {
+    if (!name) {
         return res.status(400).json({ msg: "Please enter all fields." });
     }
     const user = new PhysicalDonor({ name, surname });

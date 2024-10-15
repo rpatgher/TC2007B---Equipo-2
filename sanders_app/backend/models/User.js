@@ -7,11 +7,6 @@ const userSchema = mongoose.Schema({
         required: true,
         trim: true
     },
-    surname: {
-        type: String,
-        required: true,
-        trim: true
-    },
 }, {
     timestamps: true,
     discriminatorKey: 'role'
@@ -43,7 +38,12 @@ const Admin = User.discriminator('admin', new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Project',
         required: false
-    }]
+    }],
+    surname: {
+        type: String,
+        required: true,
+        trim: true
+    },
 }, {
     timestamps: true
 }));
@@ -70,7 +70,12 @@ const Donor = User.discriminator('donor', new mongoose.Schema({
     confirmed: {
         type: Boolean,
         default: false
-    }
+    },
+    surname: {
+        type: String,
+        required: true,
+        trim: true
+    },
 }, {
     timestamps: true
 }));
@@ -80,6 +85,11 @@ const PhysicalDonor = User.discriminator('physical-donor', new mongoose.Schema({
         ref: 'Donation',
         required: false
     }],
+    surname: {
+        type: String,
+        required: false,
+        trim: true
+    },
 }, {
     timestamps: true
 }));

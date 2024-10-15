@@ -110,7 +110,8 @@ export const DonationShow = () => {
     const handleDeleteProject = () => {
         dataProvider
             .delete("donations", { id: donation.id })
-            .then((_) => {
+            .then((response) => {
+                console.log(response);
                 notify("Donación eliminada correctamente", { type: "info" });
                 navigate("/dashboard/donations");
             })
