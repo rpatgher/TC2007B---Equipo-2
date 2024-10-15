@@ -33,11 +33,11 @@ const CircleGraph = ({ heading, percentage, amount, money, target }: CircleGraph
                         <div 
                             className={styles["circle-graph-circle"]}
                             style={{
-                                background: `conic-gradient(var(--green) ${(amount / target * 100).toFixed(0)}%, var(--white) 0)`,
+                                background: `conic-gradient(var(--green) ${(amount / target * 100)?.toFixed(0)}%, var(--white) 0)`,
                             }}
                         >
                             <div className={`${styles["circle-graph-cirle"]} ${styles["circle-graph-circle-inner"]}`}>
-                                <p>{(amount / target * 100).toFixed(0)}%</p>
+                                <p>{(amount / target * 100)?.toFixed(0)}%</p>
                             </div>
                         </div>
                     </div>

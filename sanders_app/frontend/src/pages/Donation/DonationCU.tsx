@@ -173,8 +173,8 @@ const DonationCreateFormDonor = () => {
                 <aside className={styles["sidebar-donor"]}>
                 <div className={`${styles.field} ${styles["field-sidebar"]}`}>
                         <label className='field-required'>Método de Pago</label>
-                        <div className={styles.methods}>
-                            <button
+                        <div className={styles.methods} style={{ gridTemplateColumns: '1fr' }}>
+                            {/* <button
                                 type="button"
                                 className={`${styles.method} ${
                                     selectedMethod === "stripe" ? styles.selected : ""
@@ -182,8 +182,8 @@ const DonationCreateFormDonor = () => {
                                 onClick={() => setSelectedMethod("stripe")}
                             >
                                 Stripe
-                            </button>
-                            <button
+                            </button> */}
+                            {/* <button
                                 type="button"
                                 className={`${styles.method} ${
                                     selectedMethod === "paypal" ? styles.selected : ""
@@ -191,19 +191,20 @@ const DonationCreateFormDonor = () => {
                                 onClick={() => setSelectedMethod("paypal")}
                             >
                                 PayPal
-                            </button>
+                            </button> */}
+                            <AnimationComponent dir="right">
+                                <div className={styles["paypal-payment"]} style={{ width: '100%' }}>
+                                    <PayPalPayment 
+                                        amount={selectedAmount} 
+                                        project={selectedProject}
+                                        asignment={selectedAsignment}
+                                    />
+                                </div>
+                            </AnimationComponent>
                         </div>
                     </div>
                     {selectedMethod === "paypal" ? (
-                        <AnimationComponent dir="right">
-                            <div className={styles["paypal-payment"]}>
-                                <PayPalPayment 
-                                    amount={selectedAmount} 
-                                    project={selectedProject}
-                                    asignment={selectedAsignment}
-                                />
-                            </div>
-                        </AnimationComponent>
+                        <></>
                     ) : selectedMethod === "stripe" ? (
                         <div className={styles["stripe-payment"]}>
                             <AnimationComponent dir="right">

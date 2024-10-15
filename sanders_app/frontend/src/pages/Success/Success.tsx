@@ -59,7 +59,7 @@ const Success = () => {
                     />
                 </div>
                 <div className={styles.amount}>
-                    <p>Monto: {formatToMoney(donation?.amount)}</p>
+                    <p>Monto: {formatToMoney(donation?.amount || 0)}</p>
                 </div>
             </div>
             <p className={styles.description}>El progreso del proyecto <span>{donation?.project?.name}</span> es:</p>
@@ -76,7 +76,7 @@ const Success = () => {
                     <div className={styles["milestones-list"]}>
                         {donation?.project.milestones && (
                             <>
-                                {donation?.project.milestones.map(milestone => (
+                                {donation?.project?.milestones.map(milestone => (
                                     <div
                                         key={milestone._id}
                                         className={styles.milestone}

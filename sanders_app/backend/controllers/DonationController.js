@@ -213,8 +213,8 @@ const getDonation = async (req, res) => {
     if (donation.project) {
         impact = impacts[donation.project.type];
         amount_impact = donation.amount / donation.project.money_goal * donation.project.impact;
+        generatedImpact = `${amount_impact?.toFixed(0)} ${impact?.unit} ${impact?.description}`;
     }
-    generatedImpact = `${amount_impact.toFixed(0)} ${impact.unit} ${impact.description}`;
     const { _id } = donation;
     delete donation._id;
     return res.status(200).json({
