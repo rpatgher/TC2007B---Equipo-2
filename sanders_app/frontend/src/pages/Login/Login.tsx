@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { useLogin, useNotify } from 'react-admin';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 // **************** Styles ***************
 import styles from './Login.module.css';
 
 const Login = () => {
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const login = useLogin();
-    // const navigate = useNavigate();
     const notify = useNotify();
     const [showPassword, setShowPassword] = useState(false);
 
@@ -35,6 +35,12 @@ const Login = () => {
                 className={styles.form}
                 onSubmit={handleSubmit}
             >
+                <button
+                    className={styles["go-back"]}
+                    onClick={() => navigate('/')}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+                </button>
                 <h1 className={styles.heading}>Inicia Sesión</h1>
                 <p className={styles.description}>Ingresa tu correo y contraseña para ingresar a tu cuenta.</p>
                 <div className={styles.content}>

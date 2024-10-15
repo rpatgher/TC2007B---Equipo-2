@@ -141,7 +141,8 @@ export const UserCreate = () => {
                     <aside className={styles.sidebar}>
                         <AnimationComponent dir="right">
                             <div className={styles["sidebar-content"]}>
-                                <p>*** Poner algo aquí ***</p>
+                                <p>Este apartado tiene como objetivo añadir <span>donadores</span> que no realizan donaciones por medio del <span>sistema de donaciones</span>, por lo cuál es aquí donde se agregan las recaudaciones y toda <span>donación física</span>, las donaciones de amigos o las donaciones que provengan de compañías exteriores.</p>
+                                <p>Al agregar un donador, se debe registrar su <span>nombre</span> y <span>apellido</span> (en caso de ser una empresa o una recaudación, solo se necesita el nombre) para llevar un registro fácil de entender de quienes son o de donde vino este dinero. Es importante notar que no es necesario crear nuevos donadores para <span>distintas recaudaciones</span> o donaciones de una misma entidad, ya que una vez son creadas, estas se guardan en el sistema. En caso de que ya existan, dirígete a la sección de <span>"Crear Donación"</span> en la ventana de donaciones.</p>
                             </div>
                         </AnimationComponent>
                     </aside>
@@ -190,7 +191,8 @@ export const UserUpdate = () => {
                     <aside className={styles.sidebar}>
                         <AnimationComponent dir="right">
                             <div className={styles["sidebar-content"]}>
-                                <p>*** Poner algo aquí ***</p>
+                            <p>Este apartado tiene como objetivo añadir <span>donadores</span> que no realizan donaciones por medio del <span>sistema de donaciones</span>, por lo cuál es aquí donde se agregan las recaudaciones y toda <span>donación física</span>, las donaciones de amigos o las donaciones que provengan de compañías exteriores.</p>
+                            <p>Al agregar un donador, se debe registrar su <span>nombre</span> y <span>apellido</span> (en caso de ser una empresa o una recaudación, solo se necesita el nombre) para llevar un registro fácil de entender de quienes son o de donde vino este dinero. Es importante notar que no es necesario crear nuevos donadores para <span>distintas recaudaciones</span> o donaciones de una misma entidad, ya que una vez son creadas, estas se guardan en el sistema. En caso de que ya existan, dirígete a la sección de <span>"Crear Donación"</span> en la ventana de donaciones.</p>
                             </div>
                         </AnimationComponent>
                     </aside>

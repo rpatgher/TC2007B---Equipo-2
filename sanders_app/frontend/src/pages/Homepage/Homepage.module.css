@@ -29,3 +29,158 @@ body{
     color: var(--primary);
     background-color: var(--white);
 }
+.cover{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: center;
+    width: 100%;
+}
+.image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
+}
+.image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.water::before, .sexuality::before, .nutrition::before{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--white);
+    font-size: 32px;
+}
+.water::after, .sexuality::after, .nutrition::after{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--white);
+    font-size: 32px;
+    text-align: center;
+}
+.water::before{
+    content: "Agua";
+    transition: 0.3s;
+    background-color: rgba(50, 63, 138, 0.5);
+}
+.water:hover::before{
+    transition: 0.3s;
+    font-size: 40px;
+    padding-bottom: 150px;
+    font-weight: 700;
+    background-color: rgba(50, 63, 138, 0.8);
+}
+.water::after{
+    content: "Llevamos agua potable a todas las comunidades mediante sistemas de captación de agua pluvial y abasto de agua potable.";
+    opacity: 0;
+    transition: 0.3s;
+}
+.water:hover::after{
+    transition: 0.3s;
+    opacity: 1;
+    font-size: 20px;
+    padding: 60px 40px 0 40px;
+}
+.sexuality::before{
+    transition: 0.3s;
+    content: "Sexualidad";
+    background-color: rgba(138, 104, 42, 0.5);
+}
+.sexuality:hover::before{
+    transition: 0.3s;
+    font-size: 40px;
+    font-weight: 700;
+    padding-bottom: 150px;
+    background-color: rgba(138, 104, 42, 0.8);
+}
+.sexuality::after{
+    content: "Mejorar la salud reproductiva mediante un modelo de intervención preventiva en embarazo precoz y prevención de enfermedades de transmisión sexual.";
+    opacity: 0;
+    transition: 0.3s;
+}
+.sexuality:hover::after{
+    transition: 0.3s;
+    opacity: 1;
+    font-size: 20px;
+    padding: 80px 40px 0 40px;
+}
+.nutrition::before{
+    content: "Nutrición";
+    transition: 0.3s;
+    background-color: rgba(46, 159, 80, 0.5);
+}
+.nutrition:hover::before{
+    transition: 0.3s;
+    font-size: 40px;
+    font-weight: 700;
+    padding-bottom: 150px;
+    background-color: rgba(46, 159, 80, 0.8);
+}
+.nutrition::after{
+    content: "Promover la salud y la sana alimentación a través de un modelo de intervención preventiva, para mejorar la nutrición de los niños.";
+    opacity: 0;
+    transition: 0.3s;
+}
+.nutrition:hover::after{
+    transition: 0.3s;
+    opacity: 1;
+    font-size: 20px;
+    padding: 60px 40px 0 40px;
+}
+.who h2{
+    text-align: center;
+    margin: 50px 0;
+    font-size: 32px;
+    font-weight: 500;
+}
+.main{
+    display: flex;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.card{
+    flex: 1;
+    padding: 0 50px;
+    text-align: justify;
+}
+.image-history{   
+    width: 50%;
+}
+.image-history img{
+    width: 100%;
+}
+.background{
+    background-color: var(--primary);
+    padding: 50px 0;
+    margin: 50px 0;
+    display: flex;
+    justify-content: center;
+    
+}
+.values{
+    color: var(--white);
+    text-align: justify;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: center;
+    max-width: 1000px;
+    gap: 70px;
+}
+.values h3{
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+}

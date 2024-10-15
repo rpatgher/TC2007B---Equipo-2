@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // ******************** styles ******************** //
 import styles from './AccountConfirmed.module.css';
 
 const AccountConfirmed = () => {
+    const navigate = useNavigate();
     const { token } = useParams<{ token: string }>();
     const [valid, setValid] = useState(true);
 
@@ -27,6 +28,12 @@ const AccountConfirmed = () => {
 
     return (
         <main className={styles.main}>
+            <button
+                className={styles["go-back"]}
+                onClick={() => navigate('/')}
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+            </button>
             <div
                 className={styles.form}
             >

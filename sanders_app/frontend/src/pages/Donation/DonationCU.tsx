@@ -488,7 +488,8 @@ export const DonationCreateAdmin = () => {
                     <aside className={styles.sidebar}>
                         <AnimationComponent dir="right">
                             <div className={styles["sidebar-content"]}>
-                                <p>*** Poner algo aquí ***</p>
+                                <p>Este apartado tiene como objetivo la creación de <span>donaciones</span> que provengan <span>fuera del sistema</span> que de donaciones, es decir, todas las donaciones físicas o recaudaciones, las donaciones de amigos o las donaciones de empresas.</p>
+                                <p>De esta manera, es aquí donde se puede añadir todo el <span>dinero adicional</span> para una mejor contabilidad de las donaciones. Se debe agregar el <span>monto</span>, elegir de quién proviene la donación (en caso de que sea una donación de una nueva entidad, debe dirigirse a la sección de <span>"Crear Donador"</span> en la ventana de donadores) y una breve descripción de la donación donde se agregue información importante respecto a la misma, de manera que se registre de donde <span>proviene el dinero</span> y se debe elegir a qué proyecto va (o en caso de que no vaya a ninguno, también se debe seleccionar) para que el sistema pueda <span>distribuir</span> el dinero a los proyectos pertinentes</p>
                             </div>
                         </AnimationComponent>
                     </aside>
@@ -567,7 +568,8 @@ export const DonationUpdateAdmin = () => {
                     <aside className={styles.sidebar}>
                         <AnimationComponent dir="right">
                             <div className={styles["sidebar-content"]}>
-                                <p>*** Poner algo aquí ***</p>
+                                <p>Este apartado tiene como objetivo la creación de <span>donaciones</span> que provengan <span>fuera del sistema</span> que de donaciones, es decir, todas las donaciones físicas o recaudaciones, las donaciones de amigos o las donaciones de empresas.</p>
+                                <p>De esta manera, es aquí donde se puede añadir todo el <span>dinero adicional</span> para una mejor contabilidad de las donaciones. Se debe agregar el <span>monto</span>, elegir de quién proviene la donación (en caso de que sea una donación de una nueva entidad, debe dirigirse a la sección de <span>"Crear Donador"</span> en la ventana de donadores) y una breve descripción de la donación donde se agregue información importante respecto a la misma, de manera que se registre de donde <span>proviene el dinero</span> y se debe elegir a qué proyecto va (o en caso de que no vaya a ninguno, también se debe seleccionar) para que el sistema pueda <span>distribuir</span> el dinero a los proyectos pertinentes</p>
                             </div>
                         </AnimationComponent>
                     </aside>

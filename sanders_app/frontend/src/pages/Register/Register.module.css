@@ -6,7 +6,18 @@
     width: 100%;
     background-color: var(--background);
 }
-
+.go-back{
+    all: unset;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+}
+.go-back svg{
+    fill: var(--primary);
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+}
 .form{
     background-color: var(--white);
     padding: 20px 30px;

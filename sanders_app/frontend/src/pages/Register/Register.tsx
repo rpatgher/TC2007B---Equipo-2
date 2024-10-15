@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNotify } from 'react-admin';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import authProvider from '../../authProvider';
 
@@ -8,6 +8,7 @@ import authProvider from '../../authProvider';
 import styles from './Register.module.css';
 
 const Login = () => {
+    const navigate = useNavigate();
     const [user, setUser] = useState({
         name: '',
         surname: '',
@@ -62,6 +63,12 @@ const Login = () => {
 
     return (
         <main className={styles.main}>
+            <button
+                className={styles["go-back"]}
+                onClick={() => navigate('/')}
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+            </button>
             {registered ? (
                 <div className={styles.form}>
                     <h1 className={styles.heading}>Registro Completado</h1>

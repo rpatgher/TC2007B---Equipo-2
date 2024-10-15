@@ -179,11 +179,21 @@ const updateProject = async (req, res) => {
 
 // This function deletes a project
 const deleteProject = async (req, res) => {
-    // TODO: Delete the image of the project
     const { id } = req.params;
     const project = await Project.findById(id);
     if (!project) {
         return res.status(404).json({ msg: "Project not found." });
+    }
+    if (project.donations.length > 0) {
+        return res.status(400).json({ msg: "Cannot delete a project with donations." });
+    }
+    if (project.image) {
+        try {
+            fs.unlinkSync(`./public/uploads/projects/${project.image}`);
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ msg: "Internal Server Error." });
+        }
     }
     try {
         await project.deleteOne();
