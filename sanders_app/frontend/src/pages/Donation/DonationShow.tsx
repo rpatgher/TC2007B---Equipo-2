@@ -33,7 +33,8 @@ type Donation = {
         money_goal: number;
         money_raised: number;
         milestones?: [];
-
+        impact?: string;
+        generatedImpact?: string;
     };
     donor: {
         name: string;
@@ -65,6 +66,8 @@ export const DonationShow = () => {
             money_goal: 0,
             money_raised: 0,
             milestones: [],
+            impact: "",
+            generatedImpact: "",
         },
         amount: 0,
         createdAt: "",
@@ -134,13 +137,20 @@ export const DonationShow = () => {
                 <div className={styles.content}>
                     <div className={styles.info}>
                         <div className={styles.left}>
+                            {permissions !== "admin" && (
+                                donation.project && (
+                                    <p className={styles.generated}>
+                                        Tu aportación equivale a: <span>{donation?.project?.generatedImpact}</span>
+                                    </p>
+                                )
+                            )}
                             <p className={styles.since}>
                                 Donado el <span>{formatDate(donation.createdAt)}</span>
                             </p>
                             <p className={styles.method}>
                                 Método de pago: <span>{donation.method.slice(0, 1).toUpperCase() + donation.method.slice(1)}</span>
                             </p>
-                            <p className={styles["project-label"]}>Projecto:</p>
+                            <p className={styles["project-label"]}>Proyecto:</p>
                             <ProjectCardInShow 
                                 project={donation.project} 
                             />

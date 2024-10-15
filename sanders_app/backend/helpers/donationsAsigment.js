@@ -10,6 +10,7 @@ const donationsAsigment = {
             return donation;
         }
         donation.project = project[0]._id;
+        donation.projectInfo = project[0];
         project[0].donations.push(donation._id);
         project[0].money_raised += donation.amount;
         try{
@@ -51,6 +52,7 @@ const donationsAsigment = {
 
         const project = await Project.findById(projectWithHighestProgress._id);
         donation.project = project._id;
+        donation.projectInfo = project;
         project.donations.push(donation._id);
         project.money_raised += donation.amount;
         try{

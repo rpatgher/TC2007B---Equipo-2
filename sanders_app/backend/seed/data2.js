@@ -9,7 +9,7 @@ const data = [
             {
                 name: 'Agua para Todos',
                 description: 'Proyecto enfocado en la construcción de pozos y sistemas de filtración en comunidades rurales sin acceso a agua potable de calidad y en cantidad suficiente para sus necesidades básicas de higiene y consumo humano diario en México y Latinoamérica en general con el fin de mejorar la calidad de vida de sus habitantes. Para ello, se busca recaudar fondos para la construcción de pozos y sistemas de filtración de agua en comunidades rurales sin acceso a agua potable de calidad y en cantidad suficiente para sus necesidades básicas de higiene y consumo humano diario.',
-                image: 'images/agua_project.png',
+                image: 'testing/water.webp',
                 money_goal: 50000,
                 money_raised: 0,
                 type: 'water',
@@ -35,7 +35,7 @@ const data = [
             {
                 name: 'Alimentación para el Futuro',
                 description: 'Iniciativa que busca mejorar la nutrición infantil en comunidades indígenas y rurales de México a través de la distribución de alimentos básicos y la implementación de programas educativos sobre nutrición y alimentación saludable para padres y cuidadores de niños y niñas en situación de vulnerabilidad en México. Para ello, se busca recaudar fondos para la distribución de alimentos básicos y la implementación de programas educativos sobre nutrición y alimentación saludable para padres y cuidadores de niños y niñas en situación de vulnerabilidad en México.',
-                image: 'images/nutricion_project.png',
+                image: 'testing/nutrition.webp',
                 money_goal: 75000,
                 money_raised: 0,
                 type: 'nutrition',
@@ -70,7 +70,7 @@ const data = [
                 name: 'Salud Sexual Responsable',
                 description: 'Proyecto enfocado en la educación y prevención de embarazos no planificados en adolescentes y jóvenes de comunidades rurales y urbanas de México a través de la capacitación de promotores comunitarios, la distribución de material educativo y el monitoreo de resultados en México. Para ello, se busca recaudar fondos para la capacitación de promotores comunitarios, la distribución de material educativo y el monitoreo de resultados en México.',
                 money_goal: 40000,
-                image: 'images/salud_project.png',
+                image: 'testing/sexuality.webp',
                 money_raised: 0,
                 type: 'sexuality',
                 impact: 3000,

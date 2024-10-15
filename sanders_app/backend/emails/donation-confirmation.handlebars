@@ -10,8 +10,62 @@
         <p><strong>¡Gracias por tu valiosa donación de {{amount}}!</strong>. Tu generosidad está ayudando a que el proyecto <strong>{{project}}</strong> avance hacia su objetivo. Gracias a tu contribución, hemos alcanzado el <strong>{{percentage}}%</strong> del total necesario para financiar este proyecto.</p>
     </div>
 
+    <div class="graphs">
+        <div class="graph">
+            <h3 class="graph-heading">Recaudado</h3>
+            <div class="graph-chart">
+                <div class="graph-canvas">
+                    <div class="circle-graph">
+                        <div 
+                            class="circle-graph-circle"
+                            style="background: conic-gradient(#00a100 {{percentage}}%, #ffffffe4 0);"
+                        >
+                            <div class="circle-graph-circle circle-graph-circle-inner">
+                                <p>{{percentage}}%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="graph">
+            <h3 class="graph-heading">Progreso</h3>
+            <div class="graph-chart">
+                <div class="graph-canvas">
+                    <div class="circle-graph">
+                        <div 
+                            class="circle-graph-circle"
+                            style="background: conic-gradient(#00a100 {{progress}}%, #ffffffe4 0);"
+                        >
+                            <div class="circle-graph-circle circle-graph-circle-inner">
+                                <p>{{progress}}%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
     <div class="text">
-        <p>***** Informar del impacto *****</p>
+        <p class="impact">Tu aportación equivale a: <strong>{{generatedImpact}}</strong></p>
+        
+        <div class="milestones">
+            <div class="progress-bar">
+                <div class="progress" style="width: {{progress}}%;"></div>
+            </div>
+            <div class="milestones-list">
+                {{#if milestones}}
+                    {{#each milestones}}
+                        <div class="milestone" style="left: {{percentage}}%;">
+                            <div class="circle {{#if reached}}reached{{/if}}"></div>
+                            <p>{{description}}</p>
+                        </div>
+                    {{/each}}
+                {{/if}}
+            </div>
+        </div>
     </div>
 
     <div class="text">

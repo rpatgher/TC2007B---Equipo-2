@@ -25,6 +25,7 @@ const sendEmail = async ({to, subject, template, context}) => {
         extName: '.handlebars'
     }));
 
+
     
     // Read HTML file
     const templatePath = path.join('./emails', `${template}.handlebars`);

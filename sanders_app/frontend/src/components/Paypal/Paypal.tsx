@@ -77,10 +77,13 @@ const PayPalPayment: React.FC<PayPalPaymentProps> = ({ amount, project, asignmen
                                     .then(response => {
                                         if (response.ok) {
                                             notify('Pago exitoso', { type: 'info' });
-                                            navigate('/dashboard/success');
                                         } else {
-                                            notify('Error al guardar el pago en la base de datos', { type: 'error' });
+                                            throw new Error('Error al guardar el pago en la base de datos');
                                         }
+                                        return response.json();
+                                    })
+                                    .then(response => {
+                                        navigate(`/dashboard/success/${response.donation}`);
                                     })
                                     .catch(err => {
                                         console.error('Error al guardar el pago en la base de datos:', err);

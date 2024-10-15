@@ -5,7 +5,8 @@ import Config from '../models/Config.js';
 
 // **************** helpers ****************
 import donationsAsigment from '../helpers/donationsAsigment.js';
-
+import formatToMoney from '../helpers/formatToMoney.js';
+import sendEmail from "../helpers/sendEmail.js";
 
 // TODO: This can be improved by not repeating the code to create a donation in both cases (physical and digital donors)
 // This function creates a new donation
@@ -16,6 +17,7 @@ const createDonation = async (req, res) => {
     const { amount, donor, project, method, asignment } = req.body;
     let donation;
     let donorUser;
+    const config = await Config.findOne();
     if (user.role === 'admin') {
         // if the user is an admin, create a donation for a physical donor
         if (!amount || !donor) {
@@ -86,7 +88,6 @@ const createDonation = async (req, res) => {
             }
         } else{
             // if the donor wants the system to assign the donation to a project automatically
-            const config = await Config.findOne();
             if (!config) {
                 return res.status(500).json({ msg: "Internal Server Error." });
             }
@@ -102,10 +103,37 @@ const createDonation = async (req, res) => {
             // save the donation and donor
             await donation.save();
             await donorUser.save();
+            const currentProject = projectDB ? projectDB : donation.projectInfo;
+            const impact = config.impacts[currentProject.type];
+            const amount_impact = amount / currentProject.money_goal * currentProject.impact;
+            const milestones = currentProject.milestones.map(milestone => {
+                return {
+                    percentage: milestone.percentage,
+                    description: milestone.description,
+                    reached: milestone.reached
+                }
+            });;
+            // calculate the progress of the project based on the milestone reached with the highest percentage
+            const progress = Math.max(...milestones.map(milestone => milestone.reached ? milestone.percentage : 0));
+            await sendEmail({
+                to: donorUser.email,
+                subject: '¡Gracias por tu generosa donación!',
+                template: 'donation-confirmation',
+                context: {
+                    name: donorUser.name,
+                    amount: formatToMoney(amount),
+                    project: projectDB ? projectDB.name : donation.projectInfo ? donation.projectInfo.name : 'No asignado',
+                    percentage: projectDB ? (projectDB.money_raised / projectDB.money_goal * 100).toFixed(0) : donation.projectInfo ? (donation.projectInfo.money_raised / donation.projectInfo.money_goal * 100).toFixed(0) : 0,
+                    milestones,
+                    progress,
+                    generatedImpact: `${amount_impact.toFixed(0)} ${impact.unit} ${impact.description}`,
+                    url: `${process.env.FRONTEND_URL_DEV}/dashboard/`,
+                }
+            });
             if (projectDB) {
                 await projectDB.save();
             }
-            return res.status(201).json({ msg: "Donation created successfully." });
+            return res.status(201).json({ msg: "Donation created successfully.", donation: donation.id });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ msg: "Internal Server Error." });
@@ -166,17 +194,27 @@ const getDonations = async (req, res) => {
 // This function gets a donation by id
 const getDonation = async (req, res) => {
     const { id } = req.params;
+    const config = await Config.findOne();
+    const { impacts } = config;
     // Get the donation by id and populate the donor field and project field
     const donation = await Donation
         .findById(id)
         .select('-__v')
         .populate('donor', '_id name surname email') // populate the donor field with the name, surname and email
-        .populate('project', '_id name description type createdAt money_goal money_raised milestones') // populate the project field with the name, description, type, createdAt, money_goal and money_raised
+        .populate('project', '_id name image description type createdAt money_goal money_raised milestones impact') // populate the project field with the name, description, type, createdAt, money_goal and money_raised
         .lean();
     // If the donation is not found, return a 404 Not Found error
     if (!donation) {
         return res.status(404).json({ msg: "Donation not found." });
     }
+    let generatedImpact;
+    let impact;
+    let amount_impact;
+    if (donation.project) {
+        impact = impacts[donation.project.type];
+        amount_impact = donation.amount / donation.project.money_goal * donation.project.impact;
+    }
+
     const { _id } = donation;
     delete donation._id;
     return res.status(200).json({
@@ -188,6 +226,7 @@ const getDonation = async (req, res) => {
         } : null,
         project: donation.project ? {
             id: donation.project._id.toString(),
+            generatedImpact,
             ...donation.project
         } : null
     });

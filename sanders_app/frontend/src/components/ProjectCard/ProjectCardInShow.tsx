@@ -70,6 +70,40 @@ const ProjectCardInShow = ({ project }: { project: Project }) => {
                         {project.description}
                     </p>
                 )}
+                {project?.milestones && (
+                    <div className={styles.milestones}>
+                        <div className={styles["progress-bar"]}>
+                            <div 
+                                className={styles["progress"]}
+                                style={{
+                                    width: `${calculateProgress()}%`
+                                }}
+                            ></div>
+                        </div>
+                        <div className={styles["milestones-list"]}>
+                            {project.milestones && (
+                                <>
+                                    {project.milestones.length > 0 ? (
+                                        project.milestones.map(milestone => (
+                                            <div
+                                                key={milestone._id}
+                                                className={styles.milestone}
+                                                style={{
+                                                    left: `${milestone.percentage}%`,
+                                                }}
+                                            >
+                                                <div className={`${styles.circle} ${milestone.reached ? styles.reached : ''}`}></div>
+                                                <p>{milestone.description}</p>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p className={styles.nodonations}>Sin hitos asignados</p>
+                                    )}
+                                </>
+                            )}
+                        </div>
+                    </div> 
+                )}
             </div>
             <div className={styles.right}>
                 <div className={styles.graphs}>

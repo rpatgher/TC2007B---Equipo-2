@@ -51,11 +51,94 @@
     display: flex;
     gap: 20px;
     align-items: flex-start;
-    min-width: 40%;
+    justify-content: flex-end;
+    min-width: 120px;
 }
 .graphs{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-direction: column;
     gap: 30px;
-    align-self: flex-start;
+}
+.milestones{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+}
+.milestones-label{
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+}
+.progress-bar{
+    background-color: var(--light-gray);
+    border-radius: 10px;
+    width: 90%;
+    height: 20px;
+    margin: 10px auto;
+    position: relative;
+}
+.progress{
+    background-color: var(--primary);
+    border-radius: 10px;
+    height: 100%;
+    width: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    transition: 0.3s;
+}
+.milestones-list{
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    font-size: 14px;
+    width: 90%;
+    display: flex;
+    gap: 5px;
+    padding: 10px 0 15px 0;
+
+    position: relative;
+}
+.milestone{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    position: absolute;
+    transform: translateX(-50%);
+    top: 0;
+    left: 0;
+}
+.milestone::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 80%, var(--white) 95%, var(--white) 100%);
+}
+.circle{
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+    top: -10px;
+}
+.milestone p{
+    max-width: 95px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: center;
+    margin: 0;
+}
+.milestones .circle.reached{
+    background-color: var(--primary);
 }

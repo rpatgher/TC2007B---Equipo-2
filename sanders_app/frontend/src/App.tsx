@@ -82,6 +82,9 @@ function DashboardPages() {
                         show={DonationShow}
                         edit={permissions === 'admin' ? DonationUpdateAdmin : null}
                     />
+                    <CustomRoutes>
+                        <Route path="/success/:donationId" element={<Success />} />
+                    </CustomRoutes>
                     {permissions === "admin" && (
                         <>
                             <CustomRoutes>

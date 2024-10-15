@@ -25,6 +25,15 @@
 .right{
     min-width: 30%;
 }
+.generated{
+    font-size: 22px;
+    color: var(--dark-gray);
+    margin: 0;
+}
+.generated span{
+    font-weight: 600;
+    color: var(--black);
+}
 .since{
     font-size: 14px;
     color: var(--dark-gray);
