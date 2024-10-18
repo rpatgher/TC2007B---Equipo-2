@@ -1,9 +1,4 @@
-Hola chat. Estoy haciendo un CRM para un fundación llamada Sanders, ellos son una Asociación Civil sin fines de lucro creada en el año 2016 por iniciativa del empresario mexicano Guillermo Sanders Acedo (1935-2019), para contribuir a la mejora de la calidad de vida en grupos sociales en situación de vulnerabilidad, mediante la promoción de la salud sexual y reproductiva, la nutrición comunitaria y el abastecimiento de agua.
-Su objeto social es desarrollar proyectos para contribuir a enfrentar los rezagos sociales en materia de salud sexual y reproductiva, nutrición comunitaria y abasto de agua.
-Su misión, fomentar la salud sexual y reproductiva, la sana alimentación y el abasto de agua potable entre grupos más vulnerables de la sociedad, para prevenir y incidencia y prevalencia de embarazos no planificados, infecciones de transmisión sexual, así como padecimientos asociados a ala malnutrición y al consumo de agua contaminada.
-Y su visión es ser un referente por su modelo de intervención preventiva para fomentar la salud sexual y reproductiva, la sana alimentación y el abasto de agua potable en grupos sociales en situación de vulnerabilidad, contribuyendo de esa manera a la construcción de condiciones de justicia social en México.
 
-El CRM que estoy desarrollando, el frontend lo tengo en React con TypeScript y el backend en Node.js con Express y MongoDB para la base de datos. Tiene 3 principales modelos: Proyectos, Usuarios (que pueden ser administradores, donadores y donadores físicos) y Donaciones. Cada modelos está definido de la siguiente manera:
 
 Proyecto: 
 ````
