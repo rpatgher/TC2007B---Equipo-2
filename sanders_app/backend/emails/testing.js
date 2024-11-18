@@ -75,15 +75,15 @@ console.log('Sending Email...');
 
 
 // ********** Email for User Registration **********
-// sendEmail({
-//     to: 'lewis@donors.org',
-//     subject: '¡Bienvenido a la Fundación Sanders! Confirma tu cuenta',
-//     template: 'confirm-account',
-//     context: {
-//         name: 'Lewis',
-//         url: 'https://localhost:5173/dashboard/confirm-account',
-//     }
-// });
+sendEmail({
+    to: 'lewis@donors.org',
+    subject: '¡Bienvenido a la Fundación Sanders! Confirma tu cuenta',
+    template: 'confirm-account',
+    context: {
+        name: 'Lewis',
+        url: 'https://localhost:5173/dashboard/confirm-account',
+    }
+});
 
 
 // ********** Email for Password Reset **********
@@ -114,17 +114,17 @@ console.log('Sending Email...');
 
 
 // ********** Email for Project Update **********
-sendEmail({
-    to: 'lewis@donors.org',
-    subject: '¡Buenas noticias! El proyecto Salud Sexual Responsable ha avanzado',
-    template: 'project-update',
-    context: {
-        name: 'Lewis',
-        project: 'Salud Sexual Responsable',
-        percentage: 25,
-        url: 'https://localhost:5173/dashboard/reset-password',
-    }
-});
+// sendEmail({
+//     to: 'lewis@donors.org',
+//     subject: '¡Buenas noticias! El proyecto Salud Sexual Responsable ha avanzado',
+//     template: 'project-update',
+//     context: {
+//         name: 'Lewis',
+//         project: 'Salud Sexual Responsable',
+//         percentage: 25,
+//         url: 'https://localhost:5173/dashboard/reset-password',
+//     }
+// });
 
 
 // ********** Email for Project Completion **********

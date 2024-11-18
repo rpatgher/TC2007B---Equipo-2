@@ -1,8 +1,8 @@
 const data = [
     {
-        name: 'Señora 1',
+        name: 'Admin 1',
         surname: 'Sanders',
-        email: 'senora@sanders.com.mx',
+        email: 'admin@sanders.com.mx',
         password: 'Password123',
         role: 'admin',
         projects: [
@@ -60,9 +60,9 @@ const data = [
         ]
     },
     {
-        name: 'Señora 2',
+        name: 'Admin 2',
         surname: 'Sanders',
-        email: 'senora2@sanders.com.mx',
+        email: 'admin2@sanders.com.mx',
         password: 'Password123',
         role: 'admin',
         projects: [

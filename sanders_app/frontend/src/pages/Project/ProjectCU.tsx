@@ -357,7 +357,9 @@ export const ProjectCreate = () => {
                     <aside className={styles.sidebar}>
                         <AnimationComponent dir="right">
                             <div className={styles["sidebar-content"]}>
-                                <p>*** Poner algo aquí ***</p>
+                                <p>En esta sección se pueden <span>administrar proyectos</span> de la fundación. Los proyectos se conforman por su <span>nombre</span>, <span>descripción</span>, una <span>imagen</span>, su <span>categoría</span> (agua, nutrición y sexualiad), la <span>meta</span> a la que se espera llegar (económicamente), el <span>impacto</span> que genera (dependiendo del proyecto está en las unidades que son especificadas en la configuración de sistema), y <span>milestones</span>.</p>
+                                <p>Los <span>milestones</span> representan <span>etapas</span> del proyectos, en donde cada uno tiene un porcentaje de <span>progreso</span>, es decir, que si el <span>primer milestone</span> representa el <span>10%</span>, cuando este haya sido cumplido, significará que el progreso del proyecto va en un 10%. Es importante mencionar que si el <span>segundo milestone</span> representa el <span>50%</span>, cuando el proyecto cumpla esta etapa, es porque el proyecto se encontrará en el <span>50%</span> de progreso y no el <span>70%</span>.</p>
+                                <p>Se maneja de esta forma para que, siempre que se alcanza un milestone se le pueda <span>avisar al donador</span> a través de un correo que su donación realmente está <span>ayudando</span> a la Fundación Sanders a llevar a cabo el proyecto.</p>
                             </div>
                         </AnimationComponent>
                     </aside>
@@ -419,7 +421,9 @@ export const ProjectUpdate = () => {
                     <aside className={styles.sidebar}>
                         <AnimationComponent dir="right">
                             <div className={styles["sidebar-content"]}>
-                                <p>*** Poner algo aquí ***</p>
+                                <p>En esta sección se pueden <span>administrar proyectos</span> de la fundación. Los proyectos se conforman por su <span>nombre</span>, <span>descripción</span>, una <span>imagen</span>, su <span>categoría</span> (agua, nutrición y sexualiad), la <span>meta</span> a la que se espera llegar (económicamente), el <span>impacto</span> que genera (dependiendo del proyecto está en las unidades que son especificadas en la configuración de sistema), y <span>milestones</span>.</p>
+                                <p>Los <span>milestones</span> representan <span>etapas</span> del proyectos, en donde cada uno tiene un porcentaje de <span>progreso</span>, es decir, que si el <span>primer milestone</span> representa el <span>10%</span>, cuando este haya sido cumplido, significará que el progreso del proyecto va en un <span>10%</span>. Es importante mencionar que si el <span>segundo milestone</span> representa el <span>50%</span>, cuando el proyecto cumpla esta etapa, es porque el proyecto se encontrará en el <span>50%</span> de progreso y no el <span>70%</span>.</p>
+                                <p>Se maneja de esta forma para que, siempre que se alcanza un milestone se le pueda <span>avisar al donador</span> a través de un correo que su donación realmente está <span>ayudando</span> a la <span>Fundación Sanders</span> a llevar a cabo el proyecto.</p>
                             </div>
                         </AnimationComponent>
                     </aside>
